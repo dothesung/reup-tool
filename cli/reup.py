@@ -1,1 +1,385 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJyZXVwLnB5IDx1cmw+IOKAlCBwaXBlbGluZSByZXVwIDEgbGVuaC4KCkNoYXkgbGFuIDE6ICB0YWkgLT4gU1RUIC0+IHJlc3ViLCByb2kgRFVORyBkZSBhZ2VudCB2aWV0IHN1YiBWaWV0LgogICAgcHl0aG9uMyByZXVwLnB5ICI8dXJsPiIKQ2hheSBsYW4gMiAoc2F1IGtoaSBjbyBzdWIgVmlldCk6IGR1YiAtPiBrYXJhb2tlIC0+IGJ1cm4gLT4gdXAgRHJpdmUuCiAgICBweXRob24zIHJldXAucHkgIjx1cmw+IiAtLXNydCBzdWJfdmkuc3J0IFstLWZyb3N0IFk6SF0gWy0tc2hhcmVdCgpUb2kgdXU6IGR1YiBDYXBDdXQgc29uZyBzb25nICgtLWpvYnMpLCBidXJuIHByZXNldCB2ZXJ5ZmFzdCwKS29rb3JvIGxvY2FsIDEgZ2lvbmcgTmdvYyBIdXllbiAobWFjIGRpbmgpLgoiIiIKaW1wb3J0IGFyZ3BhcnNlCmltcG9ydCBqc29uCmltcG9ydCByZQppbXBvcnQgc3VicHJvY2VzcwppbXBvcnQgc3lzCmltcG9ydCB0aW1lCmltcG9ydCB1cmxsaWIucGFyc2UKaW1wb3J0IHVybGxpYi5yZXF1ZXN0CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aAoKQkFTRSA9IFBhdGgoIi9ob21lL2hhdGNoL3dvcmtzcGFjZS9jYXBjdXQtdHRzIikKSk9CUyA9IEJBU0UgLyAiam9icyIKUkVVUCA9IEJBU0UgLyAicmV1cF9zdWIucHkiCkNBUF9QWSA9ICIvaG9tZS9oYXRjaC93b3Jrc3BhY2UvLnZlbnZzL2NhcGN1dC9iaW4vcHl0aG9uIgpHV1MgPSAiL29wdC9oYXRjaC9iaW4vaGF0Y2hfZ3dzX2NsaSIKTUFOSUZFU1QgPSBCQVNFIC8gImRyaXZlX21hbmlmZXN0Lmpzb24iCk5FWFJBWSA9ICJodHRwczovL2FwaS5uZXhyYXkuZXUuY2MvZG93bmxvYWRlci9haW8/dXJsPSIKCgpkZWYgcnVuKGNtZCwgKiprdyk6CiAgICByID0gc3VicHJvY2Vzcy5ydW4oY21kLCBjYXB0dXJlX291dHB1dD1UcnVlLCB0ZXh0PVRydWUsICoqa3cpCiAgICBpZiByLnJldHVybmNvZGUgIT0gMDoKICAgICAgICByYWlzZSBSdW50aW1lRXJyb3IoZiJGQUlMIHsnICcuam9pbihjbWRbOjNdKX0uLi5cbntyLnN0ZGVyclstMTIwMDpdfSIpCiAgICByZXR1cm4gcgoKCmRlZiBsb2coKmEpOgogICAgcHJpbnQoKmEsIGZsdXNoPVRydWUpCgoKZGVmIHNsdWdpZnkodXJsKToKICAgIG0gPSByZS5zZWFyY2gociIoPzp2PXx5b3V0dVwuYmUvfHJlZWwvfHNoYXJlL3YvfC92L3wvcC98ZG91eWluXC5jb20vdmlkZW8vfGRvdXlpblwuY29tLykoW0EtWmEtejAtOV8tXXs0LH0pIiwgdXJsKQogICAgdGFnID0gbS5ncm91cCgxKVs6MTZdIGlmIG0gZWxzZSAiam9iIgogICAgcmV0dXJuIGYie3RpbWUuc3RyZnRpbWUoJyVtJWQnKX1fe3RhZ30iCgoKZGVmIGZldGNoKHVybCwgd2QpOgogICAgbG9nKCJbMV0gVGFpIHZpZGVvIHF1YSBuZXhyYXkuLi4iKQogICAgYXBpID0gTkVYUkFZICsgdXJsbGliLnBhcnNlLnF1b3RlKHVybCwgc2FmZT0iIikKICAgIHJlcSA9IHVybGxpYi5yZXF1ZXN0LlJlcXVlc3QoYXBpLCBoZWFkZXJzPXsiVXNlci1BZ2VudCI6ICJNb3ppbGxhLzUuMCJ9KQogICAgZGF0YSA9IGpzb24ubG9hZCh1cmxsaWIucmVxdWVzdC51cmxvcGVuKHJlcSwgdGltZW91dD05MCkpCiAgICByID0gZGF0YS5nZXQoInJlc3VsdCIpIG9yIHt9CiAgICBpZiByLmdldCgiZXJyb3IiKToKICAgICAgICBzeXMuZXhpdChmIm5leHJheSBlcnJvcjoge3IuZ2V0KCdlcnJvcicpfSIpCiAgICBtZWRpYXMgPSByLmdldCgibWVkaWFzIikgb3IgW10KICAgIHZpZHMgPSBbbSBmb3IgbSBpbiBtZWRpYXMgaWYgbS5nZXQoInR5cGUiKSA9PSAidmlkZW8iIGFuZCBtLmdldCgidXJsIildCiAgICBhdWRzID0gW20gZm9yIG0gaW4gbWVkaWFzIGlmIG0uZ2V0KCJ0eXBlIikgPT0gImF1ZGlvIiBhbmQgbS5nZXQoInVybCIpXQoKICAgIGRlZiB2c2NvcmUobSk6CiAgICAgICAgcSA9IHN0cihtLmdldCgicXVhbGl0eSIsICIiKSkudXBwZXIoKQogICAgICAgIHJldHVybiAoKCJIRCIgaW4gcSBvciAiMTA4MCIgaW4gcSkgKiAyICsgKCI3MjAiIGluIHEpICogMSwKICAgICAgICAgICAgICAgIGludChtLmdldCgiaGVpZ2h0Iikgb3IgMCkpCgogICAgdmlkcy5zb3J0KGtleT12c2NvcmUsIHJldmVyc2U9VHJ1ZSkKICAgIGlmIG5vdCB2aWRzOgogICAgICAgIHN5cy5leGl0KCJLaG9uZyB0aW0gZHVvYyB2aWRlbyBVUkwgdHUgbmV4cmF5IikKICAgIG1ldGEgPSB7InVybCI6IHVybCwgInRpdGxlIjogci5nZXQoInRpdGxlIiksICJhdXRob3IiOiByLmdldCgiYXV0aG9yIiksCiAgICAgICAgICAgICJkdXJhdGlvbl9tcyI6IHIuZ2V0KCJkdXJhdGlvbiIpLCAic291cmNlIjogci5nZXQoInNvdXJjZSIpfQogICAgKHdkIC8gIm1ldGEuanNvbiIpLndyaXRlX3RleHQoanNvbi5kdW1wcyhtZXRhLCBlbnN1cmVfYXNjaWk9RmFsc2UsIGluZGVudD0xKSkKICAgIHZ2LCBhYSA9IHZpZHNbMF1bInVybCJdLCAoYXVkc1swXVsidXJsIl0gaWYgYXVkcyBlbHNlIE5vbmUpCiAgICB2cCwgYXAgPSB3ZCAvICJ2Lm1wNCIsIHdkIC8gImEubXAzIgogICAgcnVuKFsiY3VybCIsICItc0wiLCAiLS1yZXRyeSIsICIzIiwgIi1vIiwgc3RyKHZwKSwgdnZdKQogICAgc3JjID0gd2QgLyAic3JjLm1wNCIKICAgIGlmIGFhOgogICAgICAgIHJ1bihbImN1cmwiLCAiLXNMIiwgIi0tcmV0cnkiLCAiMyIsICItbyIsIHN0cihhcCksIGFhXSkKICAgICAgICAjIG11eDsgbmV1IHZpZGVvIGRhIGNvIGF1ZGlvIHRoaSBnaXUgbmd1eWVuCiAgICAgICAgaGFzX2EgPSBzdWJwcm9jZXNzLnJ1bigKICAgICAgICAgICAgWyJmZnByb2JlIiwgIi12IiwgImVycm9yIiwgIi1zZWxlY3Rfc3RyZWFtcyIsICJhIiwKICAgICAgICAgICAgICItc2hvd19lbnRyaWVzIiwgInN0cmVhbT1pbmRleCIsICItb2YiLCAiY3N2PXA9MCIsIHN0cih2cCldLAogICAgICAgICAgICBjYXB0dXJlX291dHB1dD1UcnVlLCB0ZXh0PVRydWUpLnN0ZG91dC5zdHJpcCgpCiAgICAgICAgaWYgaGFzX2E6CiAgICAgICAgICAgIHZwLnJlbmFtZShzcmMpCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcnVuKFsiZmZtcGVnIiwgIi15IiwgIi12IiwgImVycm9yIiwgIi1pIiwgc3RyKHZwKSwgIi1pIiwgc3RyKGFwKSwKICAgICAgICAgICAgICAgICAiLWM6diIsICJjb3B5IiwgIi1jOmEiLCAiYWFjIiwgIi1zaG9ydGVzdCIsIHN0cihzcmMpXSkKICAgIGVsc2U6CiAgICAgICAgdnAucmVuYW1lKHNyYykKICAgIGxvZyhmIiAgT0s6IHtzcmN9ICh7c3JjLnN0YXQoKS5zdF9zaXplLzFlNjouMWZ9TUIpIikKICAgIHJldHVybiBzcmMsIG1ldGEKCgpkZWYgcGFyc2VfZnJvc3QoZnJvc3QsIHZoKToKICAgICIiIid5OmgnIChwaXhlbCkgaG9hYyAnMC44NDowLjE0JyAodGkgbGUpLiBNYWMgZGluaCB2dW5nIGR1b2kuIiIiCiAgICBpZiBub3QgZnJvc3Q6CiAgICAgICAgZnJvc3QgPSAiMC44NDowLjE0IgogICAgeSwgaCA9IGZyb3N0LnNwbGl0KCI6IikKICAgIHksIGggPSBmbG9hdCh5KSwgZmxvYXQoaCkKICAgIGlmIHkgPCAyIGFuZCBoIDwgMjogICMgdGkgbGUKICAgICAgICB5LCBoID0gaW50KHkgKiB2aCksIGludChoICogdmgpCiAgICByZXR1cm4gZiJ7aW50KHkpfTp7aW50KGgpfSIKCgpkZWYgcGFyc2Vfc3J0X3NpbXBsZShwKToKICAgICIiIkRvYyBTUlQgLT4gWyh0MSwgdDIsIHRleHQpXS4iIiIKICAgIGN1ZXMgPSBbXQogICAgdHh0ID0gUGF0aChwKS5yZWFkX3RleHQoZW5jb2Rpbmc9InV0Zi04IikKICAgIGJsb2NrcyA9IHJlLnNwbGl0KHIiXG5ccypcbiIsIHR4dC5zdHJpcCgpKQogICAgZm9yIGIgaW4gYmxvY2tzOgogICAgICAgIG0gPSByZS5zZWFyY2gociIoXGQrKTooXGQrKTooW1xkLixdKylccyotLT5ccyooXGQrKTooXGQrKTooW1xkLixdKykiLCBiKQogICAgICAgIGlmIG5vdCBtOgogICAgICAgICAgICBjb250aW51ZQogICAgICAgIGcgPSBtLmdyb3VwcygpCiAgICAgICAgdDEgPSBpbnQoZ1swXSkqMzYwMCArIGludChnWzFdKSo2MCArIGZsb2F0KGdbMl0ucmVwbGFjZSgiLCIsICIuIikpCiAgICAgICAgdDIgPSBpbnQoZ1szXSkqMzYwMCArIGludChnWzRdKSo2MCArIGZsb2F0KGdbNV0ucmVwbGFjZSgiLCIsICIuIikpCiAgICAgICAgdGV4dCA9IHJlLnN1YihyIihcZCspOihcZCspOltcZC4sXStccyotLT5ccyooXGQrKTooXGQrKTpbXGQuLF0rIiwgIiIsIGIpCiAgICAgICAgdGV4dCA9IHJlLnN1YihyIl5cZCtccyoiLCAiIiwgdGV4dCkuc3RyaXAoKQogICAgICAgIGN1ZXMuYXBwZW5kKCh0MSwgdDIsICIgIi5qb2luKHRleHQuc3BsaXQoKSkpKQogICAgcmV0dXJuIGN1ZXMKCgpkZWYgZm10X3RzKHMpOgogICAgcyA9IGludChzKQogICAgcmV0dXJuIGYie3MvLzM2MDA6MDJkfTp7KHMlMzYwMCkvLzYwOjAyZH06e3MlNjA6MDJkfSIKCgpkZWYgZHJpdmVfZm9sZGVyKG5hbWU9IlJldXAiKToKICAgIHEgPSAoZiJuYW1lPSd7bmFtZX0nIGFuZCBtaW1lVHlwZT0nYXBwbGljYXRpb24vdm5kLmdvb2dsZS1hcHBzLmZvbGRlcicgIgogICAgICAgICBmImFuZCB0cmFzaGVkPWZhbHNlIikKICAgIHIgPSBydW4oW0dXUywgImRyaXZlIiwgImZpbGVzIiwgImxpc3QiLCAiLS1wYXJhbXMiLAogICAgICAgICAgICAganNvbi5kdW1wcyh7InEiOiBxLCAicGFnZVNpemUiOiA1LCAiZmllbGRzIjogImZpbGVzKGlkLG5hbWUpIn0pXSkKICAgIGZpbGVzID0ganNvbi5sb2FkcyhyLnN0ZG91dCkuZ2V0KCJmaWxlcyIsIFtdKQogICAgaWYgZmlsZXM6CiAgICAgICAgcmV0dXJuIGZpbGVzWzBdWyJpZCJdCiAgICByID0gcnVuKFtHV1MsICJkcml2ZSIsICJmaWxlcyIsICJjcmVhdGUiLAogICAgICAgICAgICAgIi0tcGFyYW1zIiwganNvbi5kdW1wcyh7Imlnbm9yZURlZmF1bHRWaXNpYmlsaXR5IjogVHJ1ZX0pLAogICAgICAgICAgICAgIi0tanNvbiIsIGpzb24uZHVtcHMoeyJuYW1lIjogbmFtZSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAibWltZVR5cGUiOiAiYXBwbGljYXRpb24vdm5kLmdvb2dsZS1hcHBzLmZvbGRlciJ9KV0pCiAgICByZXR1cm4ganNvbi5sb2FkcyhyLnN0ZG91dClbImlkIl0KCgpkZWYgZHJpdmVfdXBsb2FkKHBhdGgsIG5hbWUsIHNoYXJlPUZhbHNlKToKICAgIGZvbGRlciA9IGRyaXZlX2ZvbGRlcigpCiAgICBsb2coZiIgIFVwIERyaXZlIChmb2xkZXIgUmV1cCk6IHtuYW1lfSIpCiAgICByID0gcnVuKFtHV1MsICJkcml2ZSIsICJmaWxlcyIsICJjcmVhdGUiLCAiLS11cGxvYWQiLCBzdHIocGF0aCksCiAgICAgICAgICAgICAiLS1qc29uIiwganNvbi5kdW1wcyh7Im5hbWUiOiBuYW1lLCAicGFyZW50cyI6IFtmb2xkZXJdfSldKQogICAgaW5mbyA9IGpzb24ubG9hZHMoci5zdGRvdXQpCiAgICBmaWQgPSBpbmZvWyJpZCJdCiAgICBpZiBzaGFyZToKICAgICAgICBydW4oW0dXUywgImRyaXZlIiwgInBlcm1pc3Npb25zIiwgImNyZWF0ZSIsCiAgICAgICAgICAgICAiLS1wYXJhbXMiLCBqc29uLmR1bXBzKHsiZmlsZUlkIjogZmlkfSksCiAgICAgICAgICAgICAiLS1qc29uIiwganNvbi5kdW1wcyh7InR5cGUiOiAiYW55b25lIiwgInJvbGUiOiAicmVhZGVyIn0pXSkKICAgIHIgPSBydW4oW0dXUywgImRyaXZlIiwgImZpbGVzIiwgImdldCIsCiAgICAgICAgICAgICAiLS1wYXJhbXMiLCBqc29uLmR1bXBzKHsiZmlsZUlkIjogZmlkLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImZpZWxkcyI6ICJpZCxuYW1lLHdlYlZpZXdMaW5rLHdlYkNvbnRlbnRMaW5rLHNpemUifSldKQogICAgcmV0dXJuIGpzb24ubG9hZHMoci5zdGRvdXQpCgoKZGVmIHNhdmVfbWFuaWZlc3QoZW50cnkpOgogICAgbWFuID0ganNvbi5sb2FkcyhNQU5JRkVTVC5yZWFkX3RleHQoKSkgaWYgTUFOSUZFU1QuZXhpc3RzKCkgZWxzZSBbXQogICAgbWFuLmFwcGVuZChlbnRyeSkKICAgIE1BTklGRVNULndyaXRlX3RleHQoanNvbi5kdW1wcyhtYW4sIGVuc3VyZV9hc2NpaT1GYWxzZSwgaW5kZW50PTEpKQoKCmRlZiBtYWluKCk6CiAgICBhcCA9IGFyZ3BhcnNlLkFyZ3VtZW50UGFyc2VyKGRlc2NyaXB0aW9uPSJyZXVwIDEgbGVuaCIpCiAgICBhcC5hZGRfYXJndW1lbnQoInVybCIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tc3J0IiwgZGVmYXVsdD1Ob25lLCBoZWxwPSJzdWIgVmlldCAobGFuIDIpIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1mcm9zdCIsIGRlZmF1bHQ9Tm9uZSwgaGVscD0iJ3k6aCcgdnVuZyBzdWIgY3UgKHR1IGRvbmcgZG9hbiBuZXUgYm8gdHJvbmcpIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1zcmMtbGFuZyIsIGRlZmF1bHQ9ImVuLVVTIiwgaGVscD0ibmdvbiBuZ3UgZ29jIGNobyBTVFQiKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLWVuZ2luZSIsIGNob2ljZXM9WyJrb2tvcm8iLCAiY2FwY3V0Il0sIGRlZmF1bHQ9Imtva29ybyIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tam9icyIsIHR5cGU9aW50LCBkZWZhdWx0PTQsCiAgICAgICAgICAgICAgICAgICAgaGVscD0ic28gbHVvbmcgVFRTIHNvbmcgc29uZyIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tbm8tdXBsb2FkIiwgYWN0aW9uPSJzdG9yZV90cnVlIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1zaGFyZSIsIGFjdGlvbj0ic3RvcmVfdHJ1ZSIsIGhlbHA9IkRyaXZlIGxpbmsgcHVibGljIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS13b3JrZGlyIiwgZGVmYXVsdD1Ob25lKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLXY5MTYiLCBjaG9pY2VzPVsiYXV0byIsICJvZmYiLCAiYmxhY2siLCAiYmx1ciIsICJzcXVhcmUiXSwKICAgICAgICAgICAgICAgICAgICBkZWZhdWx0PSJhdXRvIiwKICAgICAgICAgICAgICAgICAgICBoZWxwPSJ4dWF0IDk6MTYgKGF1dG86IHNxdWFyZSBuZXUgdmlkZW8gbmdhbmcpIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1iYW5uZXItdG9wIiwgZGVmYXVsdD0iUkVWSUVXIFBISU0gSEFZIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS1iYW5uZXItYm90dG9tIiwgZGVmYXVsdD0iUEhJTSBIQVkgTeG7lkkgTkfDgFkiKQogICAgYXAuYWRkX2FyZ3VtZW50KCItLWRyYWZ0IiwgYWN0aW9uPSJzdG9yZV90cnVlIiwKICAgICAgICAgICAgICAgICAgICBoZWxwPSJiYW4gbmhhcDogNzIweDEyODAsIHVsdHJhZmFzdCAobmhhbmgpIikKICAgIGFwLmFkZF9hcmd1bWVudCgiLS13aXRoLXN1YiIsIGFjdGlvbj0ic3RvcmVfdHJ1ZSIsCiAgICAgICAgICAgICAgICAgICAgaGVscD0iYnVybiBzdWIgVmlldCB2YW8gdmlkZW8gKG1hYyBkaW5oOiBraG9uZyBidXJuLCBjaGkgZHViICsgY2hlKSIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tZnJvc3QtYXV0byIsIGFjdGlvbj0ic3RvcmVfdHJ1ZSIsCiAgICAgICAgICAgICAgICAgICAgaGVscD0idHUgZG9uZyBwaGF0IGhpZW4gdnVuZyBzdWIgY3UgKHRoYXkgY2hvIC0tZnJvc3QgdGF5KSIpCiAgICBhcC5hZGRfYXJndW1lbnQoIi0tY292ZXIiLCBkZWZhdWx0PU5vbmUsCiAgICAgICAgICAgICAgICAgICAgaGVscD0iY2hlIGN1bmcgbG9nby90ZXh0IGNvIGRpbmg6ICd4Onk6dzpoJyAocGl4ZWwpIikKICAgIGEgPSBhcC5wYXJzZV9hcmdzKCkKCiAgICB3ZCA9IFBhdGgoYS53b3JrZGlyKSBpZiBhLndvcmtkaXIgZWxzZSBKT0JTIC8gc2x1Z2lmeShhLnVybCkKICAgIHdkLm1rZGlyKHBhcmVudHM9VHJ1ZSwgZXhpc3Rfb2s9VHJ1ZSkKICAgIHN0X2YgPSB3ZCAvICJzdGF0ZS5qc29uIgogICAgc3QgPSBqc29uLmxvYWRzKHN0X2YucmVhZF90ZXh0KCkpIGlmIHN0X2YuZXhpc3RzKCkgZWxzZSB7ImRvbmUiOiBbXX0KCiAgICBkZWYgbWFyayhzKToKICAgICAgICBzdFsiZG9uZSJdLmFwcGVuZChzKQogICAgICAgIHN0X2Yud3JpdGVfdGV4dChqc29uLmR1bXBzKHN0LCBpbmRlbnQ9MSkpCgogICAgc3JjID0gd2QgLyAic3JjLm1wNCIKICAgIGlmICJmZXRjaCIgbm90IGluIHN0WyJkb25lIl06CiAgICAgICAgc3JjLCBtZXRhID0gZmV0Y2goYS51cmwsIHdkKQogICAgICAgIHN0WyJtZXRhIl0gPSBtZXRhCiAgICAgICAgbWFyaygiZmV0Y2giKQogICAgZWxzZToKICAgICAgICBtZXRhID0gc3QuZ2V0KCJtZXRhIiwge30pCgogICAgaWYgInN0dCIgbm90IGluIHN0WyJkb25lIl06CiAgICAgICAgbG9nKCJbMl0gU1RUIGF1ZGlvIGdvYy4uLiIpCiAgICAgICAgcnVuKFtDQVBfUFksIHN0cihSRVVQKSwgInN0dCIsIHN0cih3ZCAvICJhLm1wMyIgaWYgKHdkIC8gImEubXAzIikuZXhpc3RzKCkgZWxzZSBzcmMpLAogICAgICAgICAgICAgIi0tbGFuZyIsIGEuc3JjX2xhbmcsICItbyIsIHN0cih3ZCAvICJyYXcuc3J0IildKQogICAgICAgIG1hcmsoInN0dCIpCiAgICBpZiAicmVzdWIiIG5vdCBpbiBzdFsiZG9uZSJdOgogICAgICAgIGxvZygiWzNdIEdvbSBjdWUuLi4iKQogICAgICAgIHJ1bihbQ0FQX1BZLCBzdHIoUkVVUCksICJyZXN1YiIsIHN0cih3ZCAvICJyYXcuc3J0IiksCiAgICAgICAgICAgICAiLW8iLCBzdHIod2QgLyAicmVzdWIuc3J0IildKQogICAgICAgIG1hcmsoInJlc3ViIikKCiAgICBpZiBub3QgYS5zcnQ6CiAgICAgICAgbG9nKCJcbj09IERVTkc6IGNhbiBzdWIgVmlldCA9PSIpCiAgICAgICAgbG9nKGYiICAxLiBWaWV0IGxhaToge3dkLydyZXN1Yi5zcnQnfSAtPiBzdWJfdmkuc3J0IChnaXUgbmd1eWVuIHRpbWVzdGFtcCkiKQogICAgICAgIGxvZyhmIiAgMi4gQ2hheSB0aWVwOiBweXRob24zIHJldXAucHkgXCJ7YS51cmx9XCIgLS13b3JrZGlyIHt3ZH0gLS1zcnQgc3ViX3ZpLnNydCIpCiAgICAgICAgcmV0dXJuCgogICAgc3J0X3ZpID0gUGF0aChhLnNydCkKICAgIGlmIG5vdCBzcnRfdmkuaXNfYWJzb2x1dGUoKToKICAgICAgICBzcnRfdmkgPSB3ZCAvIHNydF92aQogICAgIyBmcm9zdCB6b25lICsgZm9udDogdGluaCB0cmVuIHZpZGVvIHN1cmZhY2UgdGh1YyB0ZSAobG9haSBsZXR0ZXJib3gpCiAgICB2aCA9IGludChydW4oWyJmZnByb2JlIiwgIi12IiwgImVycm9yIiwgIi1zZWxlY3Rfc3RyZWFtcyIsICJ2OjAiLAogICAgICAgICAgICAgICAgICAiLXNob3dfZW50cmllcyIsICJzdHJlYW09aGVpZ2h0IiwgIi1vZiIsICJjc3Y9cD0wIiwKICAgICAgICAgICAgICAgICAgc3RyKHNyYyldKS5zdGRvdXQuc3RyaXAoKSkKICAgIHZ3ID0gaW50KHJ1bihbImZmcHJvYmUiLCAiLXYiLCAiZXJyb3IiLCAiLXNlbGVjdF9zdHJlYW1zIiwgInY6MCIsCiAgICAgICAgICAgICAgICAgICItc2hvd19lbnRyaWVzIiwgInN0cmVhbT13aWR0aCIsICItb2YiLCAiY3N2PXA9MCIsCiAgICAgICAgICAgICAgICAgIHN0cihzcmMpXSkuc3Rkb3V0LnN0cmlwKCkpCiAgICB2OTE2ID0gYS52OTE2CiAgICBpZiB2OTE2ID09ICJhdXRvIjoKICAgICAgICB2OTE2ID0gInNxdWFyZSIgaWYgdncgPiB2aCBlbHNlICJvZmYiCiAgICBpZiBhLmZyb3N0X2F1dG86CiAgICAgICAgIyBUdSBkb25nIHBoYXQgaGllbjogbGF5IHpvbmUgY28gY29uZmlkZW5jZSBjYW8gbmhhdAogICAgICAgIGxvZygiICBBdXRvLWRldGVjdCB2dW5nIHN1YiBjdS4uLiIpCiAgICAgICAgdHJ5OgogICAgICAgICAgICByID0gc3VicHJvY2Vzcy5ydW4oW0NBUF9QWSwgc3RyKEJBU0UgLyAiYXV0b2RldGVjdF9mcm9zdC5weSIpLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cihzcmMpLCBzdHIoc3J0X3ZpKV0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjYXB0dXJlX291dHB1dD1UcnVlLCB0ZXh0PVRydWUsIHRpbWVvdXQ9MTIwKQogICAgICAgICAgICBkZXQgPSBqc29uLmxvYWRzKHIuc3Rkb3V0KQogICAgICAgICAgICBpZiBkZXQuZ2V0KCJ6b25lcyIpOgogICAgICAgICAgICAgICAgIyBDaG9uIHpvbmUgY28gZnJhbWVzX2hpdCBjYW8gbmhhdAogICAgICAgICAgICAgICAgYmVzdCA9IG1heChkZXRbInpvbmVzIl0sIGtleT1sYW1iZGEgejogelsiZnJhbWVzX2hpdCJdKQogICAgICAgICAgICAgICAgbG9nKGYiICAtPiB7YmVzdFsnZnJvc3QnXX0gKGhpdCB7YmVzdFsnZnJhbWVzX2hpdCddfS97ZGV0WydmcmFtZXMnXX0pIikKICAgICAgICAgICAgICAgIGEuZnJvc3QgPSBiZXN0WyJmcm9zdCJdCiAgICAgICAgICAgIGVsc2U6CiAgICAgICAgICAgICAgICBsb2coIiAgLT4ga2hvbmcgdGltIHRoYXksIGR1bmcgbWFjIGRpbmggMC44NDowLjE0IikKICAgICAgICAgICAgICAgIGEuZnJvc3QgPSAiMC44NDowLjE0IgogICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZToKICAgICAgICAgICAgbG9nKGYiICAtPiBsb2kgYXV0b2RldGVjdCAoe2V9KSwgZHVuZyBtYWMgZGluaCIpCiAgICAgICAgICAgIGEuZnJvc3QgPSAiMC44NDowLjE0IgogICAgZnJvc3Rfc3JjID0gcGFyc2VfZnJvc3QoYS5mcm9zdCwgdmgpCiAgICBmeTAsIGZoMCA9IG1hcChpbnQsIGZyb3N0X3NyYy5zcGxpdCgiOiIpKQogICAgaWYgdjkxNiA9PSAib2ZmIjoKICAgICAgICBmcm9zdCwgcGxheXJlcywgcHJfaCA9IGZyb3N0X3NyYywgKCIxOTIweDEwODAiIGlmIHZ3ID4gdmggZWxzZSAiMTA4MHgxOTIwIiksICgxMDgwIGlmIHZ3ID4gdmggZWxzZSAxOTIwKQogICAgICAgIGJhcl95ID0gaW50KGZ5MCAvIHZoICogcHJfaCkKICAgICAgICBiYXJfaCA9IGludChmaDAgLyB2aCAqIHByX2gpCiAgICAgICAgZm9udF9zaXplLCB3cmFwX2NoYXJzID0gNzYsIDI0CiAgICBlbHNlOgogICAgICAgICMgb3V0cHV0IDk6MTYgKGRyYWZ0IDcyMHgxMjgwLCBmdWxsIDEwODB4MTkyMCkKICAgICAgICBPVywgT0ggPSAoNzIwLCAxMjgwKSBpZiBhLmRyYWZ0IGVsc2UgKDEwODAsIDE5MjApCiAgICAgICAgQkggPSAyODAgaWYgYS5kcmFmdCBlbHNlIDQyMAogICAgICAgIHBsYXlyZXMsIHByX2ggPSBmIntPV314e09IfSIsIE9ICiAgICAgICAgaWYgdjkxNiA9PSAic3F1YXJlIjoKICAgICAgICAgICAgY3JvcCA9IG1pbih2dywgdmgpCiAgICAgICAgICAgIHNjYWxlID0gT1cgLyBjcm9wCiAgICAgICAgICAgIGN4LCBjeSA9ICh2dyAtIGNyb3ApIC8gMiwgKHZoIC0gY3JvcCkgLyAyCiAgICAgICAgICAgIHN1cmZfeSwgc3VyZl9oID0gQkgsIE9XCiAgICAgICAgICAgIGZ5X21hcCA9IHN1cmZfeSArIChmeTAgLSBjeSkgKiBzY2FsZQogICAgICAgICAgICBmaF9tYXAgPSBmaDAgKiBzY2FsZQogICAgICAgIGVsc2U6ICAjIGJsYWNrIC8gYmx1cjogZml0LXdpZHRoCiAgICAgICAgICAgIHNjYWxlID0gT1cgLyB2dwogICAgICAgICAgICBzdXJmX3ksIHN1cmZfaCA9IChPSCAtIHZoICogc2NhbGUpIC8gMiwgdmggKiBzY2FsZQogICAgICAgICAgICBmeV9tYXAgPSBzdXJmX3kgKyBmeTAgKiBzY2FsZQogICAgICAgICAgICBmaF9tYXAgPSBmaDAgKiBzY2FsZQogICAgICAgICMgZm9udCB0aGVvIHN1cmZhY2UgKE5ldGZsaXg6IHZ1YSBkb2MgdHJlbiBkaWVuIHRob2FpKQogICAgICAgICMgZHJhZnQgNzIwOiBmb250IG5obyBob24KICAgICAgICBmb250X3NpemUgPSAoNDYgaWYgdjkxNiA9PSAic3F1YXJlIiBlbHNlIDM4KSBpZiBhLmRyYWZ0IGVsc2UgKDY4IGlmIHY5MTYgPT0gInNxdWFyZSIgZWxzZSA1NikKICAgICAgICB3cmFwX2NoYXJzID0gMjggaWYgdjkxNiA9PSAic3F1YXJlIiBlbHNlIDI2CiAgICAgICAgIyB0aGFuaCBjaGU6IG9tIHNhdCB2dW5nIHN1YiBjdSAoaXQgcGFkZGluZyBob24pCiAgICAgICAgIyBuby1zdWI6IGtob25nIGNhbiBjaHVhIHRleHQgVmlldCAtPiBjaGkgY2FuIGNoZSB2dWEgY2h1IGN1CiAgICAgICAgaWYgbm90IGEud2l0aF9zdWI6CiAgICAgICAgICAgIGJhcl9oID0gaW50KGZoX21hcCArIDIwKQogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGJhcl9oID0gbWF4KGludChmaF9tYXAgKyAzMiksIGludChmb250X3NpemUgKiAyICogMS4zKSkKICAgICAgICBiYXJfeSA9IGludChmeV9tYXAgKyBmaF9tYXAgLyAyIC0gYmFyX2ggLyAyKQogICAgICAgICMga2VwIHRyb25nIHN1cmZhY2UKICAgICAgICBiYXJfeSA9IG1heChpbnQoc3VyZl95KSwgbWluKGJhcl95LCBpbnQoc3VyZl95ICsgc3VyZl9oIC0gYmFyX2gpKSkKICAgICAgICBmcm9zdCA9IGYie2Jhcl95fTp7YmFyX2h9IgogICAgc3RbImZyb3N0Il0gPSBmcm9zdAogICAgc3RfZi53cml0ZV90ZXh0KGpzb24uZHVtcHMoc3QsIGluZGVudD0xKSkKICAgIGxvZyhmIiAgRnJvc3Q6IHNyYyB7ZnJvc3Rfc3JjfSAtPiBvdXQge2Zyb3N0fSAocGxheXJlcyB7cGxheXJlc30sIGZvbnQge2ZvbnRfc2l6ZX0pIikKICAgIGlmICJkdWIiIG5vdCBpbiBzdFsiZG9uZSJdOgogICAgICAgIGxvZygiWzRdIER1YiAxIGdpb25nIE5nb2MgSHV5ZW4uLi4iKQogICAgICAgIGNtZCA9IFtDQVBfUFksIHN0cihSRVVQKSwgImR1YiIsIHN0cihzcnRfdmkpLCAiLS1lbmdpbmUiLCBhLmVuZ2luZSwKICAgICAgICAgICAgICAgIi1vIiwgc3RyKHdkIC8gImR1YmJlZC5tNGEiKSwgIi0td29ya2RpciIsIHN0cih3ZCAvICJ3b3JrX2R1YiIpXQogICAgICAgIGNtZCArPSBbIi0tam9icyIsIHN0cihhLmpvYnMpXQogICAgICAgIHJ1bihjbWQpCiAgICAgICAgbWFyaygiZHViIikKICAgIGlmIGEud2l0aF9zdWIgYW5kIG5vdCAod2QgLyAiZHViX3dvcmRzLmpzb24iKS5leGlzdHMoKToKICAgICAgICBsb2coIiAgU1RUIGR1YiBkZSBsYXkgd29yZC10aW1pbmcuLi4iKQogICAgICAgIHJ1bihbQ0FQX1BZLCBzdHIoQkFTRSAvICJzdHRfd29yZHMucHkiKSwKICAgICAgICAgICAgIHN0cih3ZCAvICJkdWJiZWQubTRhIiksIHN0cih3ZCAvICJkdWJfd29yZHMuanNvbiIpXSkKICAgIGlmIGEud2l0aF9zdWIgYW5kICJrYXJhb2tlIiBub3QgaW4gc3RbImRvbmUiXToKICAgICAgICBsb2coIls1XSBLYXJhb2tlLi4uIikKICAgICAgICBydW4oW0NBUF9QWSwgc3RyKFJFVVApLCAia2FyYW9rZSIsIHN0cihzcnRfdmkpLAogICAgICAgICAgICAgIi0td29yZHMiLCBzdHIod2QgLyAiZHViX3dvcmRzLmpzb24iKSwKICAgICAgICAgICAgICItbyIsIHN0cih3ZCAvICJmaW5hbC5hc3MiKSwKICAgICAgICAgICAgICItLXRoZW1lIiwgImZyb3N0IiwgIi0tZm9udC1zaXplIiwgc3RyKGZvbnRfc2l6ZSksCiAgICAgICAgICAgICAiLS1iYXIteSIsIHN0cihiYXJfeSksICItLWJhci1oIiwgc3RyKGJhcl9oKSwKICAgICAgICAgICAgICItLXdyYXAtY2hhcnMiLCBzdHIod3JhcF9jaGFycyksICItLXBsYXlyZXMiLCBwbGF5cmVzXSkKICAgICAgICBtYXJrKCJrYXJhb2tlIikKCiAgICBpZiAiYnVybiIgbm90IGluIHN0WyJkb25lIl06CiAgICAgICAgbG9nKGYiWzZdIEJ1cm4gZmluYWwgKGZyb3N0IHtmcm9zdH0sIHY5MTY9e3Y5MTZ9LCBub19zdWI9e25vdCBhLndpdGhfc3VifSkuLi4iKQogICAgICAgIGJjbWQgPSBbQ0FQX1BZLCBzdHIoUkVVUCksICJidXJuIiwgc3RyKHNyYyksCiAgICAgICAgICAgICAgICAiLS1mcm9zdCIsIGZyb3N0LCAiLS1mcm9zdC1zcnQiLCBzdHIoc3J0X3ZpKSwKICAgICAgICAgICAgICAgICItLWZyb3N0LWFscGhhIiwgIjAuMiIsCiAgICAgICAgICAgICAgICAiLS1hdWRpbyIsIHN0cih3ZCAvICJkdWJiZWQubTRhIiksCiAgICAgICAgICAgICAgICAiLW8iLCBzdHIod2QgLyAiZmluYWwubXA0IildCiAgICAgICAgaWYgYS5jb3ZlcjoKICAgICAgICAgICAgYmNtZCArPSBbIi0tY292ZXIiLCBhLmNvdmVyXQogICAgICAgIGlmIGEud2l0aF9zdWI6CiAgICAgICAgICAgIGJjbWQgKz0gWyItLWFzcyIsIHN0cih3ZCAvICJmaW5hbC5hc3MiKV0KICAgICAgICBpZiB2OTE2ICE9ICJvZmYiOgogICAgICAgICAgICBiY21kICs9IFsiLS12OTE2IiwgdjkxNiwKICAgICAgICAgICAgICAgICAgICAgIi0tYmFubmVyLXRvcCIsIGEuYmFubmVyX3RvcCwKICAgICAgICAgICAgICAgICAgICAgIi0tYmFubmVyLWJvdHRvbSIsIGEuYmFubmVyX2JvdHRvbV0KICAgICAgICAgICAgaWYgYS5kcmFmdDoKICAgICAgICAgICAgICAgIGJjbWQgKz0gWyItLWRyYWZ0Il0KICAgICAgICBlbHNlOgogICAgICAgICAgICBiY21kICs9IFsiLS1kb2RnZSJdCiAgICAgICAgcnVuKGJjbWQpCiAgICAgICAgbWFyaygiYnVybiIpCgogICAgZmluYWwgPSB3ZCAvICJmaW5hbC5tcDQiCiAgICAjIEx1dSBjYXB0aW9uLnR4dCAodGVuICsgbm9pIGR1bmcgc3ViIFZpZXQpIHRoYXkgY2hvIFNSVAogICAgY2FwX3R4dCA9IHdkIC8gImNhcHRpb24udHh0IgogICAgdHJ5OgogICAgICAgIGN1ZXMgPSBwYXJzZV9zcnRfc2ltcGxlKHN0cihzcnRfdmkpKQogICAgICAgIGxpbmVzID0gW2YiVElUTEU6IHsobWV0YS5nZXQoJ3RpdGxlJykgb3IgJycpLnN0cmlwKCl9IiwKICAgICAgICAgICAgICAgICBmIlVSTDoge2EudXJsfSIsICIiXQogICAgICAgIGZvciBpLCAodDEsIHQyLCB0eHQpIGluIGVudW1lcmF0ZShjdWVzLCAxKToKICAgICAgICAgICAgbGluZXMuYXBwZW5kKGYiW3tmbXRfdHModDEpfSAtLT4ge2ZtdF90cyh0Mil9XSB7dHh0fSIpCiAgICAgICAgY2FwX3R4dC53cml0ZV90ZXh0KCJcbiIuam9pbihsaW5lcyksIGVuY29kaW5nPSJ1dGYtOCIpCiAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgbG9nKGYiICAoZ2hpIGNhcHRpb24udHh0IGxvaToge2V9KSIpCiAgICBpZiBub3QgYS5ub191cGxvYWQgYW5kICJ1cGxvYWQiIG5vdCBpbiBzdFsiZG9uZSJdOgogICAgICAgIGxvZygiWzddIFVwIERyaXZlICh2aWRlbyArIGNhcHRpb24pLi4uIikKICAgICAgICBiYXNlID0gcmUuc3ViKHIiW15cd1wtLiBdKyIsICIiLCAobWV0YS5nZXQoInRpdGxlIikgb3IgInJldXAiKS5zdHJpcCgpWzo2MF0pIG9yICJyZXVwIgogICAgICAgIHZuYW1lID0gYmFzZSArICJfdmkubXA0IgogICAgICAgIGluZm8gPSBkcml2ZV91cGxvYWQoZmluYWwsIHZuYW1lLCBzaGFyZT1hLnNoYXJlKQogICAgICAgIHNhdmVfbWFuaWZlc3QoeyJsb2NhbCI6IHN0cihmaW5hbCksICJkcml2ZV9pZCI6IGluZm9bImlkIl0sCiAgICAgICAgICAgICAgICAgICAgICAgImxpbmsiOiBpbmZvLmdldCgid2ViVmlld0xpbmsiKSwKICAgICAgICAgICAgICAgICAgICAgICAidGl0bGUiOiBtZXRhLmdldCgidGl0bGUiKSwgInRpbWUiOiB0aW1lLnN0cmZ0aW1lKCIlRiAlVCIpfSkKICAgICAgICBzdFsiZHJpdmUiXSA9IGluZm8KICAgICAgICAjIFVwbG9hZCBjYXB0aW9uLnR4dCBrZW0gKHRlbiArIG5vaSBkdW5nKQogICAgICAgIGlmIGNhcF90eHQuZXhpc3RzKCk6CiAgICAgICAgICAgIHRyeToKICAgICAgICAgICAgICAgIGNpbmZvID0gZHJpdmVfdXBsb2FkKGNhcF90eHQsIGJhc2UgKyAiX2NhcHRpb24udHh0Iiwgc2hhcmU9YS5zaGFyZSkKICAgICAgICAgICAgICAgIGxvZyhmIiAgQ2FwdGlvbjoge2NpbmZvLmdldCgnd2ViVmlld0xpbmsnKX0iKQogICAgICAgICAgICAgICAgc3RbImRyaXZlX2NhcHRpb24iXSA9IGNpbmZvLmdldCgid2ViVmlld0xpbmsiKQogICAgICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgICAgICAgICBsb2coZiIgICh1cCBjYXB0aW9uIGxvaToge2V9KSIpCiAgICAgICAgbWFyaygidXBsb2FkIikKICAgICAgICBsb2coZiIgIExpbms6IHtpbmZvLmdldCgnd2ViVmlld0xpbmsnKX0iKQoKICAgICMgdGl0bGUgZ29jIGNobyBhZ2VudCB2aWV0IGxhaQogICAgKHdkIC8gInRpdGxlX3NyYy50eHQiKS53cml0ZV90ZXh0KAogICAgICAgIGYiR09DOiB7bWV0YS5nZXQoJ3RpdGxlJyl9XG5VUkw6IHthLnVybH1cbiIsIGVuY29kaW5nPSJ1dGYtOCIpCiAgICBsb2coIlxuPT0gWE9ORyA9PSIpCiAgICBsb2coZiIgIFZpZGVvOiB7ZmluYWx9ICh7ZmluYWwuc3RhdCgpLnN0X3NpemUvMWU2Oi4wZn1NQikiKQogICAgaWYgc3QuZ2V0KCJkcml2ZSIpOgogICAgICAgIGxvZyhmIiAgRHJpdmU6IHtzdFsnZHJpdmUnXS5nZXQoJ3dlYlZpZXdMaW5rJyl9IikKICAgIGxvZyhmIiAgVmlldCB0aXRsZS9oYXNodGFnIHR1OiB7d2QvJ3RpdGxlX3NyYy50eHQnfSAtPiBsdXUge3dkLyd0aXRsZV92aS50eHQnfSIpCgoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAgIG1haW4oKQo=
+#!/usr/bin/env python3
+"""reup.py <url> — pipeline reup 1 lenh.
+
+Chay lan 1:  tai -> STT -> resub, roi DUNG de agent viet sub Viet.
+    python3 reup.py "<url>"
+Chay lan 2 (sau khi co sub Viet): dub -> karaoke -> burn -> up Drive.
+    python3 reup.py "<url>" --srt sub_vi.srt [--frost Y:H] [--share]
+
+Toi uu: dub CapCut song song (--jobs), burn preset veryfast,
+Kokoro local 1 giong Ngoc Huyen (mac dinh).
+"""
+import argparse
+import json
+import re
+import subprocess
+import sys
+import time
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+BASE = Path("/home/hatch/workspace/capcut-tts")
+JOBS = BASE / "jobs"
+REUP = BASE / "reup_sub.py"
+CAP_PY = "/home/hatch/workspace/.venvs/capcut/bin/python"
+GWS = "/opt/hatch/bin/hatch_gws_cli"
+MANIFEST = BASE / "drive_manifest.json"
+NEXRAY = "https://api.nexray.eu.cc/downloader/aio?url="
+
+
+def run(cmd, **kw):
+    r = subprocess.run(cmd, capture_output=True, text=True, **kw)
+    if r.returncode != 0:
+        raise RuntimeError(f"FAIL {' '.join(cmd[:3])}...\n{r.stderr[-1200:]}")
+    return r
+
+
+def log(*a):
+    print(*a, flush=True)
+
+
+def slugify(url):
+    m = re.search(r"(?:v=|youtu\.be/|reel/|share/v/|/v/|/p/|douyin\.com/video/|douyin\.com/)([A-Za-z0-9_-]{4,})", url)
+    tag = m.group(1)[:16] if m else "job"
+    return f"{time.strftime('%m%d')}_{tag}"
+
+
+def fetch(url, wd):
+    log("[1] Tai video qua nexray...")
+    api = NEXRAY + urllib.parse.quote(url, safe="")
+    req = urllib.request.Request(api, headers={"User-Agent": "Mozilla/5.0"})
+    data = json.load(urllib.request.urlopen(req, timeout=90))
+    r = data.get("result") or {}
+    if r.get("error"):
+        sys.exit(f"nexray error: {r.get('error')}")
+    medias = r.get("medias") or []
+    vids = [m for m in medias if m.get("type") == "video" and m.get("url")]
+    auds = [m for m in medias if m.get("type") == "audio" and m.get("url")]
+
+    def vscore(m):
+        q = str(m.get("quality", "")).upper()
+        return (("HD" in q or "1080" in q) * 2 + ("720" in q) * 1,
+                int(m.get("height") or 0))
+
+    vids.sort(key=vscore, reverse=True)
+    if not vids:
+        sys.exit("Khong tim duoc video URL tu nexray")
+    meta = {"url": url, "title": r.get("title"), "author": r.get("author"),
+            "duration_ms": r.get("duration"), "source": r.get("source")}
+    (wd / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
+    vv, aa = vids[0]["url"], (auds[0]["url"] if auds else None)
+    vp, ap = wd / "v.mp4", wd / "a.mp3"
+    run(["curl", "-sL", "--retry", "3", "-o", str(vp), vv])
+    src = wd / "src.mp4"
+    if aa:
+        run(["curl", "-sL", "--retry", "3", "-o", str(ap), aa])
+        # mux; neu video da co audio thi giu nguyen
+        has_a = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "a",
+             "-show_entries", "stream=index", "-of", "csv=p=0", str(vp)],
+            capture_output=True, text=True).stdout.strip()
+        if has_a:
+            vp.rename(src)
+        else:
+            run(["ffmpeg", "-y", "-v", "error", "-i", str(vp), "-i", str(ap),
+                 "-c:v", "copy", "-c:a", "aac", "-shortest", str(src)])
+    else:
+        vp.rename(src)
+    log(f"  OK: {src} ({src.stat().st_size/1e6:.1f}MB)")
+    return src, meta
+
+
+def parse_frost(frost, vh):
+    """'y:h' (pixel) hoac '0.84:0.14' (ti le). Mac dinh vung duoi."""
+    if not frost:
+        frost = "0.84:0.14"
+    y, h = frost.split(":")
+    y, h = float(y), float(h)
+    if y < 2 and h < 2:  # ti le
+        y, h = int(y * vh), int(h * vh)
+    return f"{int(y)}:{int(h)}"
+
+
+def parse_srt_simple(p):
+    """Doc SRT -> [(t1, t2, text)]."""
+    cues = []
+    txt = Path(p).read_text(encoding="utf-8")
+    blocks = re.split(r"\n\s*\n", txt.strip())
+    for b in blocks:
+        m = re.search(r"(\d+):(\d+):([\d.,]+)\s*-->\s*(\d+):(\d+):([\d.,]+)", b)
+        if not m:
+            continue
+        g = m.groups()
+        t1 = int(g[0])*3600 + int(g[1])*60 + float(g[2].replace(",", "."))
+        t2 = int(g[3])*3600 + int(g[4])*60 + float(g[5].replace(",", "."))
+        text = re.sub(r"(\d+):(\d+):[\d.,]+\s*-->\s*(\d+):(\d+):[\d.,]+", "", b)
+        text = re.sub(r"^\d+\s*", "", text).strip()
+        cues.append((t1, t2, " ".join(text.split())))
+    return cues
+
+
+def fmt_ts(s):
+    s = int(s)
+    return f"{s//3600:02d}:{(s%3600)//60:02d}:{s%60:02d}"
+
+
+def drive_folder(name="Reup"):
+    q = (f"name='{name}' and mimeType='application/vnd.google-apps.folder' "
+         f"and trashed=false")
+    r = run([GWS, "drive", "files", "list", "--params",
+             json.dumps({"q": q, "pageSize": 5, "fields": "files(id,name)"})])
+    files = json.loads(r.stdout).get("files", [])
+    if files:
+        return files[0]["id"]
+    r = run([GWS, "drive", "files", "create",
+             "--params", json.dumps({"ignoreDefaultVisibility": True}),
+             "--json", json.dumps({"name": name,
+                                   "mimeType": "application/vnd.google-apps.folder"})])
+    return json.loads(r.stdout)["id"]
+
+
+def drive_upload(path, name, share=False):
+    folder = drive_folder()
+    log(f"  Up Drive (folder Reup): {name}")
+    r = run([GWS, "drive", "files", "create", "--upload", str(path),
+             "--json", json.dumps({"name": name, "parents": [folder]})])
+    info = json.loads(r.stdout)
+    fid = info["id"]
+    if share:
+        run([GWS, "drive", "permissions", "create",
+             "--params", json.dumps({"fileId": fid}),
+             "--json", json.dumps({"type": "anyone", "role": "reader"})])
+    r = run([GWS, "drive", "files", "get",
+             "--params", json.dumps({"fileId": fid,
+                                     "fields": "id,name,webViewLink,webContentLink,size"})])
+    return json.loads(r.stdout)
+
+
+def save_manifest(entry):
+    man = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else []
+    man.append(entry)
+    MANIFEST.write_text(json.dumps(man, ensure_ascii=False, indent=1))
+
+
+def main():
+    ap = argparse.ArgumentParser(description="reup 1 lenh")
+    ap.add_argument("url")
+    ap.add_argument("--srt", default=None, help="sub Viet (lan 2)")
+    ap.add_argument("--frost", default=None, help="'y:h' vung sub cu (tu dong doan neu bo trong)")
+    ap.add_argument("--src-lang", default="en-US", help="ngon ngu goc cho STT")
+    ap.add_argument("--engine", choices=["kokoro", "capcut"], default="kokoro")
+    ap.add_argument("--jobs", type=int, default=4,
+                    help="so luong TTS song song")
+    ap.add_argument("--no-upload", action="store_true")
+    ap.add_argument("--share", action="store_true", help="Drive link public")
+    ap.add_argument("--workdir", default=None)
+    ap.add_argument("--v916", choices=["auto", "off", "black", "blur", "square"],
+                    default="auto",
+                    help="xuat 9:16 (auto: square neu video ngang)")
+    ap.add_argument("--banner-top", default="REVIEW PHIM HAY")
+    ap.add_argument("--banner-bottom", default="PHIM HAY MỖI NGÀY")
+    ap.add_argument("--draft", action="store_true",
+                    help="ban nhap: 720x1280, ultrafast (nhanh)")
+    ap.add_argument("--with-sub", action="store_true",
+                    help="burn sub Viet vao video (mac dinh: khong burn, chi dub + che)")
+    ap.add_argument("--frost-auto", action="store_true",
+                    help="tu dong phat hien vung sub cu (thay cho --frost tay)")
+    ap.add_argument("--cover", default=None,
+                    help="che cung logo/text co dinh: 'x:y:w:h' (pixel)")
+    a = ap.parse_args()
+
+    wd = Path(a.workdir) if a.workdir else JOBS / slugify(a.url)
+    wd.mkdir(parents=True, exist_ok=True)
+    st_f = wd / "state.json"
+    st = json.loads(st_f.read_text()) if st_f.exists() else {"done": []}
+
+    def mark(s):
+        st["done"].append(s)
+        st_f.write_text(json.dumps(st, indent=1))
+
+    src = wd / "src.mp4"
+    if "fetch" not in st["done"]:
+        src, meta = fetch(a.url, wd)
+        st["meta"] = meta
+        mark("fetch")
+    else:
+        meta = st.get("meta", {})
+
+    if "stt" not in st["done"]:
+        log("[2] STT audio goc...")
+        run([CAP_PY, str(REUP), "stt", str(wd / "a.mp3" if (wd / "a.mp3").exists() else src),
+             "--lang", a.src_lang, "-o", str(wd / "raw.srt")])
+        mark("stt")
+    if "resub" not in st["done"]:
+        log("[3] Gom cue...")
+        run([CAP_PY, str(REUP), "resub", str(wd / "raw.srt"),
+             "-o", str(wd / "resub.srt")])
+        mark("resub")
+
+    if not a.srt:
+        log("\n== DUNG: can sub Viet ==")
+        log(f"  1. Viet lai: {wd/'resub.srt'} -> sub_vi.srt (giu nguyen timestamp)")
+        log(f"  2. Chay tiep: python3 reup.py \"{a.url}\" --workdir {wd} --srt sub_vi.srt")
+        return
+
+    srt_vi = Path(a.srt)
+    if not srt_vi.is_absolute():
+        srt_vi = wd / srt_vi
+    # frost zone + font: tinh tren video surface thuc te (loai letterbox)
+    vh = int(run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                  "-show_entries", "stream=height", "-of", "csv=p=0",
+                  str(src)]).stdout.strip())
+    vw = int(run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                  "-show_entries", "stream=width", "-of", "csv=p=0",
+                  str(src)]).stdout.strip())
+    v916 = a.v916
+    if v916 == "auto":
+        v916 = "square" if vw > vh else "off"
+    if a.frost_auto:
+        # Tu dong phat hien: lay zone co confidence cao nhat
+        log("  Auto-detect vung sub cu...")
+        try:
+            r = subprocess.run([CAP_PY, str(BASE / "autodetect_frost.py"),
+                                str(src), str(srt_vi)],
+                               capture_output=True, text=True, timeout=120)
+            det = json.loads(r.stdout)
+            if det.get("zones"):
+                # Chon zone co frames_hit cao nhat
+                best = max(det["zones"], key=lambda z: z["frames_hit"])
+                log(f"  -> {best['frost']} (hit {best['frames_hit']}/{det['frames']})")
+                a.frost = best["frost"]
+            else:
+                log("  -> khong tim thay, dung mac dinh 0.84:0.14")
+                a.frost = "0.84:0.14"
+        except Exception as e:
+            log(f"  -> loi autodetect ({e}), dung mac dinh")
+            a.frost = "0.84:0.14"
+    frost_src = parse_frost(a.frost, vh)
+    fy0, fh0 = map(int, frost_src.split(":"))
+    if v916 == "off":
+        frost, playres, pr_h = frost_src, ("1920x1080" if vw > vh else "1080x1920"), (1080 if vw > vh else 1920)
+        bar_y = int(fy0 / vh * pr_h)
+        bar_h = int(fh0 / vh * pr_h)
+        font_size, wrap_chars = 76, 24
+    else:
+        # output 9:16 (draft 720x1280, full 1080x1920)
+        OW, OH = (720, 1280) if a.draft else (1080, 1920)
+        BH = 280 if a.draft else 420
+        playres, pr_h = f"{OW}x{OH}", OH
+        if v916 == "square":
+            crop = min(vw, vh)
+            scale = OW / crop
+            cx, cy = (vw - crop) / 2, (vh - crop) / 2
+            surf_y, surf_h = BH, OW
+            fy_map = surf_y + (fy0 - cy) * scale
+            fh_map = fh0 * scale
+        else:  # black / blur: fit-width
+            scale = OW / vw
+            surf_y, surf_h = (OH - vh * scale) / 2, vh * scale
+            fy_map = surf_y + fy0 * scale
+            fh_map = fh0 * scale
+        # font theo surface (Netflix: vua doc tren dien thoai)
+        # draft 720: font nho hon
+        font_size = (46 if v916 == "square" else 38) if a.draft else (68 if v916 == "square" else 56)
+        wrap_chars = 28 if v916 == "square" else 26
+        # thanh che: om sat vung sub cu (it padding hon)
+        # no-sub: khong can chua text Viet -> chi can che vua chu cu
+        if not a.with_sub:
+            bar_h = int(fh_map + 20)
+        else:
+            bar_h = max(int(fh_map + 32), int(font_size * 2 * 1.3))
+        bar_y = int(fy_map + fh_map / 2 - bar_h / 2)
+        # kep trong surface
+        bar_y = max(int(surf_y), min(bar_y, int(surf_y + surf_h - bar_h)))
+        frost = f"{bar_y}:{bar_h}"
+    st["frost"] = frost
+    st_f.write_text(json.dumps(st, indent=1))
+    log(f"  Frost: src {frost_src} -> out {frost} (playres {playres}, font {font_size})")
+    if "dub" not in st["done"]:
+        log("[4] Dub 1 giong Ngoc Huyen...")
+        cmd = [CAP_PY, str(REUP), "dub", str(srt_vi), "--engine", a.engine,
+               "-o", str(wd / "dubbed.m4a"), "--workdir", str(wd / "work_dub")]
+        cmd += ["--jobs", str(a.jobs)]
+        run(cmd)
+        mark("dub")
+    if a.with_sub and not (wd / "dub_words.json").exists():
+        log("  STT dub de lay word-timing...")
+        run([CAP_PY, str(BASE / "stt_words.py"),
+             str(wd / "dubbed.m4a"), str(wd / "dub_words.json")])
+    if a.with_sub and "karaoke" not in st["done"]:
+        log("[5] Karaoke...")
+        run([CAP_PY, str(REUP), "karaoke", str(srt_vi),
+             "--words", str(wd / "dub_words.json"),
+             "-o", str(wd / "final.ass"),
+             "--theme", "frost", "--font-size", str(font_size),
+             "--bar-y", str(bar_y), "--bar-h", str(bar_h),
+             "--wrap-chars", str(wrap_chars), "--playres", playres])
+        mark("karaoke")
+
+    if "burn" not in st["done"]:
+        log(f"[6] Burn final (frost {frost}, v916={v916}, no_sub={not a.with_sub})...")
+        bcmd = [CAP_PY, str(REUP), "burn", str(src),
+                "--frost", frost, "--frost-srt", str(srt_vi),
+                "--frost-alpha", "0.2",
+                "--audio", str(wd / "dubbed.m4a"),
+                "-o", str(wd / "final.mp4")]
+        if a.cover:
+            bcmd += ["--cover", a.cover]
+        if a.with_sub:
+            bcmd += ["--ass", str(wd / "final.ass")]
+        if v916 != "off":
+            bcmd += ["--v916", v916,
+                     "--banner-top", a.banner_top,
+                     "--banner-bottom", a.banner_bottom]
+            if a.draft:
+                bcmd += ["--draft"]
+        else:
+            bcmd += ["--dodge"]
+        run(bcmd)
+        mark("burn")
+
+    final = wd / "final.mp4"
+    # Luu caption.txt (ten + noi dung sub Viet) thay cho SRT
+    cap_txt = wd / "caption.txt"
+    try:
+        cues = parse_srt_simple(str(srt_vi))
+        lines = [f"TITLE: {(meta.get('title') or '').strip()}",
+                 f"URL: {a.url}", ""]
+        for i, (t1, t2, txt) in enumerate(cues, 1):
+            lines.append(f"[{fmt_ts(t1)} --> {fmt_ts(t2)}] {txt}")
+        cap_txt.write_text("\n".join(lines), encoding="utf-8")
+    except Exception as e:
+        log(f"  (ghi caption.txt loi: {e})")
+    if not a.no_upload and "upload" not in st["done"]:
+        log("[7] Up Drive (video + caption)...")
+        base = re.sub(r"[^\w\-. ]+", "", (meta.get("title") or "reup").strip()[:60]) or "reup"
+        vname = base + "_vi.mp4"
+        info = drive_upload(final, vname, share=a.share)
+        save_manifest({"local": str(final), "drive_id": info["id"],
+                       "link": info.get("webViewLink"),
+                       "title": meta.get("title"), "time": time.strftime("%F %T")})
+        st["drive"] = info
+        # Upload caption.txt kem (ten + noi dung)
+        if cap_txt.exists():
+            try:
+                cinfo = drive_upload(cap_txt, base + "_caption.txt", share=a.share)
+                log(f"  Caption: {cinfo.get('webViewLink')}")
+                st["drive_caption"] = cinfo.get("webViewLink")
+            except Exception as e:
+                log(f"  (up caption loi: {e})")
+        mark("upload")
+        log(f"  Link: {info.get('webViewLink')}")
+
+    # title goc cho agent viet lai
+    (wd / "title_src.txt").write_text(
+        f"GOC: {meta.get('title')}\nURL: {a.url}\n", encoding="utf-8")
+    log("\n== XONG ==")
+    log(f"  Video: {final} ({final.stat().st_size/1e6:.0f}MB)")
+    if st.get("drive"):
+        log(f"  Drive: {st['drive'].get('webViewLink')}")
+    log(f"  Viet title/hashtag tu: {wd/'title_src.txt'} -> luu {wd/'title_vi.txt'}")
+
+
+if __name__ == "__main__":
+    main()

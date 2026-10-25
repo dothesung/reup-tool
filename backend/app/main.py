@@ -1,1 +1,56 @@
-IiIiUmV1cCBUb29sIOKAlCBGYXN0QVBJIGJhY2tlbmQgKHNjYWZmb2xkIHR14bqnbiAxKS4iIiIKZnJvbSBmYXN0YXBpIGltcG9ydCBGYXN0QVBJLCBIVFRQRXhjZXB0aW9uCmZyb20gcHlkYW50aWMgaW1wb3J0IEJhc2VNb2RlbApmcm9tIHR5cGluZyBpbXBvcnQgT3B0aW9uYWwKaW1wb3J0IHV1aWQKCmFwcCA9IEZhc3RBUEkodGl0bGU9IlJldXAgVG9vbCIsIHZlcnNpb249IjAuMS4wIikKCiMgU3RvcmUgdOG6oW0gKHR14bqnbiAxIGTDuW5nIGRpY3QsIHR14bqnbiBzYXUgY2h1eeG7g24gU1FMaXRlKQpqb2JzID0ge30KCmNsYXNzIEpvYkNyZWF0ZShCYXNlTW9kZWwpOgogICAgdXJsOiBzdHIKICAgIHByZXNldDogc3RyID0gInJldmlld19waGltIgogICAgc3JjX2xhbmc6IHN0ciA9ICJ6aC1DTiIKCmNsYXNzIEpvYlVwZGF0ZShCYXNlTW9kZWwpOgogICAgc3RhdHVzOiBPcHRpb25hbFtzdHJdID0gTm9uZQogICAgZnJvc3Q6IE9wdGlvbmFsW3N0cl0gPSBOb25lCiAgICBjb3ZlcjogT3B0aW9uYWxbc3RyXSA9IE5vbmUKICAgIGRyaXZlX2xpbms6IE9wdGlvbmFsW3N0cl0gPSBOb25lCgpAYXBwLmdldCgiL2hlYWx0aCIpCmRlZiBoZWFsdGgoKToKICAgIHJldHVybiB7InN0YXR1cyI6ICJvayIsICJ2ZXJzaW9uIjogIjAuMS4wIn0KCkBhcHAucG9zdCgiL2pvYnMiKQpkZWYgY3JlYXRlX2pvYihib2R5OiBKb2JDcmVhdGUpOgogICAgamlkID0gdXVpZC51dWlkNCgpLmhleFs6MTJdCiAgICBqb2JzW2ppZF0gPSB7CiAgICAgICAgImlkIjogamlkLCAidXJsIjogYm9keS51cmwsICJwcmVzZXQiOiBib2R5LnByZXNldCwKICAgICAgICAic3JjX2xhbmciOiBib2R5LnNyY19sYW5nLCAic3RhdHVzIjogInBlbmRpbmciLAogICAgfQogICAgcmV0dXJuIGpvYnNbamlkXQoKQGFwcC5nZXQoIi9qb2JzIikKZGVmIGxpc3Rfam9icygpOgogICAgcmV0dXJuIGxpc3Qoam9icy52YWx1ZXMoKSkKCkBhcHAuZ2V0KCIvam9icy97amlkfSIpCmRlZiBnZXRfam9iKGppZDogc3RyKToKICAgIGlmIGppZCBub3QgaW4gam9iczoKICAgICAgICByYWlzZSBIVFRQRXhjZXB0aW9uKDQwNCwgIkpvYiBub3QgZm91bmQiKQogICAgcmV0dXJuIGpvYnNbamlkXQoKQGFwcC5wYXRjaCgiL2pvYnMve2ppZH0iKQpkZWYgdXBkYXRlX2pvYihqaWQ6IHN0ciwgYm9keTogSm9iVXBkYXRlKToKICAgIGlmIGppZCBub3QgaW4gam9iczoKICAgICAgICByYWlzZSBIVFRQRXhjZXB0aW9uKDQwNCwgIkpvYiBub3QgZm91bmQiKQogICAgZm9yIGssIHYgaW4gYm9keS5kaWN0KGV4Y2x1ZGVfbm9uZT1UcnVlKS5pdGVtcygpOgogICAgICAgIGpvYnNbamlkXVtrXSA9IHYKICAgIHJldHVybiBqb2JzW2ppZF0KCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBpbXBvcnQgdXZpY29ybgogICAgdXZpY29ybi5ydW4oYXBwLCBob3N0PSIwLjAuMC4wIiwgcG9ydD04MDAwKQo=
+"""Reup Tool — FastAPI backend (scaffold tuần 1)."""
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import Optional
+import uuid
+
+app = FastAPI(title="Reup Tool", version="0.1.0")
+
+# Store tạm (tuần 1 dùng dict, tuần sau chuyển SQLite)
+jobs = {}
+
+class JobCreate(BaseModel):
+    url: str
+    preset: str = "review_phim"
+    src_lang: str = "zh-CN"
+
+class JobUpdate(BaseModel):
+    status: Optional[str] = None
+    frost: Optional[str] = None
+    cover: Optional[str] = None
+    drive_link: Optional[str] = None
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "version": "0.1.0"}
+
+@app.post("/jobs")
+def create_job(body: JobCreate):
+    jid = uuid.uuid4().hex[:12]
+    jobs[jid] = {
+        "id": jid, "url": body.url, "preset": body.preset,
+        "src_lang": body.src_lang, "status": "pending",
+    }
+    return jobs[jid]
+
+@app.get("/jobs")
+def list_jobs():
+    return list(jobs.values())
+
+@app.get("/jobs/{jid}")
+def get_job(jid: str):
+    if jid not in jobs:
+        raise HTTPException(404, "Job not found")
+    return jobs[jid]
+
+@app.patch("/jobs/{jid}")
+def update_job(jid: str, body: JobUpdate):
+    if jid not in jobs:
+        raise HTTPException(404, "Job not found")
+    for k, v in body.dict(exclude_none=True).items():
+        jobs[jid][k] = v
+    return jobs[jid]
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

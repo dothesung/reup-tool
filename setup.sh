@@ -1,1 +1,12 @@
-IyEvYmluL2Jhc2gKIyBTZXR1cCBSZXVwIFRvb2wgdHLDqm4gbG9jYWxob3N0IChtYWNPUy9MaW51eCkKc2V0IC1lCmVjaG8gIj09IFJldXAgVG9vbCBzZXR1cCA9PSIKcHl0aG9uMyAtbSB2ZW52IC52ZW52IDI+L2Rldi9udWxsIHx8IHRydWUKc291cmNlIC52ZW52L2Jpbi9hY3RpdmF0ZQpwaXAgaW5zdGFsbCAtciBiYWNrZW5kL3JlcXVpcmVtZW50cy50eHQKZWNobyAiQ2FpIGZmbXBlZyAobmV1IGNodWEgY28pLi4uIgp3aGljaCBmZm1wZWcgfHwgYnJldyBpbnN0YWxsIGZmbXBlZyAyPi9kZXYvbnVsbCB8fCBzdWRvIGFwdCBpbnN0YWxsIC15IGZmbXBlZyAyPi9kZXYvbnVsbCB8fCBlY2hvICJIYXkgY2FpIGZmbXBlZyB0YXkiCmVjaG8gIlRhaSBLb2tvcm8gbW9kZWwgKDEgbGFuKS4uLiIKcHl0aG9uMyAtYyAiZnJvbSBodWdnaW5nZmFjZV9odWIgaW1wb3J0IHNuYXBzaG90X2Rvd25sb2FkOyBzbmFwc2hvdF9kb3dubG9hZCgna29rb3JvLXZpJykiIDI+L2Rldi9udWxsIHx8IGVjaG8gIktva29ybyBtb2RlbDogdGFpIGtoaSBjaGF5IGxhbiBkYXUiCmVjaG8gIlhvbmcuIENoYXkgLi9ydW4uc2giCg==
+#!/bin/bash
+# Setup Reup Tool trên localhost (macOS/Linux)
+set -e
+echo "== Reup Tool setup =="
+python3 -m venv .venv 2>/dev/null || true
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+echo "Cai ffmpeg (neu chua co)..."
+which ffmpeg || brew install ffmpeg 2>/dev/null || sudo apt install -y ffmpeg 2>/dev/null || echo "Hay cai ffmpeg tay"
+echo "Tai Kokoro model (1 lan)..."
+python3 -c "from huggingface_hub import snapshot_download; snapshot_download('kokoro-vi')" 2>/dev/null || echo "Kokoro model: tai khi chay lan dau"
+echo "Xong. Chay ./run.sh"

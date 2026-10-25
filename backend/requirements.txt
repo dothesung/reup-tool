@@ -1,1 +1,10 @@
-ZmFzdGFwaT49MC4xMTAKdXZpY29ybltzdGFuZGFyZF0+PTAuMjkKcHlkYW50aWM+PTIuNgpzcWxhbGNoZW15Pj0yLjAKcHl0aG9uLW11bHRpcGFydD49MC4wLjkKaHR0cHg+PTAuMjcKeXQtZGxwPj0yMDI0LjQKb3BlbmN2LXB5dGhvbi1oZWFkbGVzcz49NC45Cm51bXB5Pj0xLjI2CnBpbGxvdz49MTAuMAo=
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+sqlalchemy>=2.0
+python-multipart>=0.0.9
+httpx>=0.27
+yt-dlp>=2024.4
+opencv-python-headless>=4.9
+numpy>=1.26
+pillow>=10.0

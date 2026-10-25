@@ -1,1 +1,33 @@
-IyBSZXVwIFRvb2wg4oCUIExvY2FsaG9zdCBWaWRlbyBSZXVwIFBpcGVsaW5lCgpUb29sIGNo4bqheSB0csOqbiBsb2NhbGhvc3QgxJHhu4MgcmV1cCB2aWRlbyBEb3V5aW4vWW91VHViZSDihpIgbOG7k25nIHRp4bq/bmcgVmnhu4d0IOKGkiA5OjE2IOKGkiB1cCBEcml2ZS4KCiMjIFTDrW5oIG7Eg25nCi0gVOG6o2kgdmlkZW8gdHLhu7FjIHRp4bq/cCAoeXQtZGxwLCBraMO0bmcgNDAzKQotIFNUVCDihpIgROG7i2NoIOKGkiBEdWIgZ2nhu41uZyBOZ+G7jWMgSHV54buBbiAoS29rb3JvKQotIEZyb3N0L2NvdmVyIHThu7EgxJHhu5luZyBwaMOibiBiaeG7h3QgdGV4dCBj4buRIMSR4buLbmggdnMgc3VidGl0bGUKLSBCdXJuIDk6MTYgKHNxdWFyZS9ibGFjay9ibHVyKSArIGJhbm5lcgotIEhhcmR3YXJlIGVuY29kZSAoVmlkZW9Ub29sYm94L05WRU5DKQotIEdpYW8gZGnhu4duIHdlYiArIEFQSSArIENMSQoKIyMgQ8OgaSDEkeG6t3QgbmhhbmgKCmBgYGJhc2gKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9kb3RoZXN1bmcvcmV1cC10b29sLmdpdApjZCByZXVwLXRvb2wKLi9zZXR1cC5zaAouL3J1bi5zaAojIE3hu58gaHR0cDovL2xvY2FsaG9zdDozMDAwCmBgYAoKIyMgQ+G6pXUgdHLDumMKYGBgCmJhY2tlbmQvICAgIyBGYXN0QVBJCmZyb250ZW5kLyAgIyBSZWFjdCArIFZpdGUKY2xpLyAgICAgICAjIENMSSAodMawxqFuZyB0aMOtY2ggcmV1cC5weSBjxakpCnByZXNldHMvICAgIyBQcmVzZXQgY+G6pXUgaMOsbmgKZG9jcy8gICAgICAjIFTDoGkgbGnhu4d1CmBgYAoKIyMgTGljZW5zZQpQcml2YXRlIOKAlCBjaOG7iSBkw7luZyBu4buZaSBi4buZLgo=
+# Reup Tool — Localhost Video Reup Pipeline
+
+Tool chạy trên localhost để reup video Douyin/YouTube → lồng tiếng Việt → 9:16 → up Drive.
+
+## Tính năng
+- Tải video trực tiếp (yt-dlp, không 403)
+- STT → Dịch → Dub giọng Ngọc Huyền (Kokoro)
+- Frost/cover tự động phân biệt text cố định vs subtitle
+- Burn 9:16 (square/black/blur) + banner
+- Hardware encode (VideoToolbox/NVENC)
+- Giao diện web + API + CLI
+
+## Cài đặt nhanh
+
+```bash
+git clone https://github.com/dothesung/reup-tool.git
+cd reup-tool
+./setup.sh
+./run.sh
+# Mở http://localhost:3000
+```
+
+## Cấu trúc
+```
+backend/   # FastAPI
+frontend/  # React + Vite
+cli/       # CLI (tương thích reup.py cũ)
+presets/   # Preset cấu hình
+docs/      # Tài liệu
+```
+
+## License
+Private — chỉ dùng nội bộ.

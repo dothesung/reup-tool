@@ -1,1 +1,114 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiJUdSBkb25nIHBoYXQgaGllbiB2dW5nIHBodSBkZSAodGV4dCB0cmFuZykgZGUgdGluaCB0b2EgZG8gZnJvc3QuClBodW9uZyBwaGFwOiBxdWV0IGhhbmcgcGl4ZWwgdHJhbmcgdGFpIGNhYyBmcmFtZSBnaXVhIGN1ZSAodHUgU1JUKSwKdGltIGRhaSB5IGNvIG1hdCBkbyB0ZXh0IGNhbyBPTiBESU5IIHF1YSBuaGlldSBmcmFtZS4KSG8gdHJvOiBuaGlldSB2aSB0cmkgc3ViIGtoYWMgbmhhdSwgbmhpZXUgdnVuZyAodmQ6IHN1YiBkdW9pICsgY2h1IHRoaWNoIHRyZW4pLgpVc2FnZTogcHl0aG9uMyBhdXRvZGV0ZWN0X2Zyb3N0LnB5IDx2aWRlbz4gPHNydD4gWy0tb3V0LXktb25seV0KT3V0cHV0IEpTT046IHsiem9uZXMiOiBbeyJmcm9zdCI6ICJZOkgiLCAuLi59XX0KIiIiCmltcG9ydCBzeXMsIGpzb24sIHN1YnByb2Nlc3MsIHRlbXBmaWxlLCBvcywgcmUKaW1wb3J0IGN2MgppbXBvcnQgbnVtcHkgYXMgbnAKCmRlZiBwYXJzZV9zcnQocCk6CiAgICBjdWVzID0gW10KICAgIHR4dCA9IG9wZW4ocCwgZW5jb2Rpbmc9InV0Zi04IikucmVhZCgpCiAgICBmb3IgbSBpbiByZS5maW5kaXRlcihyIihcZCspOihcZCspOihbXGQuLF0rKVxzKi0tPlxzKihcZCspOihcZCspOihbXGQuLF0rKSIsIHR4dCk6CiAgICAgICAgZyA9IG0uZ3JvdXBzKCkKICAgICAgICB0MSA9IGludChnWzBdKSozNjAwICsgaW50KGdbMV0pKjYwICsgZmxvYXQoZ1syXS5yZXBsYWNlKCIsIiwgIi4iKSkKICAgICAgICB0MiA9IGludChnWzNdKSozNjAwICsgaW50KGdbNF0pKjYwICsgZmxvYXQoZ1s1XS5yZXBsYWNlKCIsIiwgIi4iKSkKICAgICAgICBjdWVzLmFwcGVuZCgodDEsIHQyKSkKICAgIHJldHVybiBjdWVzCgpkZWYgbWFpbigpOgogICAgdmlkZW8sIHNydCA9IHN5cy5hcmd2WzFdLCBzeXMuYXJndlsyXQogICAgcHIgPSBzdWJwcm9jZXNzLnJ1bihbImZmcHJvYmUiLCAiLXYiLCAiZXJyb3IiLCAiLXNlbGVjdF9zdHJlYW1zIiwgInY6MCIsCiAgICAgICAgIi1zaG93X2VudHJpZXMiLCAic3RyZWFtPXdpZHRoLGhlaWdodCIsICItb2YiLCAiY3N2PXA9MCIsIHZpZGVvXSwKICAgICAgICBjYXB0dXJlX291dHB1dD1UcnVlLCB0ZXh0PVRydWUpCiAgICB2dywgdmggPSBtYXAoaW50LCBwci5zdGRvdXQuc3RyaXAoKS5zcGxpdCgiLCIpKQogICAgU1cgPSA2NDAKICAgIHNjYWxlID0gdncgLyBTVwogICAgU0ggPSBpbnQodmggLyBzY2FsZSkKCiAgICBjdWVzID0gcGFyc2Vfc3J0KHNydCkKICAgICMgTGF5IHRvaSBkYSAxNSBjdWUgY2FjaCBkZXUsIGZyYW1lIG8gZ2l1YSBjdWUKICAgIHN0ZXAgPSBtYXgoMSwgbGVuKGN1ZXMpIC8vIDE1KQogICAgdGltZXMgPSBbKGNbMF0gKyBjWzFdKSAvIDIgZm9yIGMgaW4gY3Vlc1s6OnN0ZXBdWzoxNV1dCgogICAgIyBEZW0gcGl4ZWwgdHJhbmcgdGhlbyBoYW5nLCBjb25nIGRvbiBxdWEgY2FjIGZyYW1lCiAgICByb3dfY291bnRzID0gbnAuemVyb3MoU0gsIGR0eXBlPW5wLmZsb2F0MzIpCiAgICBuX29rID0gMAogICAgd2l0aCB0ZW1wZmlsZS5UZW1wb3JhcnlEaXJlY3RvcnkoKSBhcyB0ZDoKICAgICAgICBmb3IgaSwgdCBpbiBlbnVtZXJhdGUodGltZXMpOgogICAgICAgICAgICBmcCA9IG9zLnBhdGguam9pbih0ZCwgZiJme2l9LnBuZyIpCiAgICAgICAgICAgIHIgPSBzdWJwcm9jZXNzLnJ1bihbImZmbXBlZyIsICIteSIsICItdiIsICJlcnJvciIsICItc3MiLCBzdHIodCksCiAgICAgICAgICAgICAgICAiLWkiLCB2aWRlbywgIi1mcmFtZXM6diIsICIxIiwKICAgICAgICAgICAgICAgICItdmYiLCBmInNjYWxlPXtTV306LTEiLCBmcF0sIGNhcHR1cmVfb3V0cHV0PVRydWUpCiAgICAgICAgICAgIGlmIHIucmV0dXJuY29kZSAhPSAwOgogICAgICAgICAgICAgICAgY29udGludWUKICAgICAgICAgICAgaW1nID0gY3YyLmltcmVhZChmcCkKICAgICAgICAgICAgaWYgaW1nIGlzIE5vbmU6CiAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICBncmF5ID0gY3YyLmN2dENvbG9yKGltZywgY3YyLkNPTE9SX0JHUjJHUkFZKQogICAgICAgICAgICAjIFRleHQgdHJhbmcgY28gdmllbiBkZW46IGxheSBwaXhlbCByYXQgdHJhbmcKICAgICAgICAgICAgXywgYncgPSBjdjIudGhyZXNob2xkKGdyYXksIDIxNSwgMjU1LCBjdjIuVEhSRVNIX0JJTkFSWSkKICAgICAgICAgICAgYWggPSBidy5zaGFwZVswXQogICAgICAgICAgICAjIENoaSB4ZXQgdnVuZyA0NSUtOTIlIChibyBudWEgdHJlbiArIDglIGRheSBuaGF0OiBkaXNjbGFpbWVyL3dhdGVybWFyaykKICAgICAgICAgICAgeTAgPSBpbnQoYWggKiAwLjQ1KQogICAgICAgICAgICB5MSA9IGludChhaCAqIDAuOTIpCiAgICAgICAgICAgIGNvdW50cyA9IChid1t5MDp5MSwgOl0gPiAwKS5zdW0oYXhpcz0xKS5hc3R5cGUobnAuZmxvYXQzMikKICAgICAgICAgICAgIyBDaHVhbiBob2EgdGhlbyBjaGlldSByb25nIChsb2FpIGFuaCBodW9uZyBkbyBkYWkgdGV4dCkKICAgICAgICAgICAgIyAoZGFtIGJhbyBraWNoIHRodW9jIGtob3ApCiAgICAgICAgICAgIGlmIGxlbihyb3dfY291bnRzKSAhPSBhaDoKICAgICAgICAgICAgICAgIHJvd19jb3VudHMgPSBucC56ZXJvcyhhaCwgZHR5cGU9bnAuZmxvYXQzMikKICAgICAgICAgICAgICAgIFNIID0gYWgKICAgICAgICAgICAgcmMgPSBucC56ZXJvcyhhaCwgZHR5cGU9bnAuZmxvYXQzMikKICAgICAgICAgICAgcmNbeTA6eTFdID0gKGNvdW50cyA+IFNXICogMC4wOCkuYXN0eXBlKG5wLmZsb2F0MzIpCiAgICAgICAgICAgIHJvd19jb3VudHMgKz0gcmMKICAgICAgICAgICAgbl9vayArPSAxCgogICAgaWYgbl9vayA9PSAwOgogICAgICAgIHByaW50KGpzb24uZHVtcHMoeyJlcnJvciI6ICJraG9uZyBkb2MgZHVvYyBmcmFtZSJ9KSkKICAgICAgICByZXR1cm4KCiAgICAjIE5ndW9uZzogaGFuZyBjbyB0ZXh0IHh1YXQgaGllbiBvID49IDQwJSBzbyBmcmFtZSBtYXUKICAgIHRocmVzaCA9IG5fb2sgKiAwLjQKICAgIGFjdGl2ZSA9IHJvd19jb3VudHMgPj0gdGhyZXNoCgogICAgIyBUaW0gY2FjIGRhaSB5IGxpZW4gdHVjCiAgICB6b25lcyA9IFtdCiAgICBpbl9ydW4gPSBGYWxzZQogICAgc3RhcnQgPSAwCiAgICBmb3IgeSBpbiByYW5nZShTSCk6CiAgICAgICAgaWYgYWN0aXZlW3ldIGFuZCBub3QgaW5fcnVuOgogICAgICAgICAgICBpbl9ydW4sIHN0YXJ0ID0gVHJ1ZSwgeQogICAgICAgIGVsaWYgbm90IGFjdGl2ZVt5XSBhbmQgaW5fcnVuOgogICAgICAgICAgICBpbl9ydW4gPSBGYWxzZQogICAgICAgICAgICBpZiB5IC0gc3RhcnQgPj0gODogICMgZGFpID49IDhweCAoc2NhbGVkKSBtb2kgdGluaAogICAgICAgICAgICAgICAgem9uZXMuYXBwZW5kKChzdGFydCwgeSkpCiAgICBpZiBpbl9ydW4gYW5kIFNIIC0gc3RhcnQgPj0gODoKICAgICAgICB6b25lcy5hcHBlbmQoKHN0YXJ0LCBTSCkpCgogICAgIyBHb3AgY2FjIGRhaSBnYW4gbmhhdSAoPCAxNXB4KQogICAgbWVyZ2VkID0gW10KICAgIGZvciBzLCBlIGluIHpvbmVzOgogICAgICAgIGlmIG1lcmdlZCBhbmQgcyAtIG1lcmdlZFstMV1bMV0gPCAxNToKICAgICAgICAgICAgbWVyZ2VkWy0xXSA9IChtZXJnZWRbLTFdWzBdLCBlKQogICAgICAgIGVsc2U6CiAgICAgICAgICAgIG1lcmdlZC5hcHBlbmQoKHMsIGUpKQoKICAgIG91dCA9IFtdCiAgICBmb3IgcywgZSBpbiBtZXJnZWQ6CiAgICAgICAgIyBNYXAgdmUgdG9hIGRvIGdvYywgbW8gcm9uZyA4cHggbW9pIGJlbgogICAgICAgIGZ5ID0gaW50KHMgKiBzY2FsZSkgLSA4CiAgICAgICAgZmggPSBpbnQoKGUgLSBzKSAqIHNjYWxlKSArIDE2CiAgICAgICAgZnkgPSBtYXgoMCwgZnkpCiAgICAgICAgb3V0LmFwcGVuZCh7ImZyb3N0IjogZiJ7Znl9OntmaH0iLAogICAgICAgICAgICAgICAgICAgICJ5X3NyYyI6IFtpbnQocypzY2FsZSksIGludChlKnNjYWxlKV0sCiAgICAgICAgICAgICAgICAgICAgImZyYW1lc19oaXQiOiBpbnQocm93X2NvdW50c1tzOmVdLm1heCgpKX0pCgogICAgcHJpbnQoanNvbi5kdW1wcyh7InZpZGVvX3NpemUiOiBbdncsIHZoXSwgImZyYW1lcyI6IG5fb2ssCiAgICAgICAgICAgICAgICAgICAgICAiem9uZXMiOiBvdXR9LCBlbnN1cmVfYXNjaWk9RmFsc2UsIGluZGVudD0xKSkKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBtYWluKCkK
+#!/usr/bin/env python3
+"""Tu dong phat hien vung phu de (text trang) de tinh toa do frost.
+Phuong phap: quet hang pixel trang tai cac frame giua cue (tu SRT),
+tim dai y co mat do text cao ON DINH qua nhieu frame.
+Ho tro: nhieu vi tri sub khac nhau, nhieu vung (vd: sub duoi + chu thich tren).
+Usage: python3 autodetect_frost.py <video> <srt> [--out-y-only]
+Output JSON: {"zones": [{"frost": "Y:H", ...}]}
+"""
+import sys, json, subprocess, tempfile, os, re
+import cv2
+import numpy as np
+
+def parse_srt(p):
+    cues = []
+    txt = open(p, encoding="utf-8").read()
+    for m in re.finditer(r"(\d+):(\d+):([\d.,]+)\s*-->\s*(\d+):(\d+):([\d.,]+)", txt):
+        g = m.groups()
+        t1 = int(g[0])*3600 + int(g[1])*60 + float(g[2].replace(",", "."))
+        t2 = int(g[3])*3600 + int(g[4])*60 + float(g[5].replace(",", "."))
+        cues.append((t1, t2))
+    return cues
+
+def main():
+    video, srt = sys.argv[1], sys.argv[2]
+    pr = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+        "-show_entries", "stream=width,height", "-of", "csv=p=0", video],
+        capture_output=True, text=True)
+    vw, vh = map(int, pr.stdout.strip().split(","))
+    SW = 640
+    scale = vw / SW
+    SH = int(vh / scale)
+
+    cues = parse_srt(srt)
+    # Lay toi da 15 cue cach deu, frame o giua cue
+    step = max(1, len(cues) // 15)
+    times = [(c[0] + c[1]) / 2 for c in cues[::step][:15]]
+
+    # Dem pixel trang theo hang, cong don qua cac frame
+    row_counts = np.zeros(SH, dtype=np.float32)
+    n_ok = 0
+    with tempfile.TemporaryDirectory() as td:
+        for i, t in enumerate(times):
+            fp = os.path.join(td, f"f{i}.png")
+            r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", str(t),
+                "-i", video, "-frames:v", "1",
+                "-vf", f"scale={SW}:-1", fp], capture_output=True)
+            if r.returncode != 0:
+                continue
+            img = cv2.imread(fp)
+            if img is None:
+                continue
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            # Text trang co vien den: lay pixel rat trang
+            _, bw = cv2.threshold(gray, 215, 255, cv2.THRESH_BINARY)
+            ah = bw.shape[0]
+            # Chi xet vung 45%-92% (bo nua tren + 8% day nhat: disclaimer/watermark)
+            y0 = int(ah * 0.45)
+            y1 = int(ah * 0.92)
+            counts = (bw[y0:y1, :] > 0).sum(axis=1).astype(np.float32)
+            # Chuan hoa theo chieu rong (loai anh huong do dai text)
+            # (dam bao kich thuoc khop)
+            if len(row_counts) != ah:
+                row_counts = np.zeros(ah, dtype=np.float32)
+                SH = ah
+            rc = np.zeros(ah, dtype=np.float32)
+            rc[y0:y1] = (counts > SW * 0.08).astype(np.float32)
+            row_counts += rc
+            n_ok += 1
+
+    if n_ok == 0:
+        print(json.dumps({"error": "khong doc duoc frame"}))
+        return
+
+    # Nguong: hang co text xuat hien o >= 40% so frame mau
+    thresh = n_ok * 0.4
+    active = row_counts >= thresh
+
+    # Tim cac dai y lien tuc
+    zones = []
+    in_run = False
+    start = 0
+    for y in range(SH):
+        if active[y] and not in_run:
+            in_run, start = True, y
+        elif not active[y] and in_run:
+            in_run = False
+            if y - start >= 8:  # dai >= 8px (scaled) moi tinh
+                zones.append((start, y))
+    if in_run and SH - start >= 8:
+        zones.append((start, SH))
+
+    # Gop cac dai gan nhau (< 15px)
+    merged = []
+    for s, e in zones:
+        if merged and s - merged[-1][1] < 15:
+            merged[-1] = (merged[-1][0], e)
+        else:
+            merged.append((s, e))
+
+    out = []
+    for s, e in merged:
+        # Map ve toa do goc, mo rong 8px moi ben
+        fy = int(s * scale) - 8
+        fh = int((e - s) * scale) + 16
+        fy = max(0, fy)
+        out.append({"frost": f"{fy}:{fh}",
+                    "y_src": [int(s*scale), int(e*scale)],
+                    "frames_hit": int(row_counts[s:e].max())})
+
+    print(json.dumps({"video_size": [vw, vh], "frames": n_ok,
+                      "zones": out}, ensure_ascii=False, indent=1))
+
+if __name__ == "__main__":
+    main()

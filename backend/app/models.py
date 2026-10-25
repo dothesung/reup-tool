@@ -1,1 +1,30 @@
-IiIiUmV1cCBUb29sIOKAlCBtb2RlbHMuIiIiCmZyb20gZGF0ZXRpbWUgaW1wb3J0IGRhdGV0aW1lCmZyb20gZW51bSBpbXBvcnQgRW51bQoKY2xhc3MgSm9iU3RhdHVzKHN0ciwgRW51bSk6CiAgICBQRU5ESU5HID0gInBlbmRpbmciCiAgICBET1dOTE9BRElORyA9ICJkb3dubG9hZGluZyIKICAgIFNUVCA9ICJzdHQiCiAgICBXQUlUSU5HX1NVQiA9ICJ3YWl0aW5nX3N1YiIgICMgQ2hvIHVzZXIgc3VhIHN1YiBWaWV0CiAgICBEVUJCSU5HID0gImR1YmJpbmciCiAgICBCVVJOSU5HID0gImJ1cm5pbmciCiAgICBVUExPQURJTkcgPSAidXBsb2FkaW5nIgogICAgRE9ORSA9ICJkb25lIgogICAgRkFJTEVEID0gImZhaWxlZCIKCmNsYXNzIEpvYjoKICAgIGRlZiBfX2luaXRfXyhzZWxmLCBpZCwgdXJsLCB0aXRsZT0iIiwgc3RhdHVzPUpvYlN0YXR1cy5QRU5ESU5HKToKICAgICAgICBzZWxmLmlkID0gaWQKICAgICAgICBzZWxmLnVybCA9IHVybAogICAgICAgIHNlbGYudGl0bGUgPSB0aXRsZQogICAgICAgIHNlbGYuc3RhdHVzID0gc3RhdHVzCiAgICAgICAgc2VsZi53b3JrZGlyID0gIiIKICAgICAgICBzZWxmLmZyb3N0ID0gTm9uZQogICAgICAgIHNlbGYuY292ZXIgPSBOb25lCiAgICAgICAgc2VsZi5wcmVzZXQgPSAicmV2aWV3X3BoaW0iCiAgICAgICAgc2VsZi5kcml2ZV9saW5rID0gTm9uZQogICAgICAgIHNlbGYuY2FwdGlvbl9saW5rID0gTm9uZQogICAgICAgIHNlbGYuZXJyb3IgPSBOb25lCiAgICAgICAgc2VsZi5jcmVhdGVkX2F0ID0gZGF0ZXRpbWUubm93KCkKICAgICAgICBzZWxmLnVwZGF0ZWRfYXQgPSBkYXRldGltZS5ub3coKQo=
+"""Reup Tool — models."""
+from datetime import datetime
+from enum import Enum
+
+class JobStatus(str, Enum):
+    PENDING = "pending"
+    DOWNLOADING = "downloading"
+    STT = "stt"
+    WAITING_SUB = "waiting_sub"  # Cho user sua sub Viet
+    DUBBING = "dubbing"
+    BURNING = "burning"
+    UPLOADING = "uploading"
+    DONE = "done"
+    FAILED = "failed"
+
+class Job:
+    def __init__(self, id, url, title="", status=JobStatus.PENDING):
+        self.id = id
+        self.url = url
+        self.title = title
+        self.status = status
+        self.workdir = ""
+        self.frost = None
+        self.cover = None
+        self.preset = "review_phim"
+        self.drive_link = None
+        self.caption_link = None
+        self.error = None
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()

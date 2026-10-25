@@ -1,1 +1,6 @@
-IyEvYmluL2Jhc2gKIyBDaGF5IFJldXAgVG9vbApzb3VyY2UgLnZlbnYvYmluL2FjdGl2YXRlIDI+L2Rldi9udWxsIHx8IHRydWUKZWNobyAiQmFja2VuZDogaHR0cDovL2xvY2FsaG9zdDo4MDAwIgplY2hvICJGcm9udGVuZDogaHR0cDovL2xvY2FsaG9zdDozMDAwICh0dWFuIDIpIgpweXRob24zIGJhY2tlbmQvYXBwL21haW4ucHkK
+#!/bin/bash
+# Chay Reup Tool
+source .venv/bin/activate 2>/dev/null || true
+echo "Backend: http://localhost:8000"
+echo "Frontend: http://localhost:3000 (tuan 2)"
+python3 backend/app/main.py

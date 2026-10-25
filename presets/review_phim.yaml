@@ -1,1 +1,19 @@
-bmFtZTogcmV2aWV3X3BoaW0KZGVzY3JpcHRpb246IFByZXNldCByZXZpZXcgcGhpbSBEb3V5aW4g4oaSIDk6MTYga2h1bmcgdsOgbmcKdjkxNjogc3F1YXJlCmJhbm5lcl90b3A6ICJSRVZJRVcgUEhJTToge3RpdGxlfSIKYmFubmVyX2JvdHRvbTogIlBISU0gSEFZIE3hu5ZJIE5Hw4BZIgpiYW5uZXJfY29sb3I6ICJGRkNDMDAiCmZyb3N0X2FscGhhOiAwLjIKY292ZXJfYWxwaGE6IDAuMwp2b2ljZTogbmdvY19odXllbgplbmdpbmU6IGtva29ybwpqb2JzOiA0CmRyYWZ0OgogIHdpZHRoOiA3MjAKICBoZWlnaHQ6IDEyODAKICBwcmVzZXQ6IHVsdHJhZmFzdApmaW5hbDoKICB3aWR0aDogMTA4MAogIGhlaWdodDogMTkyMAogIHByZXNldDogdmVyeWZhc3QK
+name: review_phim
+description: Preset review phim Douyin → 9:16 khung vàng
+v916: square
+banner_top: "REVIEW PHIM: {title}"
+banner_bottom: "PHIM HAY MỖI NGÀY"
+banner_color: "FFCC00"
+frost_alpha: 0.2
+cover_alpha: 0.3
+voice: ngoc_huyen
+engine: kokoro
+jobs: 4
+draft:
+  width: 720
+  height: 1280
+  preset: ultrafast
+final:
+  width: 1080
+  height: 1920
+  preset: veryfast

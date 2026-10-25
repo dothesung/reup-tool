@@ -1,1 +1,9 @@
-LnZlbnYvCl9fcHljYWNoZV9fLwoqLnB5YwouZW52CioubXA0CioubTRhCmpvYnMvCm5vZGVfbW9kdWxlcy8KZGlzdC8K
+.venv/
+__pycache__/
+*.pyc
+.env
+*.mp4
+*.m4a
+jobs/
+node_modules/
+dist/
