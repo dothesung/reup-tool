@@ -3,8 +3,8 @@ import FrostEditor from "../components/FrostEditor";
 import SubEditor from "../components/SubEditor";
 import { getJobInfo, getSubs, saveSubs, getFrost, saveFrost, detectText } from "../api";
 
-export default function JobDetail() {
-  const [jobId, setJobId] = useState("1023_YJkMwY9badg");
+export default function JobDetail({ initialJobId = "1023_YJkMwY9badg" }: { initialJobId?: string }) {
+  const [jobId, setJobId] = useState(initialJobId);
   const [info, setInfo] = useState<any>(null);
   const [cues, setCues] = useState<any[]>([]);
   const [frost, setFrost] = useState<string | null>(null);
