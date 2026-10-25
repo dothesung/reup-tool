@@ -34,9 +34,12 @@ def run_job(job_id: str, url: str, preset: dict):
         log(job_id, f"Bắt đầu: {url}")
 
         # B1: tải + STT (dùng reup.py stage 1)
+        env = dict(os.environ)
+        if preset.get("nexray_url"):
+            env["NEXRAY_URL"] = preset["nexray_url"]
         r = subprocess.run(
             ["python3", "reup.py", url, "--src-lang", preset.get("src_lang", "zh-CN")],
-            cwd=CAPCUT_DIR, capture_output=True, text=True, timeout=900,
+            cwd=CAPCUT_DIR, capture_output=True, text=True, timeout=900, env=env,
         )
         if r.returncode != 0:
             raise RuntimeError(f"Stage 1 lỗi: {r.stderr[-500:]}")
@@ -95,11 +98,12 @@ def continue_job(job_id: str, preset: dict):
         log(job_id, "Dub + burn...")
 
         # B3: dub + burn (dùng reup.py stage 2)
-        # Lưu ý: reup.py tự hardcode frost-alpha 0.2 trong lệnh burn,
-        # và chưa hỗ trợ --hwaccel → không truyền 2 flag này.
+        # Flag lấy từ preset (đã merge settings làm mặc định ở jobs router).
         cmd = ["python3", "reup.py", "", "--workdir", wd, "--srt", "sub_vi.srt"]
         if frost_cfg.get("frost"):
             cmd += ["--frost", frost_cfg["frost"]]
+        elif preset.get("frost_auto"):
+            cmd += ["--frost-auto"]
         if frost_cfg.get("cover"):
             cmd += ["--cover", frost_cfg["cover"]]
         if preset.get("v916"):
@@ -108,9 +112,28 @@ def continue_job(job_id: str, preset: dict):
             cmd += ["--banner-top", preset["banner_top"]]
         if preset.get("banner_bottom"):
             cmd += ["--banner-bottom", preset["banner_bottom"]]
+        if preset.get("banner_color"):
+            cmd += ["--banner-color", preset["banner_color"]]
+        if preset.get("frost_alpha") is not None:
+            cmd += ["--frost-alpha", str(preset["frost_alpha"])]
+        if preset.get("engine"):
+            cmd += ["--engine", preset["engine"]]
+        if preset.get("jobs"):
+            cmd += ["--jobs", str(preset["jobs"])]
+        if preset.get("output_mode") == "draft":
+            cmd += ["--draft"]
+        if preset.get("with_sub"):
+            cmd += ["--with-sub"]
+        if preset.get("auto_upload") is False:
+            cmd += ["--no-upload"]
+        if preset.get("share_drive_link"):
+            cmd += ["--share"]
 
+        env = dict(os.environ)
+        if preset.get("nexray_url"):
+            env["NEXRAY_URL"] = preset["nexray_url"]
         r = subprocess.run(cmd, cwd=CAPCUT_DIR, capture_output=True,
-                           text=True, timeout=3600)
+                           text=True, timeout=3600, env=env)
         if r.returncode != 0:
             raise RuntimeError(f"Stage 2 lỗi: {r.stderr[-500:]}")
 
@@ -126,7 +149,10 @@ def continue_job(job_id: str, preset: dict):
         log(job_id, f"LỖI: {e}")
 
 def start_job_async(job_id: str, url: str, preset: dict):
-    JOB_STATE[job_id] = {"status": "pending", "url": url, "log": []}
+    JOB_STATE[job_id] = {"status": "pending", "url": url, "log": [],
+                         "preset_used": {k: preset.get(k) for k in
+                                         ("engine", "jobs", "v916", "output_mode",
+                                          "auto_upload", "frost_alpha", "with_sub")}}
     t = threading.Thread(target=run_job, args=(job_id, url, preset), daemon=True)
     t.start()
 

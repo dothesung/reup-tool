@@ -11,6 +11,7 @@ Kokoro local 1 giong Ngoc Huyen (mac dinh).
 """
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -25,7 +26,7 @@ REUP = BASE / "reup_sub.py"
 CAP_PY = "/home/hatch/workspace/.venvs/capcut/bin/python"
 GWS = "/opt/hatch/bin/hatch_gws_cli"
 MANIFEST = BASE / "drive_manifest.json"
-NEXRAY = "https://api.nexray.eu.cc/downloader/aio?url="
+NEXRAY = os.environ.get("NEXRAY_URL", "https://api.nexray.eu.cc/downloader/aio?url=")
 
 
 def run(cmd, **kw):
@@ -179,6 +180,10 @@ def main():
                     help="xuat 9:16 (auto: square neu video ngang)")
     ap.add_argument("--banner-top", default="REVIEW PHIM HAY")
     ap.add_argument("--banner-bottom", default="PHIM HAY MỖI NGÀY")
+    ap.add_argument("--banner-color", default="FFCC00",
+                    help="mau khung 9:16 (hex, khong #)")
+    ap.add_argument("--frost-alpha", type=float, default=0.2,
+                    help="do mo thanh che sub cu (0.05-0.9)")
     ap.add_argument("--draft", action="store_true",
                     help="ban nhap: 720x1280, ultrafast (nhanh)")
     ap.add_argument("--with-sub", action="store_true",
@@ -337,7 +342,7 @@ def main():
         log(f"[6] Burn final (frost {frost}, v916={v916}, no_sub={not a.with_sub})...")
         bcmd = [CAP_PY, str(REUP), "burn", str(src),
                 "--frost", frost, "--frost-srt", str(srt_vi),
-                "--frost-alpha", "0.2",
+                "--frost-alpha", str(a.frost_alpha),
                 "--audio", str(wd / "dubbed.m4a"),
                 "-o", str(wd / "final.mp4")]
         if a.cover:
@@ -347,7 +352,8 @@ def main():
         if v916 != "off":
             bcmd += ["--v916", v916,
                      "--banner-top", a.banner_top,
-                     "--banner-bottom", a.banner_bottom]
+                     "--banner-bottom", a.banner_bottom,
+                     "--banner-color", a.banner_color]
             if a.draft:
                 bcmd += ["--draft"]
         else:

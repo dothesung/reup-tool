@@ -7,8 +7,24 @@ from pydantic import BaseModel
 from typing import Optional
 
 from app.services import worker
+from app.routers.settings import load_settings
 
 router = APIRouter(prefix="/api/v1", tags=["jobs"])
+
+# Settings là cấu hình chung, ĐÈ LÊN preset cho các key trùng nhau
+# (để đổi ở trang Cài đặt là có tác dụng ngay với mọi job).
+# Preset vẫn giữ vai trò cho các key riêng (draft/final size, hwaccel, mô tả...).
+SETTING_KEYS = ["engine", "jobs", "v916", "banner_top", "banner_bottom",
+                "banner_color", "frost_alpha", "frost_auto", "with_sub",
+                "output_mode", "auto_upload", "share_drive_link", "nexray_url"]
+
+def merge_settings(preset: dict) -> dict:
+    st = load_settings()
+    merged = dict(preset or {})
+    for k in SETTING_KEYS:
+        if st.get(k) not in (None, ""):
+            merged[k] = st[k]
+    return merged
 
 PRESETS_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "presets"))
 
@@ -45,6 +61,7 @@ def pipeline_create(body: JobCreate):
     jid = uuid.uuid4().hex[:12]
     preset = load_preset(body.preset)
     preset["src_lang"] = body.src_lang
+    preset = merge_settings(preset)
     worker.start_job_async(jid, body.url, preset)
     return {"id": jid, "url": body.url, "preset": body.preset, "status": "pending"}
 
@@ -65,7 +82,7 @@ def pipeline_get(jid: str):
 def pipeline_continue(jid: str, preset_name: str = "review_phim"):
     if jid not in worker.JOB_STATE:
         raise HTTPException(404, "Job không tìm thấy")
-    preset = load_preset(preset_name)
+    preset = merge_settings(load_preset(preset_name))
     worker.continue_job_async(jid, preset)
     return {"id": jid, "status": "dubbing"}
 

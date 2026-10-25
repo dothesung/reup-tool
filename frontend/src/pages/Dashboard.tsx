@@ -9,6 +9,7 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
   const [presets, setPresets] = useState<any[]>([]);
   const [msg, setMsg] = useState("");
   const [msgKind, setMsgKind] = useState("msg-info");
+  const [presetLoaded, setPresetLoaded] = useState(false);
 
   const refresh = async () => {
     try {
@@ -16,6 +17,12 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
       setJobs(await r.json());
       const p = await fetch(`${API}/presets`);
       setPresets(await p.json());
+      if (!presetLoaded) {
+        const s = await fetch(`${API}/settings`);
+        const st = await s.json();
+        if (st.default_preset) setPreset(st.default_preset);
+        setPresetLoaded(true);
+      }
     } catch { /* backend chưa chạy */ }
   };
 
