@@ -1,5 +1,6 @@
 """Reup Tool — FastAPI backend (scaffold tuần 1)."""
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
 import uuid
@@ -7,6 +8,12 @@ import uuid
 from app.routers import editor, jobs
 
 app = FastAPI(title="Reup Tool", version="1.0.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(editor.router)
 app.include_router(jobs.router)
 
