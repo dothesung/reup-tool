@@ -1,4 +1,5 @@
 {
+ "admin_contact": "0981228722",
  "auto_upload": true,
  "banner_bottom": "PHIM HAY MỖI NGÀY",
  "banner_color": "FFCC00",
@@ -12,11 +13,13 @@
  "facebook_page_token": "",
  "frost_alpha": 0.2,
  "frost_auto": false,
+ "hashtags": "",
  "jobs": 4,
  "max_parallel_jobs": 2,
  "nexray_url": "",
  "output_mode": "final",
  "share_drive_link": false,
+ "title_template": "{title}",
  "translate_email": "",
  "v916": "square",
  "with_sub": false

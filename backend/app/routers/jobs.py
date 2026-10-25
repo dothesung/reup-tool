@@ -18,7 +18,8 @@ router = APIRouter(prefix="/api/v1", tags=["jobs"])
 SETTING_KEYS = ["engine", "jobs", "capcut_voice", "max_parallel_jobs",
                 "v916", "banner_top", "banner_bottom",
                 "banner_color", "frost_alpha", "frost_auto", "with_sub",
-                "output_mode", "auto_upload", "share_drive_link", "nexray_url"]
+                "output_mode", "auto_upload", "share_drive_link", "nexray_url",
+                "title_template", "hashtags"]
 
 def merge_settings(preset: dict) -> dict:
     st = load_settings()

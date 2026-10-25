@@ -150,7 +150,8 @@ def continue_job(job_id: str, preset: dict):
 
         # B3: dub + burn (dùng reup.py stage 2)
         # Flag lấy từ preset (đã merge settings làm mặc định ở jobs router).
-        cmd = ["python3", "reup.py", "", "--workdir", wd, "--srt", "sub_vi.srt"]
+        orig_url = JOB_STATE.get(job_id, {}).get("url", "")
+        cmd = ["python3", "reup.py", orig_url, "--workdir", wd, "--srt", "sub_vi.srt"]
         if frost_cfg.get("frost"):
             cmd += ["--frost", frost_cfg["frost"]]
         elif preset.get("frost_auto"):
@@ -181,6 +182,10 @@ def continue_job(job_id: str, preset: dict):
             cmd += ["--no-upload"]
         if preset.get("share_drive_link"):
             cmd += ["--share"]
+        if preset.get("title_template"):
+            cmd += ["--title-template", preset["title_template"]]
+        if preset.get("hashtags"):
+            cmd += ["--hashtags", preset["hashtags"]]
 
         env = dict(os.environ)
         if preset.get("nexray_url"):

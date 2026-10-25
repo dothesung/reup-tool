@@ -184,6 +184,10 @@ def main():
     ap.add_argument("--banner-bottom", default="PHIM HAY MỖI NGÀY")
     ap.add_argument("--banner-color", default="FFCC00",
                     help="mau khung 9:16 (hex, khong #)")
+    ap.add_argument("--title-template", default="{title}",
+                    help="mau tieu de caption, {title} = tieu de goc")
+    ap.add_argument("--hashtags", default="",
+                    help="hashtag them vao cuoi caption, vd '#reviewphim #phimhay'")
     ap.add_argument("--frost-alpha", type=float, default=0.2,
                     help="do mo thanh che sub cu (0.05-0.9)")
     ap.add_argument("--draft", action="store_true",
@@ -370,10 +374,14 @@ def main():
     cap_txt = wd / "caption.txt"
     try:
         cues = parse_srt_simple(str(srt_vi))
-        lines = [f"TITLE: {(meta.get('title') or '').strip()}",
+        orig_title = (meta.get("title") or "").strip()
+        title_out = (a.title_template or "{title}").replace("{title}", orig_title)
+        lines = [f"TITLE: {title_out}",
                  f"URL: {a.url}", ""]
         for i, (t1, t2, txt) in enumerate(cues, 1):
             lines.append(f"[{fmt_ts(t1)} --> {fmt_ts(t2)}] {txt}")
+        if (a.hashtags or "").strip():
+            lines += ["", (a.hashtags or "").strip()]
         cap_txt.write_text("\n".join(lines), encoding="utf-8")
     except Exception as e:
         log(f"  (ghi caption.txt loi: {e})")

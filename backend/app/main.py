@@ -7,7 +7,7 @@ import uuid
 
 from app.routers import editor, jobs, settings, license
 
-app = FastAPI(title="Reup Tool", version="1.5.0")
+app = FastAPI(title="Reup Tool", version="1.6.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -35,7 +35,7 @@ class JobUpdate(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "1.5.0"}
+    return {"status": "ok", "version": "1.6.0"}
 
 @app.post("/jobs")
 def create_job(body: JobCreate):

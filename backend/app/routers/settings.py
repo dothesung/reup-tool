@@ -24,12 +24,16 @@ SECRET_FIELDS = {"facebook_page_token"}
 DEFAULTS = {
     # Thương hiệu (hiện ở nav, phục vụ thương mại hóa)
     "brand_name": "Reup Tool",
+    "admin_contact": "0981228722",  # Zalo/SĐT liên hệ mua key (hiện ở Dashboard + footer)
     # Chung
     "default_preset": "review_phim",
     "default_src_lang": "zh-CN",
     "auto_upload": True,        # False -> reup.py --no-upload
     "share_drive_link": False,  # True -> reup.py --share (link public)
     "output_mode": "final",    # final | draft (-> --draft: 720x1280, ultrafast)
+    # Tiêu đề & hashtag (caption.txt + mô tả khi đăng Fanpage)
+    "title_template": "{title}",  # {title} = tiêu đề gốc
+    "hashtags": "",
     # Lồng tiếng
     "engine": "kokoro",        # kokoro | capcut
     "jobs": 4,                  # số TTS song song (1-8)
@@ -80,11 +84,14 @@ def get_settings():
 
 class SettingsSave(BaseModel):
     brand_name: Optional[str] = None
+    admin_contact: Optional[str] = None
     default_preset: Optional[str] = None
     default_src_lang: Optional[str] = None
     auto_upload: Optional[bool] = None
     share_drive_link: Optional[bool] = None
     output_mode: Optional[str] = None
+    title_template: Optional[str] = None
+    hashtags: Optional[str] = None
     engine: Optional[str] = None
     jobs: Optional[int] = None
     capcut_voice: Optional[str] = None
