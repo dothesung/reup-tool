@@ -5,6 +5,8 @@ Nhà cung cấp tùy chỉnh trong Cài đặt → tab AI: base_url + api_key + 
 Preset sẵn: OpenAI, DeepSeek, OpenRouter, Gemini (chế độ tương thích OpenAI),
 hoặc base_url tùy chỉnh bất kỳ (LM Studio, Ollama, proxy riêng...).
 """
+import os
+
 import httpx
 
 PROVIDERS = {
@@ -16,27 +18,59 @@ PROVIDERS = {
 }
 
 
+def _post(url: str, **kw):
+    """POST qua httpx, xử lý proxy đúng cho cả 2 môi trường:
+    - localhost: không proxy (trust_env=False).
+    - external: dùng proxy từ env NẾU hợp lệ (tránh lỗi parse NO_PROXY chứa
+      IPv6 dạng [::1] của httpx), kèm trust_env=False để không đọc lại NO_PROXY.
+      Trên máy thật không có proxy env thì đi trực tiếp, vẫn chạy.
+    """
+    from urllib.parse import urlparse
+    host = (urlparse(url).hostname or "").lower()
+    if host in ("localhost", "127.0.0.1", "::1"):
+        return httpx.post(url, trust_env=False, **kw)
+    proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy") \
+        or os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy")
+    if proxy:
+        try:
+            p = urlparse(proxy)
+            if p.scheme in ("http", "https") and p.hostname and p.port:
+                return httpx.post(url, proxy=proxy, trust_env=False, **kw)
+        except Exception:
+            pass
+    return httpx.post(url, trust_env=False, **kw)
+
+
 def chat(base_url: str, api_key: str, model: str, messages: list,
          temperature: float = 0.3, timeout: int = 120) -> str:
     """Gọi chat completions, trả về nội dung text. Raise RuntimeError khi lỗi."""
     if not base_url or not api_key or not model:
         raise RuntimeError("Chưa cấu hình LLM trong Cài đặt → tab AI (base_url, api_key, model)")
     url = base_url.rstrip("/") + "/chat/completions"
-    # trust_env=False: không đi qua proxy của môi trường (tránh lộ API key
-    # qua proxy, và tránh lỗi proxy env hỏng trên một số máy/VM)
-    r = httpx.post(url, json={
-        "model": model,
-        "messages": messages,
-        "temperature": temperature,
-    }, headers={"Authorization": f"Bearer {api_key}"}, timeout=timeout,
-        trust_env=False)
-    try:
-        out = r.json()
-    except Exception:
-        raise RuntimeError(f"LLM trả về không phải JSON (HTTP {r.status_code})")
-    if "error" in out:
+    # Thử lại tối đa 3 lần khi lỗi phía upstream (502/5xx, "Could not connect"):
+    # proxy free-tier thỉnh thoảng sập 1 nhịp rồi chạy lại ngay sau đó.
+    last_err = None
+    for attempt in range(3):
+        r = _post(url, json={
+            "model": model,
+            "messages": messages,
+            "temperature": temperature,
+        }, headers={"Authorization": f"Bearer {api_key}"}, timeout=timeout)
+        try:
+            out = r.json()
+        except Exception:
+            raise RuntimeError(f"LLM trả về không phải JSON (HTTP {r.status_code})")
+        if "error" not in out:
+            break
         e = out["error"]
-        raise RuntimeError(f"LLM lỗi: {e.get('message', e)}")
+        last_err = f"LLM lỗi: {e.get('message', e)}"
+        retryable = r.status_code >= 500 or "could not connect" in str(e.get("message", "")).lower()
+        if not retryable or attempt == 2:
+            raise RuntimeError(last_err)
+        import time
+        time.sleep(5 * (attempt + 1))
+    else:
+        raise RuntimeError(last_err or "LLM lỗi không rõ")
     try:
         return out["choices"][0]["message"]["content"].strip()
     except Exception:
