@@ -20,8 +20,7 @@ export default function App() {
   const initial = parseHash();
   const [page, setPage] = useState<Page>(initial.page);
   const [editJob, setEditJob] = useState(initial.job);
-  const [brand, setBrand] = useState("Reup Tool");
-  const [contact, setContact] = useState("0981228722");
+  const [brand, setBrand] = useState("Reup Tool");  const [contact, setContact] = useState("0981228722");
   const [license, setLicense] = useState<any>(null);
   const [showLicense, setShowLicense] = useState(false);
 
@@ -51,7 +50,7 @@ export default function App() {
   return (
     <div>
       <nav className="nav">
-        <div className="nav-brand">{brand} <span>v1.7</span></div>
+        <div className="nav-brand">{brand} <span>v1.8</span></div>
         <a className={page === "dashboard" ? "active" : ""} onClick={() => go("dashboard")}>Dashboard</a>
         <a className={page === "editor" ? "active" : ""} onClick={() => go("editor")}>Editor</a>
         <a className={page === "presets" ? "active" : ""} onClick={() => go("presets")}>Preset</a>

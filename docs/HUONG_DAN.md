@@ -129,3 +129,14 @@ API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret t
 - **Kích hoạt:** cũng trong popup đó — dán key → Kích hoạt. Không còn khung
   điền key chiếm chỗ trên Dashboard.
 - Lưu ý: key đã bán không thu hồi từ xa được (tool kiểm tra offline bằng chữ ký).
+
+## AI — dịch phụ đề & viết caption (v1.8)
+
+- Cài đặt → tab AI: bật AI, chọn nhà cung cấp (DeepSeek / OpenAI / OpenRouter /
+  Gemini / Tùy chỉnh), nhập API key + model, bấm "Kiểm tra kết nối".
+  Đổi provider tự điền base URL chuẩn. Key lưu local, chỉ hiện •••• + 4 ký tự cuối.
+- Editor → Sub → "✨ Dịch bằng AI": dịch có ngữ cảnh, giữ đúng số cue; nếu LLM
+  trả lệch số dòng sẽ báo lỗi và KHÔNG ghi đè.
+- Editor → tab AI Caption → "Viết bằng AI" → sửa lại → "Áp dụng cho job này":
+  caption riêng của job (caption_override.json), không đổi mẫu chung.
+- Đóng gói Win/Mac: xem docs/PACKAGING.md (PyInstaller + GitHub Actions).

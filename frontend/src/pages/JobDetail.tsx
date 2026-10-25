@@ -11,7 +11,11 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
   const [cover, setCover] = useState<string | null>(null);
   const [detect, setDetect] = useState<any>(null);
   const [msg, setMsg] = useState("");
-  const [tab, setTab] = useState<"frost" | "subs">("frost");
+  const [tab, setTab] = useState<"frost" | "subs" | "caption">("frost");
+  const [capTitle, setCapTitle] = useState("");
+  const [capTags, setCapTags] = useState("");
+  const [capOrig, setCapOrig] = useState("");
+  const [capModel, setCapModel] = useState("");
   const [msgKind, setMsgKind] = useState("msg-info");
 
   // Phân giải ID: pipeline job id (12 ký tự hex) → workdir basename
@@ -70,6 +74,49 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
     }
   };
 
+  const onTranslateAI = async () => {
+    setMsg("Đang dịch bằng AI..."); setMsgKind("msg-info");
+    try {
+      const r = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}/translate-ai`, { method: "POST" });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.detail || r.statusText);
+      const s2 = await getSubs(jobId);
+      setCues(s2.cues);
+      setMsg(`Đã dịch AI ${d.count} cue bằng ${d.model}. Sửa tay rồi bấm Lưu.`);
+      setMsgKind("msg-ok");
+    } catch (e: any) {
+      setMsg("Dịch AI lỗi: " + e.message + " — bật AI và nhập API key trong Cài đặt → tab AI."); setMsgKind("msg-err");
+    }
+  };
+
+  const onCaptionAI = async () => {
+    setMsg("Đang viết tiêu đề + hashtag bằng AI..."); setMsgKind("msg-info");
+    try {
+      const r = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}/caption-ai`, { method: "POST" });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.detail || r.statusText);
+      setCapTitle(d.title); setCapTags(d.hashtags); setCapOrig(d.orig_title); setCapModel(d.model);
+      setMsg(`AI (${d.model}) đã viết xong — sửa lại nếu muốn rồi bấm "Áp dụng cho job này".`); setMsgKind("msg-ok");
+    } catch (e: any) {
+      setMsg("Caption AI lỗi: " + e.message + " — bật AI và nhập API key trong Cài đặt → tab AI."); setMsgKind("msg-err");
+    }
+  };
+
+  const onApplyCaption = async () => {
+    setMsg("Đang lưu caption riêng cho job..."); setMsgKind("msg-info");
+    try {
+      const r = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}/caption-override`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: capTitle, hashtags: capTags }),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.detail || r.statusText);
+      setMsg("Đã lưu — khi bấm Chạy tiếp, caption.txt sẽ dùng tiêu đề + hashtag này thay mẫu chung."); setMsgKind("msg-ok");
+    } catch (e: any) {
+      setMsg("Lưu caption lỗi: " + e.message); setMsgKind("msg-err");
+    }
+  };
+
   const onTranslate = async () => {
     setMsg("Đang dịch máy... (Google/MyMemory miễn phí, có thể mất vài chục giây)"); setMsgKind("msg-info");
     try {
@@ -107,6 +154,7 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
           <div className="tabs">
             <button className={tab === "frost" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("frost")}>Frost / Cover</button>
             <button className={tab === "subs" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("subs")}>Sub tiếng Việt ({cues.length} cue)</button>
+            <button className={tab === "caption" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("caption")}>✨ AI Caption</button>
           </div>
           {tab === "frost" && <div className="card">
             <button className="btn btn-ghost" style={{ marginBottom: 14 }} onClick={onDetect}>
@@ -127,9 +175,30 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
           {tab === "subs" && <div className="card">
             <div className="row" style={{ marginBottom: 12 }}>
               <button className="btn btn-ghost" onClick={onTranslate}>🤖 Dịch máy từ sub gốc</button>
+              <button className="btn btn-ghost" onClick={onTranslateAI}>✨ Dịch bằng AI</button>
               <span className="hint" style={{ alignSelf: "center" }}>Bản dịch máy để sửa tay — không thay người dịch. Cần email MyMemory trong Cài đặt nếu Google bị chặn.</span>
             </div>
             <SubEditor cues={cues} onChange={setCues} />
+          </div>}
+
+          {tab === "caption" && <div className="card">
+            <div className="row" style={{ marginBottom: 12 }}>
+              <button className="btn btn-brand" onClick={onCaptionAI}>✨ Viết tiêu đề + hashtag bằng AI</button>
+              <span className="hint" style={{ alignSelf: "center" }}>Dựa trên sub gốc + tiêu đề gốc. Chưa cấu hình AI? Vào Cài đặt → tab AI.</span>
+            </div>
+            {capOrig && <div className="hint" style={{ marginBottom: 12 }}>Tiêu đề gốc: {capOrig}{capModel ? ` · AI: ${capModel}` : ""}</div>}
+            <div className="field">
+              <label>Tiêu đề</label>
+              <input className="input" value={capTitle} onChange={e => setCapTitle(e.target.value)} placeholder="Bấm 'Viết bằng AI' hoặc nhập tay" />
+            </div>
+            <div className="field">
+              <label>Hashtag</label>
+              <input className="input" value={capTags} onChange={e => setCapTags(e.target.value)} placeholder="#tag1 #tag2 ..." />
+            </div>
+            <div className="row" style={{ marginTop: 12 }}>
+              <button className="btn btn-brand" onClick={onApplyCaption}>Áp dụng cho job này</button>
+              <span className="hint" style={{ alignSelf: "center" }}>Chỉ áp cho job này, không đổi mẫu chung trong Cài đặt.</span>
+            </div>
           </div>}
 
           <button className="btn btn-brand" style={{ padding: "14px 28px", fontSize: 16 }} onClick={onSave}>

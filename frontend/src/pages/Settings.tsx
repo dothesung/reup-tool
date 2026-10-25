@@ -10,6 +10,7 @@ const DEFAULTS: any = {
   banner_top: "REVIEW PHIM HAY", banner_bottom: "PHIM HAY MỖI NGÀY",
   banner_color: "FFCC00", frost_alpha: 0.2, frost_auto: false,
   nexray_url: "", facebook_page_id: "", facebook_page_token: "", translate_email: "",
+  llm_enabled: false, llm_provider: "deepseek", llm_base_url: "", llm_api_key: "", llm_model: "",
 };
 
 export default function Settings() {
@@ -18,6 +19,31 @@ export default function Settings() {
   const [msg, setMsg] = useState("");
   const [msgKind, setMsgKind] = useState("msg-info");
   const [fbSaved, setFbSaved] = useState(false);
+  const [llmSaved, setLlmSaved] = useState(false);
+  const [llmTest, setLlmTest] = useState("");
+  const LLM_PRESETS: Record<string, string> = {
+    openai: "https://api.openai.com/v1",
+    deepseek: "https://api.deepseek.com/v1",
+    openrouter: "https://openrouter.ai/api/v1",
+    gemini: "https://generativelanguage.googleapis.com/v1beta/openai/",
+    custom: "",
+  };
+  const onProvider = (pv: string) => {
+    setForm((f: any) => {
+      const cur = f.llm_base_url || "";
+      const isPreset = Object.values(LLM_PRESETS).includes(cur);
+      return { ...f, llm_provider: pv, llm_base_url: pv === "custom" ? cur : (cur === "" || isPreset ? LLM_PRESETS[pv] : cur) };
+    });
+  };
+  const testLlm = async () => {
+    setLlmTest("Đang kiểm tra kết nối...");
+    try {
+      const r = await fetch("http://localhost:8000/api/v1/settings/llm-test", { method: "POST" });
+      const d = await r.json();
+      if (!r.ok) { setLlmTest("Lỗi: " + (d.detail || r.statusText)); return; }
+      setLlmTest(`OK — model ${d.model}, trả lời: ${d.reply} (${d.ms}ms)`);
+    } catch (e: any) { setLlmTest("Lỗi: " + e.message); }
+  };
   const [tab, setTab] = useState("general");
   const TABS = [
     { id: "general", label: "Chung" },
@@ -25,6 +51,7 @@ export default function Settings() {
     { id: "dub", label: "Lồng tiếng" },
     { id: "frame", label: "Khung & Che" },
     { id: "keys", label: "Key & Tích hợp" },
+    { id: "ai", label: "AI" },
   ];
 
   useEffect(() => {
@@ -34,6 +61,7 @@ export default function Settings() {
         const { _secrets_saved, ...rest } = s;
         setForm({ ...DEFAULTS, ...rest, facebook_page_token: "" });
         setFbSaved(!!_secrets_saved?.facebook_page_token);
+        setLlmSaved(!!_secrets_saved?.llm_api_key);
         setPresets(await getPresets());
       } catch { setMsg("Không kết nối được backend."); setMsgKind("msg-err"); }
     })();
@@ -169,6 +197,28 @@ export default function Settings() {
           {field("Facebook Page Access Token", <input className="input" type="password" value={form.facebook_page_token} onChange={e => set("facebook_page_token", e.target.value)} placeholder={fbSaved ? "Đã lưu •••• — nhập mới để thay" : "Chưa lưu — dán token vào đây"} />, "Để trống = giữ nguyên key cũ. Token dùng cho tính năng Đăng Fanpage (sắp ra mắt).")}
         </div>
         <div className="hint">Google Drive dùng OAuth qua hatch CLI nên không cần nhập key. File settings.json đã nằm trong .gitignore — không push lên GitHub.</div>
+      </div>}
+
+      {tab === "ai" && <div className="card">
+        <h2 className="section-title">AI — Dịch phụ đề &amp; viết caption (chuẩn OpenAI-compatible)</h2>
+        <div className="grid2">
+          {check("Bật tính năng AI", "llm_enabled", "Tắt = nút Dịch AI / Caption AI báo chưa bật.")}
+          {field("Nhà cung cấp", <select className="select" value={form.llm_provider} onChange={e => onProvider(e.target.value)}>
+            <option value="deepseek">DeepSeek (rẻ, dịch tốt)</option>
+            <option value="openai">OpenAI</option>
+            <option value="openrouter">OpenRouter (nhiều model)</option>
+            <option value="gemini">Google Gemini (chế độ OpenAI-compat)</option>
+            <option value="custom">Tùy chỉnh (LM Studio / Ollama / proxy riêng)</option>
+          </select>)}
+          {field("Base URL", <input className="input" value={form.llm_base_url} onChange={e => set("llm_base_url", e.target.value)} placeholder="https://api.deepseek.com/v1" />, "Đổi provider sẽ tự điền URL chuẩn (nếu ô đang trống hoặc đang là URL preset khác).")}
+          {field("API Key", <input className="input" type="password" value={form.llm_api_key} onChange={e => set("llm_api_key", e.target.value)} placeholder={llmSaved ? "Đã lưu •••• — nhập mới để thay" : "Dán API key vào đây"} />, "Để trống = giữ nguyên key cũ. Key lưu local, API chỉ hiện •••• + 4 ký tự cuối.")}
+          {field("Model", <input className="input" value={form.llm_model} onChange={e => set("llm_model", e.target.value)} placeholder={form.llm_provider === "deepseek" ? "deepseek-chat" : form.llm_provider === "openai" ? "gpt-4o-mini" : form.llm_provider === "gemini" ? "gemini-2.0-flash" : "nhập tên model"} />)}
+        </div>
+        <div className="row" style={{ marginTop: 12 }}>
+          <button className="btn btn-dark" onClick={testLlm}>🔌 Kiểm tra kết nối</button>
+          {llmTest && <span className="hint" style={{ alignSelf: "center" }}>{llmTest}</span>}
+        </div>
+        <div className="hint" style={{ marginTop: 10 }}>Dịch AI và Caption AI dùng chung cấu hình này. Muốn đổi nhà cung cấp chỉ cần đổi 3 ô trên, không sửa code.</div>
       </div>}
 
       <div className="row">
