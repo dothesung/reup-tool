@@ -19,7 +19,7 @@ EXAMPLE_PATH = os.path.normpath(os.path.join(
     os.path.dirname(__file__), "..", "..", "..", "settings.example.json"))
 
 # Secret: không bao giờ trả full qua API
-SECRET_FIELDS = {"facebook_page_token"}
+SECRET_FIELDS = {"facebook_page_token", "llm_api_key"}
 
 DEFAULTS = {
     # Thương hiệu (hiện ở nav, phục vụ thương mại hóa)
@@ -52,6 +52,12 @@ DEFAULTS = {
     "translate_email": "",      # email cho MyMemory (tăng quota dịch miễn phí)
     "facebook_page_id": "",
     "facebook_page_token": "",
+    # AI (chuẩn OpenAI-compatible chat completions)
+    "llm_enabled": False,
+    "llm_provider": "deepseek",   # openai | deepseek | openrouter | gemini | custom
+    "llm_base_url": "",
+    "llm_api_key": "",
+    "llm_model": "",
 }
 
 
@@ -107,6 +113,11 @@ class SettingsSave(BaseModel):
     translate_email: Optional[str] = None
     facebook_page_id: Optional[str] = None
     facebook_page_token: Optional[str] = None
+    llm_enabled: Optional[bool] = None
+    llm_provider: Optional[str] = None
+    llm_base_url: Optional[str] = None
+    llm_api_key: Optional[str] = None
+    llm_model: Optional[str] = None
 
 
 @router.put("/settings")
@@ -135,3 +146,23 @@ def save_settings(body: SettingsSave):
     with open(SETTINGS_PATH, "w") as f:
         json.dump(cur, f, ensure_ascii=False, indent=1)
     return public_settings()
+
+
+@router.post("/settings/llm-test")
+def llm_test():
+    """Kiểm tra kết nối LLM: gọi 1 câu ngắn, trả về đúng 'OK' nếu chạy."""
+    from app.services import llm as llmsvc
+    from app.services.llm import PROVIDERS
+    import time
+    st = load_settings()
+    base = st.get("llm_base_url") or PROVIDERS.get(st.get("llm_provider", ""), "")
+    t0 = time.time()
+    try:
+        reply = llmsvc.chat(base, st.get("llm_api_key", ""), st.get("llm_model", ""), [
+            {"role": "user", "content": "Trả lời đúng 1 từ: OK"},
+        ], timeout=60)
+    except RuntimeError as e:
+        from fastapi import HTTPException
+        raise HTTPException(400, str(e))
+    return {"ok": True, "model": st.get("llm_model", ""),
+            "reply": reply[:100], "ms": int((time.time() - t0) * 1000)}

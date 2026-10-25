@@ -186,6 +186,22 @@ def continue_job(job_id: str, preset: dict):
             cmd += ["--title-template", preset["title_template"]]
         if preset.get("hashtags"):
             cmd += ["--hashtags", preset["hashtags"]]
+        # Caption riêng của job (từ tab AI Caption) đè lên mẫu chung
+        ov_path = os.path.join(wd, "caption_override.json")
+        if os.path.exists(ov_path):
+            try:
+                ov = json.load(open(ov_path))
+                if ov.get("title") and "--title-template" in cmd:
+                    cmd[cmd.index("--title-template") + 1] = ov["title"]
+                elif ov.get("title"):
+                    cmd += ["--title-template", ov["title"]]
+                if ov.get("hashtags") and "--hashtags" in cmd:
+                    cmd[cmd.index("--hashtags") + 1] = ov["hashtags"]
+                elif ov.get("hashtags"):
+                    cmd += ["--hashtags", ov["hashtags"]]
+                log(job_id, "Dùng caption riêng của job (AI Caption)")
+            except Exception as e:
+                log(job_id, f"Không đọc được caption_override.json: {e}")
 
         env = dict(os.environ)
         if preset.get("nexray_url"):

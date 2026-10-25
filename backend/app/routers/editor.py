@@ -149,6 +149,83 @@ def put_subs(jid: str, body: SubUpdate):
 class TranslateBody(BaseModel):
     pass
 
+def _resolve_llm(st: dict) -> dict:
+    """Lấy cấu hình LLM thật: provider preset lấp base_url khi trống."""
+    from app.services.llm import PROVIDERS
+    base = st.get("llm_base_url") or ""
+    if not base and st.get("llm_provider") in PROVIDERS:
+        base = PROVIDERS[st["llm_provider"]]
+    return {"base_url": base, "api_key": st.get("llm_api_key", ""),
+            "model": st.get("llm_model", "")}
+
+@router.post("/jobs/{jid}/translate-ai")
+def translate_ai(jid: str):
+    """Dịch resub.srt bằng LLM (chuẩn chat completions) -> sub_vi.srt nháp."""
+    from app.services import llm as llmsvc
+    from app.routers.settings import load_settings
+    wd = job_dir(jid)
+    src = os.path.join(wd, "resub.srt")
+    if not os.path.exists(src):
+        raise HTTPException(404, "Chưa có resub.srt — chạy stage 1 trước")
+    st = load_settings()
+    if not st.get("llm_enabled"):
+        raise HTTPException(400, "Chưa bật AI trong Cài đặt → tab AI")
+    try:
+        cues, model = llmsvc.translate_cues_ai(parse_srt(src), _resolve_llm(st))
+    except RuntimeError as e:
+        raise HTTPException(400, str(e))
+    write_srt(os.path.join(wd, "sub_vi.srt"), cues)
+    return {"job_id": jid, "model": model, "count": len(cues),
+            "note": "Bản dịch AI — sửa tay trong bảng trước khi bấm Chạy tiếp"}
+
+@router.post("/jobs/{jid}/caption-ai")
+def caption_ai(jid: str):
+    """Viết tiêu đề + hashtag bằng LLM từ sub gốc. Không ghi đè gì cả."""
+    from app.services import llm as llmsvc
+    from app.routers.settings import load_settings
+    wd = job_dir(jid)
+    src = os.path.join(wd, "resub.srt")
+    if not os.path.exists(src):
+        raise HTTPException(404, "Chưa có resub.srt — chạy stage 1 trước")
+    st = load_settings()
+    if not st.get("llm_enabled"):
+        raise HTTPException(400, "Chưa bật AI trong Cài đặt → tab AI")
+    meta = {}
+    mp = os.path.join(wd, "meta.json")
+    if os.path.exists(mp):
+        try:
+            meta = json.load(open(mp))
+        except Exception:
+            pass
+    try:
+        out = llmsvc.write_caption(meta.get("title", "") or "",
+                                   [c["text"] for c in parse_srt(src)],
+                                   _resolve_llm(st))
+    except RuntimeError as e:
+        raise HTTPException(400, str(e))
+    return {"job_id": jid, "orig_title": meta.get("title", ""), **out}
+
+class CaptionOverride(BaseModel):
+    title: str = ""
+    hashtags: str = ""
+
+@router.get("/jobs/{jid}/caption-override")
+def get_caption_override(jid: str):
+    wd = job_dir(jid)
+    p = os.path.join(wd, "caption_override.json")
+    if os.path.exists(p):
+        return json.load(open(p))
+    return {"title": "", "hashtags": ""}
+
+@router.post("/jobs/{jid}/caption-override")
+def set_caption_override(jid: str, body: CaptionOverride):
+    """Áp tiêu đề/hashtag riêng cho job này (đè lên mẫu chung khi chạy tiếp)."""
+    wd = job_dir(jid)
+    p = os.path.join(wd, "caption_override.json")
+    with open(p, "w", encoding="utf-8") as f:
+        json.dump({"title": body.title, "hashtags": body.hashtags}, f, ensure_ascii=False)
+    return {"job_id": jid, "saved": p}
+
 @router.post("/jobs/{jid}/translate")
 def translate_subs(jid: str):
     """Dịch máy resub.srt (chữ gốc) -> sub_vi.srt nháp để user sửa tay."""
