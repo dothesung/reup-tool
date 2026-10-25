@@ -4,22 +4,25 @@
 Private key KHÔNG commit lên GitHub — giữ file license_private.pem trên máy
 riêng (mật khẩu manager / USB). Public key đã nhúng trong services/license.py.
 
-Dùng:
+Dùng (chạy bằng venv python, vd: .venv/bin/python cli/gen_key.py ...):
   # Lần đầu: tạo cặp key (chỉ chạy 1 lần, public key in ra để nhúng vào code)
   python3 cli/gen_key.py --gen-keys
 
-  # Tạo key cho khách (key in ra gửi cho khách qua Zalo/email)
-  python3 cli/gen_key.py --plan personal --private-key ./license_private.pem
+  # Tạo key cho khách (key in ra gửi cho khách qua Zalo/email, đồng thời ghi sổ)
+  python3 cli/gen_key.py --plan personal --private-key ./license_private.pem --note "Anh A"
   python3 cli/gen_key.py --plan pro --months 1 --private-key ./license_private.pem
   python3 cli/gen_key.py --plan team --months 12 --private-key ./license_private.pem
 """
 import argparse
-import base64
-import json
-from datetime import date
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+from app.services import license as lic
 
 
 def gen_keys():
@@ -36,16 +39,6 @@ def gen_keys():
     print(pub_pem.decode())
 
 
-def make_key(plan: str, months: int, priv_path: str) -> str:
-    with open(priv_path, "rb") as f:
-        priv = serialization.load_pem_private_key(f.read(), password=None)
-    payload = {"plan": plan, "months": months, "issued": date.today().isoformat()}
-    payload_b = json.dumps(payload, separators=(",", ":")).encode()
-    sig = priv.sign(payload_b)
-    raw = payload_b + b"." + sig.hex().encode()
-    return "RT-" + base64.urlsafe_b64encode(raw).decode().rstrip("=")
-
-
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--gen-keys", action="store_true")
@@ -53,8 +46,12 @@ if __name__ == "__main__":
     ap.add_argument("--months", type=int, default=0,
                     help="0 = vĩnh viễn (chỉ personal), >0 = số tháng thuê bao")
     ap.add_argument("--private-key", default="./license_private.pem")
+    ap.add_argument("--note", default="")
     a = ap.parse_args()
     if a.gen_keys:
         gen_keys()
     else:
-        print(make_key(a.plan, a.months, a.private_key))
+        with open(a.private_key, "rb") as f:
+            key = lic.create_key(a.plan, a.months, f.read())
+        lic.record_issued(key, a.plan, a.months, a.note)
+        print(key)

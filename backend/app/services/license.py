@@ -21,6 +21,8 @@ from datetime import date, timedelta
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 LICENSE_PATH = os.path.join(ROOT, "license.json")
 TRIAL_PATH = os.path.join(ROOT, "trial.json")
+LEDGER_PATH = os.path.join(ROOT, "keys_issued.json")
+PRIVATE_KEY_PATH = os.path.join(ROOT, "license_private.pem")
 
 # Public key — công khai được, chỉ dùng để VERIFY (không ký được).
 PUBLIC_KEY_PEM = """-----BEGIN PUBLIC KEY-----
@@ -150,3 +152,35 @@ def count_trial_video():
     tr["videos_used"] = int(tr.get("videos_used", 0)) + 1
     with open(TRIAL_PATH, "w") as f:
         json.dump(tr, f)
+
+
+# ---------- Seller: tạo key + sổ key đã bán ----------
+
+def create_key(plan: str, months: int, priv_pem: bytes) -> str:
+    """Ký key mới bằng private key (chỉ người bán có file này)."""
+    from cryptography.hazmat.primitives import serialization
+    priv = serialization.load_pem_private_key(priv_pem, password=None)
+    payload = {"plan": plan, "months": int(months),
+               "issued": date.today().isoformat()}
+    payload_b = json.dumps(payload, separators=(",", ":")).encode()
+    sig = priv.sign(payload_b)
+    raw = payload_b + b"." + sig.hex().encode()
+    return "RT-" + base64.urlsafe_b64encode(raw).decode().rstrip("=")
+
+
+def record_issued(key: str, plan: str, months: int, note: str = "") -> dict:
+    """Ghi key đã bán vào sổ local (gitignored, chỉ máy người bán có)."""
+    ledger = _load_json(LEDGER_PATH)
+    items = ledger.get("items", []) if isinstance(ledger, dict) else []
+    entry = {"id": key[3:11], "plan": plan, "months": int(months),
+             "issued": date.today().isoformat(), "note": note or "",
+             "key_preview": key[:20] + "...", "key": key}
+    items.append(entry)
+    with open(LEDGER_PATH, "w") as f:
+        json.dump({"items": items}, f, ensure_ascii=False, indent=1)
+    return entry
+
+
+def list_issued() -> list:
+    ledger = _load_json(LEDGER_PATH)
+    return ledger.get("items", []) if isinstance(ledger, dict) else []
