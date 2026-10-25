@@ -4,7 +4,10 @@ from pydantic import BaseModel
 from typing import Optional
 import uuid
 
-app = FastAPI(title="Reup Tool", version="0.1.0")
+from app.routers import editor
+
+app = FastAPI(title="Reup Tool", version="0.2.0")
+app.include_router(editor.router)
 
 # Store tạm (tuần 1 dùng dict, tuần sau chuyển SQLite)
 jobs = {}
