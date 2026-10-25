@@ -262,6 +262,22 @@ def main():
         bar_y = int(fy0 / vh * pr_h)
         bar_h = int(fh0 / vh * pr_h)
         font_size, wrap_chars = 76, 24
+    elif vh > vw:
+        # Video DOC: burn bo qua canvas 9:16 (chi ap canvas khi vw > vh) -> output = kich thuoc goc.
+        # Toa do frost truyen vao da o dung khong gian output (= source) -> dung truc tiep, KHONG remap
+        # theo kieu square (remap cu day frost ra ngoai khung, vd 880:100 -> 1310:170 tren video 1280).
+        frost, playres, pr_h = frost_src, f"{vw}x{vh}", vh
+        fy_map, fh_map = fy0, fh0
+        surf_y, surf_h = 0, vh
+        font_size = 56
+        wrap_chars = 26
+        if not a.with_sub:
+            bar_h = int(fh_map + 20)
+        else:
+            bar_h = max(int(fh_map + 32), int(font_size * 2 * 1.3))
+        bar_y = int(fy_map + fh_map / 2 - bar_h / 2)
+        bar_y = max(int(surf_y), min(bar_y, int(surf_y + surf_h - bar_h)))
+        frost = f"{bar_y}:{bar_h}"
     else:
         # output 9:16 (draft 720x1280, full 1080x1920)
         OW, OH = (720, 1280) if a.draft else (1080, 1920)

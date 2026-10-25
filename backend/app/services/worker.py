@@ -68,34 +68,46 @@ def continue_job(job_id: str, preset: dict):
             raise RuntimeError("Chưa có sub_vi.srt")
 
         # Frost config (nếu user đã set qua FrostEditor)
+        # FrostEditor làm việc trong không gian 720x1280 → scale về kích thước source thật
         frost_cfg = {}
         cfg_path = os.path.join(wd, "frost_config.json")
         if os.path.exists(cfg_path):
             with open(cfg_path) as f:
                 frost_cfg = json.load(f)
+            src_mp4 = os.path.join(wd, "src.mp4")
+            try:
+                r = subprocess.run(
+                    ["ffprobe", "-v", "error", "-select_streams", "v:0",
+                     "-show_entries", "stream=height", "-of", "csv=p=0", src_mp4],
+                    capture_output=True, text=True, timeout=30)
+                vh = int(r.stdout.strip())
+                if vh and vh != 1280:
+                    s = vh / 1280
+                    for key in ("frost", "cover"):
+                        if frost_cfg.get(key):
+                            y, h = frost_cfg[key].split(":")
+                            frost_cfg[key] = f"{int(int(y) * s)}:{int(int(h) * s)}"
+                    log(job_id, f"Scale frost/cover x{s:.2f} về source {vh}p")
+            except Exception as e:
+                log(job_id, f"Không scale được frost (giữ nguyên): {e}")
 
         set_status(job_id, "dubbing", "Dub giọng Ngọc Huyền")
         log(job_id, "Dub + burn...")
 
         # B3: dub + burn (dùng reup.py stage 2)
+        # Lưu ý: reup.py tự hardcode frost-alpha 0.2 trong lệnh burn,
+        # và chưa hỗ trợ --hwaccel → không truyền 2 flag này.
         cmd = ["python3", "reup.py", "", "--workdir", wd, "--srt", "sub_vi.srt"]
         if frost_cfg.get("frost"):
             cmd += ["--frost", frost_cfg["frost"]]
         if frost_cfg.get("cover"):
             cmd += ["--cover", frost_cfg["cover"]]
-        cmd += ["--frost-alpha", str(frost_cfg.get("frost_alpha", 0.2))]
         if preset.get("v916"):
             cmd += ["--v916", preset["v916"]]
         if preset.get("banner_top"):
             cmd += ["--banner-top", preset["banner_top"]]
         if preset.get("banner_bottom"):
             cmd += ["--banner-bottom", preset["banner_bottom"]]
-        # Hardware encode trên macOS (VideoToolbox) hoặc NVENC
-        hw = preset.get("hwaccel", "")
-        if hw == "videotoolbox":
-            cmd += ["--hwaccel", "videotoolbox"]
-        elif hw == "nvenc":
-            cmd += ["--hwaccel", "nvenc"]
 
         r = subprocess.run(cmd, cwd=CAPCUT_DIR, capture_output=True,
                            text=True, timeout=3600)
