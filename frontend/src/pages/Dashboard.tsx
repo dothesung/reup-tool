@@ -10,6 +10,33 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
   const [msg, setMsg] = useState("");
   const [msgKind, setMsgKind] = useState("msg-info");
   const [presetLoaded, setPresetLoaded] = useState(false);
+  const [license, setLicense] = useState<any>(null);
+  const [keyInput, setKeyInput] = useState("");
+
+  const refreshLicense = async () => {
+    try {
+      const r = await fetch(`${API}/license`);
+      setLicense(await r.json());
+    } catch { /* backend chưa chạy */ }
+  };
+
+  const activate = async () => {
+    if (!keyInput.trim()) return;
+    setMsg("Đang kích hoạt key..."); setMsgKind("msg-info");
+    const r = await fetch(`${API}/license/activate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: keyInput.trim() }),
+    });
+    if (!r.ok) {
+      const e = await r.json().catch(() => ({}));
+      setMsg("Kích hoạt lỗi: " + (e.detail || r.statusText)); setMsgKind("msg-err");
+      return;
+    }
+    setLicense(await r.json());
+    setKeyInput("");
+    setMsg("Kích hoạt thành công."); setMsgKind("msg-ok");
+  };
 
   const refresh = async () => {
     try {
@@ -28,6 +55,7 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
 
   useEffect(() => {
     refresh();
+    refreshLicense();
     const t = setInterval(refresh, 5000);
     return () => clearInterval(t);
   }, []);
@@ -62,6 +90,25 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
     <div className="page">
       <h1>Dashboard</h1>
       <p className="page-subtitle">Tạo job reup mới, theo dõi tiến trình realtime (tự cập nhật mỗi 5 giây).</p>
+
+      {license && (
+        <div className="card">
+          <div className="row">
+            <span>
+              {license.mode === "licensed" && <>✅ Bản quyền: <b>{license.plan}</b>{license.exp ? ` — hết hạn ${license.exp}` : " — vĩnh viễn"}</>}
+              {license.mode === "trial" && <>🆓 Dùng thử: còn <b>{license.days_left} ngày</b> / <b>{license.videos_left} video</b></>}
+              {license.mode === "dev" && <>🛠 Chế độ dev (bypass license)</>}
+              {(license.mode === "expired" || license.mode === "invalid") && <>⛔ {license.mode === "expired" ? "Hết dùng thử / key hết hạn" : "Key không hợp lệ"} — nhập key bên dưới để tiếp tục</>}
+            </span>
+          </div>
+          {license.mode !== "licensed" && license.mode !== "dev" && (
+            <div className="row" style={{ marginTop: 10 }}>
+              <input className="input input-flex" value={keyInput} onChange={e => setKeyInput(e.target.value)} placeholder="Dán key bản quyền (RT-...) vào đây..." />
+              <button className="btn btn-dark" onClick={activate}>🔑 Kích hoạt</button>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="card">
         <div className="row">

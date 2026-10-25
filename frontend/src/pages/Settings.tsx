@@ -7,7 +7,7 @@ const DEFAULTS: any = {
   engine: "kokoro", jobs: 4, with_sub: false, v916: "square",
   banner_top: "REVIEW PHIM HAY", banner_bottom: "PHIM HAY MỖI NGÀY",
   banner_color: "FFCC00", frost_alpha: 0.2, frost_auto: false,
-  nexray_url: "", facebook_page_id: "", facebook_page_token: "",
+  nexray_url: "", facebook_page_id: "", facebook_page_token: "", translate_email: "",
 };
 
 export default function Settings() {
@@ -156,6 +156,7 @@ export default function Settings() {
         <h2 className="section-title">Tích hợp &amp; Key</h2>
         <div className="grid2">
           {field("Nexray API URL (tải video)", <input className="input" value={form.nexray_url} onChange={e => set("nexray_url", e.target.value)} placeholder="Để trống = dùng mặc định" />, "Điền khi tự host nexray riêng (tránh chặn IP).")}
+          {field("Email cho MyMemory (dịch miễn phí)", <input className="input" value={form.translate_email} onChange={e => set("translate_email", e.target.value)} placeholder="Để trống = quota ẩn danh thấp" />, "Có email → quota dịch 50.000 ký tự/ngày. Chỉ dùng làm mã quota, không phải mật khẩu.")}
           {field("Facebook Page ID", <input className="input" value={form.facebook_page_id} onChange={e => set("facebook_page_id", e.target.value)} placeholder="VD: 123456789..." />)}
           {field("Facebook Page Access Token", <input className="input" type="password" value={form.facebook_page_token} onChange={e => set("facebook_page_token", e.target.value)} placeholder={fbSaved ? "Đã lưu •••• — nhập mới để thay" : "Chưa lưu — dán token vào đây"} />, "Để trống = giữ nguyên key cũ. Token dùng cho tính năng Đăng Fanpage (sắp ra mắt).")}
         </div>

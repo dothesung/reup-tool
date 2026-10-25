@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import FrostEditor from "../components/FrostEditor";
 import SubEditor from "../components/SubEditor";
-import { getJobInfo, getSubs, saveSubs, getFrost, saveFrost, detectText } from "../api";
+import { getJobInfo, getSubs, saveSubs, getFrost, saveFrost, detectText, translateSubs } from "../api";
 
 export default function JobDetail({ initialJobId = "" }: { initialJobId?: string }) {
   const [jobId, setJobId] = useState(initialJobId);
@@ -69,6 +69,19 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
     }
   };
 
+  const onTranslate = async () => {
+    setMsg("Đang dịch máy... (Google/MyMemory miễn phí, có thể mất vài chục giây)"); setMsgKind("msg-info");
+    try {
+      const r = await translateSubs(jobId);
+      const s = await getSubs(jobId);
+      setCues(s.cues);
+      setMsg(`Đã dịch máy ${r.count} cue bằng ${r.engine}${r.errors ? ` — ${r.errors} cue lỗi, giữ chữ gốc` : ""}. Sửa tay rồi bấm Lưu.`);
+      setMsgKind(r.errors ? "msg-info" : "msg-ok");
+    } catch (e: any) {
+      setMsg("Dịch lỗi: " + e.message + " — kiểm tra email MyMemory trong Cài đặt hoặc viết tay."); setMsgKind("msg-err");
+    }
+  };
+
   return (
     <div className="page">
       <h1>Editor</h1>
@@ -109,6 +122,10 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
 
           <h2>2. Sub tiếng Việt</h2>
           <div className="card">
+            <div className="row" style={{ marginBottom: 12 }}>
+              <button className="btn btn-ghost" onClick={onTranslate}>🤖 Dịch máy từ sub gốc</button>
+              <span className="hint" style={{ alignSelf: "center" }}>Bản dịch máy để sửa tay — không thay người dịch. Cần email MyMemory trong Cài đặt nếu Google bị chặn.</span>
+            </div>
             <SubEditor cues={cues} onChange={setCues} />
           </div>
 

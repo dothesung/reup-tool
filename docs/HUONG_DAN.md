@@ -73,3 +73,22 @@ Mẫu: `settings.example.json`.
 | Tích hợp & Key | Nexray URL, Facebook Page ID/Token | Nexray qua env `NEXRAY_URL`; token FB lưu che (•••• + 4 ký tự cuối), để trống = giữ nguyên — dùng cho tính năng Đăng Fanpage sắp ra mắt. Drive dùng OAuth qua hatch CLI, không cần key. |
 
 API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret trống = giữ nguyên).
+
+## Bản quyền & dùng thử (v1.4)
+
+- Chưa có key: dùng thử 7 ngày / 10 video (tự bắt đầu khi mở app lần đầu).
+- Hết trial: tạo job bị chặn (HTTP 402) — nhập key ở thanh license trên Dashboard.
+- Key do người bán tạo bằng `cli/gen_key.py` + file `license_private.pem`
+  (chỉ người bán giữ, KHÔNG commit): personal 1 máy vĩnh viễn, pro 3 máy,
+  team 5 máy, thuê bao theo tháng (key chứa hạn, kích hoạt gắn máy).
+- Tool chỉ chứa public key để verify — không tự ký key giả được.
+- Người bán test: `REUP_LICENSE_DEV=1` để bypass.
+
+## Dịch máy (v1.4)
+
+- Nút "🤖 Dịch máy từ sub gốc" trong Editor: dịch resub.srt (chữ gốc) thành
+  sub_vi.srt nháp qua Google gtx, fallback MyMemory miễn phí.
+- Nhập email vào Cài đặt → Key & Tích hợp → "Email cho MyMemory" để tăng
+  quota dịch lên 50.000 ký tự/ngày (Google hay bị chặn IP datacenter).
+- Bản dịch máy luôn thô — sửa tay trong bảng trước khi bấm Chạy tiếp.
+  Cue nào dịch lỗi sẽ giữ nguyên chữ gốc và báo số cue lỗi.

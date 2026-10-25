@@ -65,6 +65,12 @@ export async function getPresets() {
   return r.json();
 }
 
+export async function translateSubs(jid: string) {
+  const r = await fetch(`${API}/jobs/${jid}/translate`, { method: "POST" });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
 export function frameUrl(jid: string, t: number, w = 720) {
   return `${API}/jobs/${jid}/frame?t=${t}&w=${w}`;
 }
