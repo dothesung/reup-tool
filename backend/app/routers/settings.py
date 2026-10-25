@@ -152,17 +152,16 @@ def save_settings(body: SettingsSave):
 def llm_test():
     """Kiểm tra kết nối LLM: gọi 1 câu ngắn, trả về đúng 'OK' nếu chạy."""
     from app.services import llm as llmsvc
-    from app.services.llm import PROVIDERS
     import time
     st = load_settings()
-    base = st.get("llm_base_url") or PROVIDERS.get(st.get("llm_provider", ""), "")
+    cfg = llmsvc.resolve_llm(st)
     t0 = time.time()
     try:
-        reply = llmsvc.chat(base, st.get("llm_api_key", ""), st.get("llm_model", ""), [
+        reply = llmsvc.chat(cfg["base_url"], cfg["api_key"], cfg["model"], [
             {"role": "user", "content": "Trả lời đúng 1 từ: OK"},
         ], timeout=60)
     except RuntimeError as e:
         from fastapi import HTTPException
         raise HTTPException(400, str(e))
-    return {"ok": True, "model": st.get("llm_model", ""),
+    return {"ok": True, "model": cfg["model"],
             "reply": reply[:100], "ms": int((time.time() - t0) * 1000)}

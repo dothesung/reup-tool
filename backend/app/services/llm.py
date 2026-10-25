@@ -14,8 +14,26 @@ PROVIDERS = {
     "deepseek": "https://api.deepseek.com/v1",
     "openrouter": "https://openrouter.ai/api/v1",
     "gemini": "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "gemini-free": "https://api-gemini.zinghay-com.workers.dev/v1",
     "custom": "",
 }
+
+# Model mặc định khi user chưa nhập model (chỉ lấp khi trống)
+PROVIDER_MODELS = {
+    "openai": "gpt-4o-mini",
+    "deepseek": "deepseek-chat",
+    "gemini": "gemini-2.0-flash",
+    "gemini-free": "gemini-free",
+    "openrouter": "",
+    "custom": "",
+}
+
+
+def resolve_llm(st: dict) -> dict:
+    """Lấy cấu hình LLM thật: preset lấp base_url/model khi user để trống."""
+    base = st.get("llm_base_url") or PROVIDERS.get(st.get("llm_provider", ""), "")
+    model = st.get("llm_model") or PROVIDER_MODELS.get(st.get("llm_provider", ""), "")
+    return {"base_url": base, "api_key": st.get("llm_api_key", ""), "model": model}
 
 
 def _post(url: str, **kw):

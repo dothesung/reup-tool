@@ -150,13 +150,9 @@ class TranslateBody(BaseModel):
     pass
 
 def _resolve_llm(st: dict) -> dict:
-    """Lấy cấu hình LLM thật: provider preset lấp base_url khi trống."""
-    from app.services.llm import PROVIDERS
-    base = st.get("llm_base_url") or ""
-    if not base and st.get("llm_provider") in PROVIDERS:
-        base = PROVIDERS[st["llm_provider"]]
-    return {"base_url": base, "api_key": st.get("llm_api_key", ""),
-            "model": st.get("llm_model", "")}
+    """Lấy cấu hình LLM thật (preset lấp base_url/model khi trống)."""
+    from app.services.llm import resolve_llm
+    return resolve_llm(st)
 
 @router.post("/jobs/{jid}/translate-ai")
 def translate_ai(jid: str):

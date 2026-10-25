@@ -26,13 +26,27 @@ export default function Settings() {
     deepseek: "https://api.deepseek.com/v1",
     openrouter: "https://openrouter.ai/api/v1",
     gemini: "https://generativelanguage.googleapis.com/v1beta/openai/",
+    "gemini-free": "https://api-gemini.zinghay-com.workers.dev/v1",
+    custom: "",
+  };
+  const LLM_MODELS: Record<string, string> = {
+    openai: "gpt-4o-mini",
+    deepseek: "deepseek-chat",
+    gemini: "gemini-2.0-flash",
+    "gemini-free": "gemini-free",
+    openrouter: "",
     custom: "",
   };
   const onProvider = (pv: string) => {
     setForm((f: any) => {
       const cur = f.llm_base_url || "";
       const isPreset = Object.values(LLM_PRESETS).includes(cur);
-      return { ...f, llm_provider: pv, llm_base_url: pv === "custom" ? cur : (cur === "" || isPreset ? LLM_PRESETS[pv] : cur) };
+      return {
+        ...f,
+        llm_provider: pv,
+        llm_base_url: pv === "custom" ? cur : (cur === "" || isPreset ? LLM_PRESETS[pv] : cur),
+        llm_model: f.llm_model === "" ? LLM_MODELS[pv] : f.llm_model,
+      };
     });
   };
   const testLlm = async () => {
@@ -208,11 +222,12 @@ export default function Settings() {
             <option value="openai">OpenAI</option>
             <option value="openrouter">OpenRouter (nhiều model)</option>
             <option value="gemini">Google Gemini (chế độ OpenAI-compat)</option>
+            <option value="gemini-free">Gemini Free (proxy zinghay — 1 model gemini-free)</option>
             <option value="custom">Tùy chỉnh (LM Studio / Ollama / proxy riêng)</option>
           </select>)}
           {field("Base URL", <input className="input" value={form.llm_base_url} onChange={e => set("llm_base_url", e.target.value)} placeholder="https://api.deepseek.com/v1" />, "Đổi provider sẽ tự điền URL chuẩn (nếu ô đang trống hoặc đang là URL preset khác).")}
           {field("API Key", <input className="input" type="password" value={form.llm_api_key} onChange={e => set("llm_api_key", e.target.value)} placeholder={llmSaved ? "Đã lưu •••• — nhập mới để thay" : "Dán API key vào đây"} />, "Để trống = giữ nguyên key cũ. Key lưu local, API chỉ hiện •••• + 4 ký tự cuối.")}
-          {field("Model", <input className="input" value={form.llm_model} onChange={e => set("llm_model", e.target.value)} placeholder={form.llm_provider === "deepseek" ? "deepseek-chat" : form.llm_provider === "openai" ? "gpt-4o-mini" : form.llm_provider === "gemini" ? "gemini-2.0-flash" : "nhập tên model"} />)}
+          {field("Model", <input className="input" value={form.llm_model} onChange={e => set("llm_model", e.target.value)} placeholder={LLM_MODELS[form.llm_provider] || "nhập tên model"} />)}
         </div>
         <div className="row" style={{ marginTop: 12 }}>
           <button className="btn btn-dark" onClick={testLlm}>🔌 Kiểm tra kết nối</button>
