@@ -5,9 +5,9 @@ from pydantic import BaseModel
 from typing import Optional
 import uuid
 
-from app.routers import editor, jobs, settings
+from app.routers import editor, jobs, settings, license
 
-app = FastAPI(title="Reup Tool", version="1.2.0")
+app = FastAPI(title="Reup Tool", version="1.4.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,6 +17,7 @@ app.add_middleware(
 app.include_router(editor.router)
 app.include_router(jobs.router)
 app.include_router(settings.router)
+app.include_router(license.router)
 
 # Store tạm (tuần 1 dùng dict, tuần sau chuyển SQLite)
 jobs = {}
@@ -34,7 +35,7 @@ class JobUpdate(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "1.2.0"}
+    return {"status": "ok", "version": "1.4.0"}
 
 @app.post("/jobs")
 def create_job(body: JobCreate):

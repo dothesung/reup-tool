@@ -8,6 +8,7 @@ from typing import Optional
 
 from app.services import worker
 from app.routers.settings import load_settings
+from app.services import license as lic
 
 router = APIRouter(prefix="/api/v1", tags=["jobs"])
 
@@ -58,11 +59,16 @@ class JobCreate(BaseModel):
 
 @router.post("/pipeline/jobs")
 def pipeline_create(body: JobCreate):
+    try:
+        lic.check_or_raise()
+    except RuntimeError as e:
+        raise HTTPException(402, str(e))
     jid = uuid.uuid4().hex[:12]
     preset = load_preset(body.preset)
     preset["src_lang"] = body.src_lang
     preset = merge_settings(preset)
     worker.start_job_async(jid, body.url, preset)
+    lic.count_trial_video()
     return {"id": jid, "url": body.url, "preset": body.preset, "status": "pending"}
 
 @router.get("/pipeline/jobs")

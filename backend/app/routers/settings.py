@@ -43,6 +43,7 @@ DEFAULTS = {
     "frost_auto": False,        # True -> tự phát hiện vùng sub (khi không set tay)
     # Tích hợp
     "nexray_url": "",           # để trống = dùng mặc định của reup.py
+    "translate_email": "",      # email cho MyMemory (tăng quota dịch miễn phí)
     "facebook_page_id": "",
     "facebook_page_token": "",
 }
@@ -92,6 +93,7 @@ class SettingsSave(BaseModel):
     frost_alpha: Optional[float] = None
     frost_auto: Optional[bool] = None
     nexray_url: Optional[str] = None
+    translate_email: Optional[str] = None
     facebook_page_id: Optional[str] = None
     facebook_page_token: Optional[str] = None
 

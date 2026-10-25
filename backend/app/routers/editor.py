@@ -145,3 +145,25 @@ def put_subs(jid: str, body: SubUpdate):
     srt = os.path.join(wd, "sub_vi.srt")
     write_srt(srt, body.cues)
     return {"job_id": jid, "saved": srt, "count": len(body.cues)}
+
+class TranslateBody(BaseModel):
+    pass
+
+@router.post("/jobs/{jid}/translate")
+def translate_subs(jid: str):
+    """Dịch máy resub.srt (chữ gốc) -> sub_vi.srt nháp để user sửa tay."""
+    from app.services import translator
+    from app.routers.settings import load_settings
+    wd = job_dir(jid)
+    src = os.path.join(wd, "resub.srt")
+    if not os.path.exists(src):
+        raise HTTPException(404, "Chưa có resub.srt — chạy stage 1 trước")
+    st = load_settings()
+    cues = parse_srt(src)
+    out, engine, errors = translator.translate_cues(
+        cues, src=st.get("default_src_lang", "zh-CN"),
+        email=st.get("translate_email", ""))
+    write_srt(os.path.join(wd, "sub_vi.srt"), out)
+    return {"job_id": jid, "engine": engine, "count": len(out),
+            "errors": errors,
+            "note": "Bản dịch máy — sửa tay trong bảng trước khi bấm Chạy tiếp"}
