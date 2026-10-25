@@ -9,6 +9,7 @@ cover_alpha: 0.3
 voice: ngoc_huyen
 engine: kokoro
 jobs: 4
+hwaccel: videotoolbox
 draft:
   width: 720
   height: 1280
