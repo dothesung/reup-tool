@@ -116,3 +116,16 @@ API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret t
   khối Mua key trên Dashboard và chân trang (mặc định 0981228722, đổi được
   trong Cài đặt → Chung). Khách nhắn mã máy + gói muốn mua, chuyển khoản,
   admin tạo key bằng `cli/gen_key.py` rồi gửi key cho khách dán vào ô kích hoạt.
+
+## Quản lý key & popup kích hoạt (v1.7)
+
+- **Người bán tạo key:** mở trang Admin trên nav (chỉ chạy trên máy có
+  license_private.pem). Chọn gói → ghi chú tên khách → Tạo key → sao chép
+  key gửi khách. Mọi key đã bán ghi vào sổ keys_issued.json (local, gitignored).
+  Cách cũ bằng CLI vẫn chạy: `.venv/bin/python cli/gen_key.py --plan pro
+  --months 1 --note "Anh A"` (cũng ghi sổ).
+- **Khách lấy mã máy:** bấm "Key & mã máy" trên thanh license đầu app → popup
+  hiện mã máy + nút Sao chép → gửi mã cho admin khi mua key / xin reset.
+- **Kích hoạt:** cũng trong popup đó — dán key → Kích hoạt. Không còn khung
+  điền key chiếm chỗ trên Dashboard.
+- Lưu ý: key đã bán không thu hồi từ xa được (tool kiểm tra offline bằng chữ ký).
