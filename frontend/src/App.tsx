@@ -19,9 +19,10 @@ export default function App() {
   const [page, setPage] = useState<Page>(initial.page);
   const [editJob, setEditJob] = useState(initial.job);
   const [brand, setBrand] = useState("Reup Tool");
+  const [contact, setContact] = useState("0981228722");
 
   useEffect(() => {
-    getSettings().then(s => { if (s.brand_name) setBrand(s.brand_name); }).catch(() => {});
+    getSettings().then(s => { if (s.brand_name) setBrand(s.brand_name); if (s.admin_contact) setContact(s.admin_contact); }).catch(() => {});
   }, []);
 
   const go = (p: Page, job = "") => {
@@ -33,7 +34,7 @@ export default function App() {
   return (
     <div>
       <nav className="nav">
-        <div className="nav-brand">{brand} <span>v1.5</span></div>
+        <div className="nav-brand">{brand} <span>v1.6</span></div>
         <a className={page === "dashboard" ? "active" : ""} onClick={() => go("dashboard")}>Dashboard</a>
         <a className={page === "editor" ? "active" : ""} onClick={() => go("editor")}>Editor</a>
         <a className={page === "presets" ? "active" : ""} onClick={() => go("presets")}>Preset</a>
@@ -45,6 +46,9 @@ export default function App() {
       {page === "editor" && <JobDetail initialJobId={editJob} />}
       {page === "presets" && <PresetManager />}
       {page === "settings" && <Settings />}
+      <footer className="footer">
+        {brand} — Hỗ trợ &amp; mua key: Zalo/SĐT {contact}
+      </footer>
     </div>
   );
 }

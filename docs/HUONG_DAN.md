@@ -106,3 +106,13 @@ API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret t
   mặc định 2); job vượt sẽ hiện "queued" chờ slot, tránh ngốn RAM.
 - **Job sống qua restart:** JOB_STATE lưu xuống jobs_state.json (gitignored);
   job đang chạy dở khi backend restart sẽ về trạng thái "interrupted".
+
+## Mẫu tiêu đề & mua key (v1.6)
+
+- **Mẫu tiêu đề/hashtag:** Cài đặt → Pipeline → "Mẫu tiêu đề caption"
+  (`{title}` = tiêu đề gốc, vd `REVIEW PHIM | {title}`) và "Hashtag"
+  (vd `#reviewphim #phimhay`) — áp vào caption.txt và mô tả khi đăng Fanpage.
+- **Mua key (không cổng tự động):** khách liên hệ admin qua Zalo/SĐT hiện ở
+  khối Mua key trên Dashboard và chân trang (mặc định 0981228722, đổi được
+  trong Cài đặt → Chung). Khách nhắn mã máy + gói muốn mua, chuyển khoản,
+  admin tạo key bằng `cli/gen_key.py` rồi gửi key cho khách dán vào ô kích hoạt.

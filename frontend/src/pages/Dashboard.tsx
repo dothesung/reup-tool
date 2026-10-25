@@ -12,11 +12,15 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
   const [presetLoaded, setPresetLoaded] = useState(false);
   const [license, setLicense] = useState<any>(null);
   const [keyInput, setKeyInput] = useState("");
+  const [adminContact, setAdminContact] = useState("0981228722");
 
   const refreshLicense = async () => {
     try {
       const r = await fetch(`${API}/license`);
       setLicense(await r.json());
+      const s = await fetch(`${API}/settings`);
+      const st = await s.json();
+      if (st.admin_contact) setAdminContact(st.admin_contact);
     } catch { /* backend chưa chạy */ }
   };
 
@@ -114,10 +118,17 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
             </span>
           </div>
           {license.mode !== "licensed" && license.mode !== "dev" && (
-            <div className="row" style={{ marginTop: 10 }}>
-              <input className="input input-flex" value={keyInput} onChange={e => setKeyInput(e.target.value)} placeholder="Dán key bản quyền (RT-...) vào đây..." />
-              <button className="btn btn-dark" onClick={activate}>🔑 Kích hoạt</button>
-            </div>
+            <>
+              <div className="hint" style={{ marginTop: 10 }}>
+                💳 <b>Mua key:</b> liên hệ admin qua Zalo/SĐT <b>{adminContact}</b> — nhắn kèm mã máy <span className="mono">{license.machine_id}</span> và gói muốn mua
+                (Cá nhân 1.490.000đ vĩnh viễn / Pro 249.000đ/tháng / Team 599.000đ/tháng).
+                Chuyển khoản xong admin gửi key, dán vào ô dưới để kích hoạt.
+              </div>
+              <div className="row" style={{ marginTop: 10 }}>
+                <input className="input input-flex" value={keyInput} onChange={e => setKeyInput(e.target.value)} placeholder="Dán key bản quyền (RT-...) vào đây..." />
+                <button className="btn btn-dark" onClick={activate}>🔑 Kích hoạt</button>
+              </div>
+            </>
           )}
         </div>
       )}

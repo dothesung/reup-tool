@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { getSettings, saveSettings, getPresets } from "../api";
 
 const DEFAULTS: any = {
-  brand_name: "Reup Tool", default_preset: "review_phim", default_src_lang: "zh-CN",
+  brand_name: "Reup Tool", admin_contact: "0981228722",
+  default_preset: "review_phim", default_src_lang: "zh-CN",
   auto_upload: true, share_drive_link: false, output_mode: "final",
+  title_template: "{title}", hashtags: "",
   engine: "kokoro", jobs: 4, capcut_voice: "", max_parallel_jobs: 2, with_sub: false, v916: "square",
   banner_top: "REVIEW PHIM HAY", banner_bottom: "PHIM HAY MỖI NGÀY",
   banner_color: "FFCC00", frost_alpha: 0.2, frost_auto: false,
@@ -98,6 +100,7 @@ export default function Settings() {
         <h2 className="section-title">Thương hiệu &amp; mặc định</h2>
         <div className="grid2">
           {field("Tên hiển thị trên thanh nav", <input className="input" value={form.brand_name} onChange={e => set("brand_name", e.target.value)} />, "Đổi tên khi bàn giao cho khách hàng khác.")}
+          {field("Zalo / SĐT liên hệ mua key", <input className="input" value={form.admin_contact} onChange={e => set("admin_contact", e.target.value)} />, "Hiện ở Dashboard (khối Mua key) và chân trang.")}
           {field("Preset mặc định", <select className="select" value={form.default_preset} onChange={e => set("default_preset", e.target.value)}>
             {presets.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
             {presets.length === 0 && <option value="review_phim">review_phim</option>}
@@ -118,6 +121,8 @@ export default function Settings() {
             <option value="draft">Bản nháp (720x1280, nhanh)</option>
           </select>)}
           {field("Số job chạy cùng lúc (1–5)", <input className="input" type="number" min={1} max={5} value={form.max_parallel_jobs} onChange={e => set("max_parallel_jobs", parseInt(e.target.value) || 2)} />, "Job vượt giới hạn sẽ xếp hàng chờ, không ngốn RAM.")}
+          {field("Mẫu tiêu đề caption", <input className="input" value={form.title_template} onChange={e => set("title_template", e.target.value)} placeholder="{title}" />, "{title} = tiêu đề gốc. VD: REVIEW PHIM | {title}")}
+          {field("Hashtag thêm vào cuối caption", <input className="input" value={form.hashtags} onChange={e => set("hashtags", e.target.value)} placeholder="#reviewphim #phimhay" />, "Áp dụng cho caption.txt và mô tả khi đăng Fanpage.")}
           {check("Tự động up lên Google Drive khi xong", "auto_upload", "Tắt = chỉ render file local, không up Drive.")}
           {check("Chia sẻ link Drive công khai (anyone with link)", "share_drive_link")}
         </div>
