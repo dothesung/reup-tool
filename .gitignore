@@ -7,3 +7,6 @@ __pycache__/
 jobs/
 node_modules/
 dist/
+*.png
+!frontend/src/assets/*.png
+settings.json

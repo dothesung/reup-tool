@@ -195,3 +195,12 @@ table.data tbody tr:hover { background: #fffdf0; }
   border-radius: var(--radius); background: #fff; resize: vertical;
 }
 pre.json { background: #f5f5f5; padding: 14px; font-size: 12px; overflow-x: auto; border-radius: 10px; }
+
+/* Settings page (v1.2) */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+.field label.check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.field label.check input { width: 16px; height: 16px; accent-color: #FFCC00; }
+.section-title { margin: 0 0 14px 0; font-size: 16px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+@media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }

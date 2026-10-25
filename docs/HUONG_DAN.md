@@ -57,3 +57,19 @@ Tạo nhiều job liên tiếp — mỗi job chạy độc lập, theo dõi trê
 - Audio không kiểm chứng được từ tool — nghe thử trước khi đăng.
 - Frost tự động phát hiện đúng ~80% trường hợp; kiểm tra bằng mắt trước khi burn.
 - Video dài >10 phút nên chia nhỏ hoặc chạy qua đêm.
+
+## Cài đặt (v1.2, trang ⚙ Cài đặt)
+
+Cấu hình chung áp dụng cho mọi job mới — đè lên preset cho các mục trùng nhau.
+Lưu tại `settings.json` ở root repo (đã gitignore, không push lên GitHub).
+Mẫu: `settings.example.json`.
+
+| Nhóm | Mục | Tác dụng thật |
+|---|---|---|
+| Thương hiệu & mặc định | Tên nav, preset mặc định, ngôn ngữ STT | Hiện ở nav; Dashboard preselect preset |
+| Pipeline & xuất bản | Chế độ final/draft, auto up Drive, share link | `--draft`, `--no-upload`, `--share` |
+| Lồng tiếng | Engine, số luồng TTS, burn sub | `--engine`, `--jobs`, `--with-sub` |
+| Khung 9:16 & che | v916, chữ/màu khung, frost alpha, frost auto | `--v916`, `--banner-*`, `--frost-alpha`, `--frost-auto` |
+| Tích hợp & Key | Nexray URL, Facebook Page ID/Token | Nexray qua env `NEXRAY_URL`; token FB lưu che (•••• + 4 ký tự cuối), để trống = giữ nguyên — dùng cho tính năng Đăng Fanpage sắp ra mắt. Drive dùng OAuth qua hatch CLI, không cần key. |
+
+API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret trống = giữ nguyên).
