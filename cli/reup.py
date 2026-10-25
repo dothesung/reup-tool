@@ -170,6 +170,8 @@ def main():
     ap.add_argument("--frost", default=None, help="'y:h' vung sub cu (tu dong doan neu bo trong)")
     ap.add_argument("--src-lang", default="en-US", help="ngon ngu goc cho STT")
     ap.add_argument("--engine", choices=["kokoro", "capcut"], default="kokoro")
+    ap.add_argument("--capcut-voice", default=None,
+                    help="ID giong CapCut khi --engine capcut (vd BV560_streaming)")
     ap.add_argument("--jobs", type=int, default=4,
                     help="so luong TTS song song")
     ap.add_argument("--no-upload", action="store_true")
@@ -322,6 +324,8 @@ def main():
         cmd = [CAP_PY, str(REUP), "dub", str(srt_vi), "--engine", a.engine,
                "-o", str(wd / "dubbed.m4a"), "--workdir", str(wd / "work_dub")]
         cmd += ["--jobs", str(a.jobs)]
+        if a.engine == "capcut" and a.capcut_voice:
+            cmd += ["--voice", a.capcut_voice]
         run(cmd)
         mark("dub")
     if a.with_sub and not (wd / "dub_words.json").exists():

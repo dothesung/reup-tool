@@ -15,7 +15,8 @@ router = APIRouter(prefix="/api/v1", tags=["jobs"])
 # Settings là cấu hình chung, ĐÈ LÊN preset cho các key trùng nhau
 # (để đổi ở trang Cài đặt là có tác dụng ngay với mọi job).
 # Preset vẫn giữ vai trò cho các key riêng (draft/final size, hwaccel, mô tả...).
-SETTING_KEYS = ["engine", "jobs", "v916", "banner_top", "banner_bottom",
+SETTING_KEYS = ["engine", "jobs", "capcut_voice", "max_parallel_jobs",
+                "v916", "banner_top", "banner_bottom",
                 "banner_color", "frost_alpha", "frost_auto", "with_sub",
                 "output_mode", "auto_upload", "share_drive_link", "nexray_url"]
 
@@ -91,6 +92,37 @@ def pipeline_continue(jid: str, preset_name: str = "review_phim"):
     preset = merge_settings(load_preset(preset_name))
     worker.continue_job_async(jid, preset)
     return {"id": jid, "status": "dubbing"}
+
+class PostFBBody(BaseModel):
+    workdir: Optional[str] = None  # khi backend mới khởi động, JOB_STATE trống
+
+@router.post("/pipeline/jobs/{jid}/post-facebook")
+def pipeline_post_facebook(jid: str, body: Optional[PostFBBody] = None):
+    """Đăng final.mp4 của job lên Fanpage (cần Page ID + token trong Cài đặt)."""
+    from app.services import facebook as fb
+    st = load_settings()
+    wd = worker.JOB_STATE.get(jid, {}).get("workdir") or (body.workdir if body else None)
+    if not wd:
+        raise HTTPException(404, "Không tìm thấy workdir — backend mới khởi động? Nhập workdir")
+    if not os.path.isdir(wd):
+        # workdir có thể là basename
+        cand = os.path.join(worker.JOBS_DIR, wd)
+        wd = cand if os.path.isdir(cand) else wd
+    final = os.path.join(wd, "final.mp4")
+    cap = os.path.join(wd, "caption.txt")
+    caption = ""
+    if os.path.exists(cap):
+        with open(cap, encoding="utf-8") as f:
+            caption = f.read()
+    try:
+        out = fb.post_video(st.get("facebook_page_id", ""), st.get("facebook_page_token", ""),
+                            final, caption)
+    except RuntimeError as e:
+        raise HTTPException(400, str(e))
+    if jid in worker.JOB_STATE:
+        worker.JOB_STATE[jid]["fb_post_id"] = out["id"]
+    return {"id": jid, "fb_post_id": out["id"],
+            "url": f"https://www.facebook.com/{out['id']}"}
 
 # ---------- Presets ----------
 

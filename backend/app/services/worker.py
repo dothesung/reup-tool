@@ -12,20 +12,71 @@ import glob
 
 JOBS_DIR = os.path.expanduser("~/workspace/capcut-tts/jobs")
 CAPCUT_DIR = os.path.expanduser("~/workspace/capcut-tts")
+STATE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "jobs_state.json"))
 
 # Trạng thái job: {id: {status, step, progress, log, drive_link, error}}
 JOB_STATE = {}
+
+_GATE_LOCK = threading.Lock()
+_GATE_ACTIVE = [0]  # số job pipeline đang chạy thật (đếm trong RAM, reset khi restart)
+
+def _persist():
+    """Lưu JOB_STATE xuống file để backend restart không mất danh sách job."""
+    try:
+        with open(STATE_PATH, "w") as f:
+            json.dump(JOB_STATE, f, ensure_ascii=False)
+    except Exception:
+        pass
+
+def _restore():
+    if os.path.exists(STATE_PATH):
+        try:
+            with open(STATE_PATH) as f:
+                JOB_STATE.update(json.load(f) or {})
+        except Exception:
+            pass
+    for jid, st in JOB_STATE.items():
+        if st.get("status") in ("downloading", "dubbing"):
+            st["status"] = "interrupted"
+            st["step"] = "Backend đã khởi động lại — bấm Chạy tiếp nếu đã có sub"
+
+_restore()
+
+def _max_parallel():
+    try:
+        from app.routers.settings import load_settings
+        return max(1, min(5, int(load_settings().get("max_parallel_jobs") or 2)))
+    except Exception:
+        return 2
+
+def _gated(job_id: str, fn, *args):
+    """Chờ slot pipeline trống (giới hạn job chạy cùng lúc) rồi mới chạy fn."""
+    while True:
+        with _GATE_LOCK:
+            if _GATE_ACTIVE[0] < _max_parallel():
+                _GATE_ACTIVE[0] += 1
+                break
+        set_status(job_id, "queued", "Xếp hàng — chờ job khác xong")
+        time.sleep(10)
+    try:
+        fn(*args)
+    finally:
+        with _GATE_LOCK:
+            _GATE_ACTIVE[0] = max(0, _GATE_ACTIVE[0] - 1)
+        _persist()
 
 def log(job_id: str, msg: str):
     st = JOB_STATE.setdefault(job_id, {})
     st.setdefault("log", []).append(msg)
     print(f"[{job_id}] {msg}")
+    _persist()
 
 def set_status(job_id: str, status: str, step: str = ""):
     st = JOB_STATE.setdefault(job_id, {})
     st["status"] = status
     if step:
         st["step"] = step
+    _persist()
 
 def run_job(job_id: str, url: str, preset: dict):
     """Chạy pipeline đầy đủ cho 1 job."""
@@ -118,6 +169,8 @@ def continue_job(job_id: str, preset: dict):
             cmd += ["--frost-alpha", str(preset["frost_alpha"])]
         if preset.get("engine"):
             cmd += ["--engine", preset["engine"]]
+        if preset.get("engine") == "capcut" and preset.get("capcut_voice"):
+            cmd += ["--capcut-voice", preset["capcut_voice"]]
         if preset.get("jobs"):
             cmd += ["--jobs", str(preset["jobs"])]
         if preset.get("output_mode") == "draft":
@@ -151,11 +204,12 @@ def continue_job(job_id: str, preset: dict):
 def start_job_async(job_id: str, url: str, preset: dict):
     JOB_STATE[job_id] = {"status": "pending", "url": url, "log": [],
                          "preset_used": {k: preset.get(k) for k in
-                                         ("engine", "jobs", "v916", "output_mode",
-                                          "auto_upload", "frost_alpha", "with_sub")}}
-    t = threading.Thread(target=run_job, args=(job_id, url, preset), daemon=True)
+                                         ("engine", "jobs", "capcut_voice", "v916", "output_mode",
+                                          "auto_upload", "frost_alpha", "with_sub", "max_parallel_jobs")}}
+    _persist()
+    t = threading.Thread(target=_gated, args=(job_id, run_job, job_id, url, preset), daemon=True)
     t.start()
 
 def continue_job_async(job_id: str, preset: dict):
-    t = threading.Thread(target=continue_job, args=(job_id, preset), daemon=True)
+    t = threading.Thread(target=_gated, args=(job_id, continue_job, job_id, preset), daemon=True)
     t.start()

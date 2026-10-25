@@ -33,6 +33,8 @@ DEFAULTS = {
     # Lồng tiếng
     "engine": "kokoro",        # kokoro | capcut
     "jobs": 4,                  # số TTS song song (1-8)
+    "capcut_voice": "",         # ID giọng CapCut khi engine=capcut (trống = mặc định SDK)
+    "max_parallel_jobs": 2,     # số job pipeline chạy cùng lúc (vượt thì xếp hàng)
     "with_sub": False,          # True -> burn sub Việt lên video
     # Khung 9:16 & che
     "v916": "square",           # auto | square | black | blur | off
@@ -85,6 +87,8 @@ class SettingsSave(BaseModel):
     output_mode: Optional[str] = None
     engine: Optional[str] = None
     jobs: Optional[int] = None
+    capcut_voice: Optional[str] = None
+    max_parallel_jobs: Optional[int] = None
     with_sub: Optional[bool] = None
     v916: Optional[str] = None
     banner_top: Optional[str] = None
@@ -116,6 +120,8 @@ def save_settings(body: SettingsSave):
         data["v916"] = "square"
     if data.get("jobs") is not None:
         data["jobs"] = max(1, min(8, int(data["jobs"])))
+    if data.get("max_parallel_jobs") is not None:
+        data["max_parallel_jobs"] = max(1, min(5, int(data["max_parallel_jobs"])))
     if data.get("frost_alpha") is not None:
         data["frost_alpha"] = max(0.05, min(0.9, float(data["frost_alpha"])))
     cur.update(data)
