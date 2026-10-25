@@ -31,46 +31,36 @@ export default function SubEditor({ cues, onChange }: Props) {
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+      <div className="row" style={{ marginBottom: 12 }}>
         <input
-          placeholder="Tìm trong sub..."
+          className="input input-flex"
+          placeholder="🔍 Tìm trong sub..."
           value={filter}
           onChange={e => setFilter(e.target.value)}
-          style={{ flex: 1, padding: 6 }}
         />
-        <span style={{ fontSize: 13, color: "#666", alignSelf: "center" }}>
-          {cues.length} cue
-        </span>
+        <span className="hint" style={{ alignSelf: "center" }}>{cues.length} cue</span>
       </div>
-      <div style={{ maxHeight: 500, overflowY: "auto", border: "1px solid #ddd" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+      <div className="sub-scroll">
+        <table className="data">
           <thead>
-            <tr style={{ background: "#f5f5f5", position: "sticky", top: 0 }}>
-              <th style={{ padding: 6, textAlign: "left", width: 30 }}>#</th>
-              <th style={{ padding: 6, textAlign: "left", width: 110 }}>Bắt đầu</th>
-              <th style={{ padding: 6, textAlign: "left", width: 110 }}>Kết thúc</th>
-              <th style={{ padding: 6, textAlign: "left" }}>Nội dung tiếng Việt</th>
-              <th style={{ padding: 6, width: 30 }}></th>
+            <tr>
+              <th style={{ width: 36 }}>#</th>
+              <th style={{ width: 118 }}>Bắt đầu</th>
+              <th style={{ width: 118 }}>Kết thúc</th>
+              <th>Nội dung tiếng Việt</th>
+              <th style={{ width: 40 }}></th>
             </tr>
           </thead>
           <tbody>
             {shown.map((c) => {
               const i = cues.indexOf(c);
               return (
-                <tr key={c.id} style={{ borderTop: "1px solid #eee" }}>
-                  <td style={{ padding: 6 }}>{i + 1}</td>
-                  <td style={{ padding: 6 }}>
-                    <input value={c.start} onChange={e => update(i, "start", e.target.value)} style={{ width: 100 }} />
-                  </td>
-                  <td style={{ padding: 6 }}>
-                    <input value={c.end} onChange={e => update(i, "end", e.target.value)} style={{ width: 100 }} />
-                  </td>
-                  <td style={{ padding: 6 }}>
-                    <input value={c.text} onChange={e => update(i, "text", e.target.value)} style={{ width: "100%" }} />
-                  </td>
-                  <td style={{ padding: 6 }}>
-                    <button onClick={() => remove(i)} title="Xóa cue">✕</button>
-                  </td>
+                <tr key={c.id}>
+                  <td>{i + 1}</td>
+                  <td><input className="sub-time" value={c.start} onChange={e => update(i, "start", e.target.value)} /></td>
+                  <td><input className="sub-time" value={c.end} onChange={e => update(i, "end", e.target.value)} /></td>
+                  <td><input className="sub-input" value={c.text} onChange={e => update(i, "text", e.target.value)} /></td>
+                  <td><button className="btn-del" onClick={() => remove(i)} title="Xóa cue">✕</button></td>
                 </tr>
               );
             })}

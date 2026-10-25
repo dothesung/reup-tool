@@ -18,12 +18,21 @@ export default function PresetManager() {
     }
   };
 
+  const toYaml = (obj: any, indent = 0): string => {
+    const pad = "  ".repeat(indent);
+    return Object.entries(obj).map(([k, v]) => {
+      if (v !== null && typeof v === "object" && !Array.isArray(v)) {
+        return `${pad}${k}:\n${toYaml(v, indent + 1)}`;
+      }
+      return `${pad}${k}: ${v}`;
+    }).join("\n");
+  };
+
   const loadOne = async (name: string) => {
     const r = await fetch(`${API}/presets/${name}`);
     const p = await r.json();
-    // Hiển thị lại dạng YAML đơn giản
     const { name: _, ...rest } = p;
-    setContent(Object.entries(rest).map(([k, v]) => `${k}: ${v}`).join("\n"));
+    setContent(toYaml(rest));
     setSelected(name);
   };
 
@@ -40,26 +49,28 @@ export default function PresetManager() {
   useEffect(() => { load(); }, []);
 
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: 20, fontFamily: "system-ui" }}>
-      <h1>Preset Manager</h1>
-      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-        <select value={selected} onChange={e => loadOne(e.target.value)} style={{ padding: 8 }}>
-          {presets.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
-        </select>
-        <button onClick={save} style={{ padding: "8px 16px", background: "#FFCC00", border: "none", fontWeight: "bold" }}>
-          Lưu preset
-        </button>
+    <div className="page">
+      <h1>Preset</h1>
+      <p className="page-subtitle">Cấu hình render mặc định cho từng loại video. Áp dụng khi tạo job mới.</p>
+
+      <div className="card">
+        <div className="row" style={{ marginBottom: 14 }}>
+          <select className="select" value={selected} onChange={e => loadOne(e.target.value)}>
+            {presets.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+          </select>
+          <button className="btn btn-brand" onClick={save}>💾 Lưu preset</button>
+        </div>
+        <textarea
+          className="textarea-code"
+          value={content} onChange={e => setContent(e.target.value)}
+          spellCheck={false}
+        />
+        {msg && <div className="msg msg-ok" style={{ marginTop: 12 }}>{msg}</div>}
+        <p className="hint">
+          Các key: v916 (square/black/blur), banner_top, banner_bottom, banner_color,
+          frost_alpha, cover_alpha, voice, jobs, hwaccel (videotoolbox/nvenc).
+        </p>
       </div>
-      <textarea
-        value={content} onChange={e => setContent(e.target.value)}
-        style={{ width: "100%", height: 400, fontFamily: "monospace", padding: 12 }}
-        spellCheck={false}
-      />
-      {msg && <p style={{ color: "green" }}>{msg}</p>}
-      <p style={{ fontSize: 13, color: "#666" }}>
-        Các key: v916 (square/black/blur), banner_top, banner_bottom, banner_color,
-        frost_alpha, cover_alpha, voice, jobs, hwaccel (videotoolbox/nvenc).
-      </p>
     </div>
   );
 }

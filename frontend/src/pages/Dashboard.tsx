@@ -8,12 +8,15 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
   const [preset, setPreset] = useState("review_phim");
   const [presets, setPresets] = useState<any[]>([]);
   const [msg, setMsg] = useState("");
+  const [msgKind, setMsgKind] = useState("msg-info");
 
   const refresh = async () => {
-    const r = await fetch(`${API}/pipeline/jobs`);
-    setJobs(await r.json());
-    const p = await fetch(`${API}/presets`);
-    setPresets(await p.json());
+    try {
+      const r = await fetch(`${API}/pipeline/jobs`);
+      setJobs(await r.json());
+      const p = await fetch(`${API}/presets`);
+      setPresets(await p.json());
+    } catch { /* backend chưa chạy */ }
   };
 
   useEffect(() => {
@@ -24,14 +27,14 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
 
   const create = async () => {
     if (!url.trim()) return;
-    setMsg("Đang tạo job...");
+    setMsg("Đang tạo job..."); setMsgKind("msg-info");
     const r = await fetch(`${API}/pipeline/jobs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url, preset }),
     });
     const j = await r.json();
-    setMsg(`Đã tạo job ${j.id} — đang tải video...`);
+    setMsg(`Đã tạo job ${j.id} — đang tải video...`); setMsgKind("msg-ok");
     setUrl("");
     refresh();
   };
@@ -41,67 +44,67 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
     refresh();
   };
 
-  const statusColor = (s: string) => {
-    if (s === "done") return "green";
-    if (s === "failed") return "red";
-    if (s === "waiting_sub") return "orange";
-    return "#333";
+  const pill = (s: string) => {
+    if (s === "done") return "pill pill-done";
+    if (s === "failed") return "pill pill-failed";
+    if (s === "waiting_sub") return "pill pill-waiting_sub";
+    return "pill pill-default";
   };
 
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: 20, fontFamily: "system-ui" }}>
-      <h1>Reup Tool — Dashboard</h1>
+    <div className="page">
+      <h1>Dashboard</h1>
+      <p className="page-subtitle">Tạo job reup mới, theo dõi tiến trình realtime (tự cập nhật mỗi 5 giây).</p>
 
-      <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-        <input
-          value={url} onChange={e => setUrl(e.target.value)}
-          placeholder="Dán link Douyin / YouTube..."
-          style={{ flex: 1, padding: 10 }}
-        />
-        <select value={preset} onChange={e => setPreset(e.target.value)} style={{ padding: 10 }}>
-          {presets.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
-          {presets.length === 0 && <option value="review_phim">review_phim</option>}
-        </select>
-        <button onClick={create} style={{ padding: "10px 20px", background: "#FFCC00", border: "none", fontWeight: "bold", cursor: "pointer" }}>
-          Tạo job
-        </button>
+      <div className="card">
+        <div className="row">
+          <input
+            className="input input-flex" value={url} onChange={e => setUrl(e.target.value)}
+            placeholder="Dán link Douyin / YouTube vào đây..."
+            onKeyDown={e => e.key === "Enter" && create()}
+          />
+          <select className="select" value={preset} onChange={e => setPreset(e.target.value)}>
+            {presets.map(p => <option key={p.name} value={p.name}>{p.name}</option>)}
+            {presets.length === 0 && <option value="review_phim">review_phim</option>}
+          </select>
+          <button className="btn btn-brand" onClick={create}>＋ Tạo job</button>
+        </div>
       </div>
-      {msg && <p style={{ color: "#666" }}>{msg}</p>}
 
-      <h2>Danh sách job</h2>
-      {jobs.length === 0 && <p style={{ color: "#999" }}>Chưa có job nào.</p>}
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
-        <thead>
-          <tr style={{ background: "#f5f5f5" }}>
-            <th style={{ padding: 8, textAlign: "left" }}>ID</th>
-            <th style={{ padding: 8, textAlign: "left" }}>URL</th>
-            <th style={{ padding: 8, textAlign: "left" }}>Trạng thái</th>
-            <th style={{ padding: 8, textAlign: "left" }}>Bước</th>
-            <th style={{ padding: 8 }}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {jobs.map(j => (
-            <tr key={j.id} style={{ borderTop: "1px solid #eee" }}>
-              <td style={{ padding: 8 }}>{j.id}</td>
-              <td style={{ padding: 8, maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{j.url}</td>
-              <td style={{ padding: 8, color: statusColor(j.status), fontWeight: "bold" }}>{j.status}</td>
-              <td style={{ padding: 8 }}>{j.step || "—"}</td>
-              <td style={{ padding: 8 }}>
-                {j.status === "waiting_sub" && (
-                  <button onClick={() => onOpenJob(j.id)} style={{ marginRight: 6 }}>Sửa sub/frost</button>
-                )}
-                {j.status === "waiting_sub" && (
-                  <button onClick={() => cont(j.id)}>Chạy tiếp →</button>
-                )}
-                {j.drive_link && (
-                  <a href={j.drive_link} target="_blank" rel="noreferrer">Drive ↗</a>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {msg && <div className={`msg ${msgKind}`}>{msg}</div>}
+
+      <h2>Danh sách job ({jobs.length})</h2>
+      <div className="table-wrap">
+        <table className="data">
+          <thead>
+            <tr><th>ID</th><th>Link video</th><th>Trạng thái</th><th>Bước hiện tại</th><th></th></tr>
+          </thead>
+          <tbody>
+            {jobs.length === 0 && (
+              <tr><td colSpan={5}><div className="empty">Chưa có job nào. Dán link ở trên để bắt đầu.</div></td></tr>
+            )}
+            {jobs.map(j => (
+              <tr key={j.id}>
+                <td className="mono">{j.id}</td>
+                <td><div className="ellipsis" title={j.url}>{j.url}</div></td>
+                <td><span className={pill(j.status)}>{j.status}</span></td>
+                <td>{j.step || "—"}</td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {j.status === "waiting_sub" && (
+                    <button className="btn btn-ghost btn-sm" style={{ marginRight: 6 }} onClick={() => onOpenJob(j.id)}>Sửa sub/frost</button>
+                  )}
+                  {j.status === "waiting_sub" && (
+                    <button className="btn btn-brand btn-sm" onClick={() => cont(j.id)}>Chạy tiếp →</button>
+                  )}
+                  {j.drive_link && (
+                    <a href={j.drive_link} target="_blank" rel="noreferrer" style={{ marginLeft: 6 }}>Drive ↗</a>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

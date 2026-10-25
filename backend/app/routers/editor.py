@@ -31,10 +31,16 @@ def get_frame(jid: str, t: float = 10.0, w: int = 720):
         raise HTTPException(404, "src.mp4 không tồn tại")
     out = os.path.join(wd, f"frame_{int(t)}s.png")
     if not os.path.exists(out):
-        subprocess.run([
+        r = subprocess.run([
             "ffmpeg", "-y", "-v", "error", "-ss", str(t),
             "-i", src, "-frames:v", "1", "-vf", f"scale={w}:-1", out,
-        ], check=True)
+        ])
+        if r.returncode != 0 or not os.path.exists(out):
+            # t vượt quá thời lượng → lấy frame giữa video
+            subprocess.run([
+                "ffmpeg", "-y", "-v", "error", "-ss", "5",
+                "-i", src, "-frames:v", "1", "-vf", f"scale={w}:-1", out,
+            ], check=True)
     return FileResponse(out, media_type="image/png")
 
 @router.get("/jobs/{jid}/info")
