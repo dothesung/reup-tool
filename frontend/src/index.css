@@ -204,3 +204,8 @@ pre.json { background: #f5f5f5; padding: 14px; font-size: 12px; overflow-x: auto
 .section-title { margin: 0 0 14px 0; font-size: 16px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
 @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+
+/* Settings tabs (v1.3) */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 16px 0; }
+.tabbtn { border: 1px solid #ddd; background: #fff; border-radius: 999px; padding: 8px 16px; cursor: pointer; font-size: 14px; }
+.tabbtn.active { background: #FFCC00; border-color: #FFCC00; font-weight: 700; }

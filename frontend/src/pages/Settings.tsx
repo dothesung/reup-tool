@@ -16,6 +16,14 @@ export default function Settings() {
   const [msg, setMsg] = useState("");
   const [msgKind, setMsgKind] = useState("msg-info");
   const [fbSaved, setFbSaved] = useState(false);
+  const [tab, setTab] = useState("general");
+  const TABS = [
+    { id: "general", label: "Chung" },
+    { id: "pipeline", label: "Pipeline" },
+    { id: "dub", label: "Lồng tiếng" },
+    { id: "frame", label: "Khung & Che" },
+    { id: "keys", label: "Key & Tích hợp" },
+  ];
 
   useEffect(() => {
     (async () => {
@@ -77,9 +85,16 @@ export default function Settings() {
         Cấu hình chung áp dụng cho mọi job mới — các giá trị ở đây đè lên preset
         cho các mục trùng nhau. Key chỉ lưu trên máy này (file settings.json, không push lên GitHub).
       </p>
+      <div className="tabs">
+        {TABS.map(t => (
+          <button key={t.id} className={tab === t.id ? "tabbtn active" : "tabbtn"} onClick={() => setTab(t.id)}>
+            {t.label}
+          </button>
+        ))}
+      </div>
       {msg && <div className={`msg ${msgKind}`}>{msg}</div>}
 
-      <div className="card">
+      {tab === "general" && <div className="card">
         <h2 className="section-title">Thương hiệu &amp; mặc định</h2>
         <div className="grid2">
           {field("Tên hiển thị trên thanh nav", <input className="input" value={form.brand_name} onChange={e => set("brand_name", e.target.value)} />, "Đổi tên khi bàn giao cho khách hàng khác.")}
@@ -93,9 +108,9 @@ export default function Settings() {
             <option value="vi-VN">Tiếng Việt (vi-VN)</option>
           </select>)}
         </div>
-      </div>
+      </div>}
 
-      <div className="card">
+      {tab === "pipeline" && <div className="card">
         <h2 className="section-title">Pipeline &amp; xuất bản</h2>
         <div className="grid2">
           {field("Chế độ xuất", <select className="select" value={form.output_mode} onChange={e => set("output_mode", e.target.value)}>
@@ -105,9 +120,9 @@ export default function Settings() {
           {check("Tự động up lên Google Drive khi xong", "auto_upload", "Tắt = chỉ render file local, không up Drive.")}
           {check("Chia sẻ link Drive công khai (anyone with link)", "share_drive_link")}
         </div>
-      </div>
+      </div>}
 
-      <div className="card">
+      {tab === "dub" && <div className="card">
         <h2 className="section-title">Lồng tiếng</h2>
         <div className="grid2">
           {field("Engine lồng tiếng", <select className="select" value={form.engine} onChange={e => set("engine", e.target.value)}>
@@ -117,9 +132,9 @@ export default function Settings() {
           {field("Số luồng TTS song song (1–8)", <input className="input" type="number" min={1} max={8} value={form.jobs} onChange={e => set("jobs", parseInt(e.target.value) || 4)} />)}
           {check("Burn sub Việt lên video", "with_sub", "Mặc định: chỉ dub + che sub cũ, không burn sub.")}
         </div>
-      </div>
+      </div>}
 
-      <div className="card">
+      {tab === "frame" && <div className="card">
         <h2 className="section-title">Khung 9:16 &amp; che sub</h2>
         <div className="grid2">
           {field("Chế độ khung dọc", <select className="select" value={form.v916} onChange={e => set("v916", e.target.value)}>
@@ -135,9 +150,9 @@ export default function Settings() {
           {field("Độ mờ thanh che sub cũ (0.05–0.9)", <input className="input" type="number" min={0.05} max={0.9} step={0.05} value={form.frost_alpha} onChange={e => set("frost_alpha", parseFloat(e.target.value) || 0.2)} />, "Chuẩn hiện tại: 0.2 (mờ nhẹ trong suốt).")}
           {check("Tự phát hiện vùng sub cũ khi không set tay", "frost_auto", "Đúng ~80% — nên kiểm bằng Frost Editor.")}
         </div>
-      </div>
+      </div>}
 
-      <div className="card">
+      {tab === "keys" && <div className="card">
         <h2 className="section-title">Tích hợp &amp; Key</h2>
         <div className="grid2">
           {field("Nexray API URL (tải video)", <input className="input" value={form.nexray_url} onChange={e => set("nexray_url", e.target.value)} placeholder="Để trống = dùng mặc định" />, "Điền khi tự host nexray riêng (tránh chặn IP).")}
@@ -145,7 +160,7 @@ export default function Settings() {
           {field("Facebook Page Access Token", <input className="input" type="password" value={form.facebook_page_token} onChange={e => set("facebook_page_token", e.target.value)} placeholder={fbSaved ? "Đã lưu •••• — nhập mới để thay" : "Chưa lưu — dán token vào đây"} />, "Để trống = giữ nguyên key cũ. Token dùng cho tính năng Đăng Fanpage (sắp ra mắt).")}
         </div>
         <div className="hint">Google Drive dùng OAuth qua hatch CLI nên không cần nhập key. File settings.json đã nằm trong .gitignore — không push lên GitHub.</div>
-      </div>
+      </div>}
 
       <div className="row">
         <button className="btn btn-brand" onClick={() => save()}>💾 Lưu cài đặt</button>
