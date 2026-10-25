@@ -11,6 +11,7 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
   const [cover, setCover] = useState<string | null>(null);
   const [detect, setDetect] = useState<any>(null);
   const [msg, setMsg] = useState("");
+  const [tab, setTab] = useState<"frost" | "subs">("frost");
   const [msgKind, setMsgKind] = useState("msg-info");
 
   // Phân giải ID: pipeline job id (12 ký tự hex) → workdir basename
@@ -103,8 +104,11 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
 
       {info && (
         <>
-          <h2>1. Frost / Cover — kéo-thả trên khung hình</h2>
-          <div className="card">
+          <div className="tabs">
+            <button className={tab === "frost" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("frost")}>Frost / Cover</button>
+            <button className={tab === "subs" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("subs")}>Sub tiếng Việt ({cues.length} cue)</button>
+          </div>
+          {tab === "frost" && <div className="card">
             <button className="btn btn-ghost" style={{ marginBottom: 14 }} onClick={onDetect}>
               🔍 Tự động phát hiện text cố định vs subtitle
             </button>
@@ -118,16 +122,15 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
               initialCover={cover}
               onChange={(f, c) => { setFrost(f); setCover(c); }}
             />
-          </div>
+          </div>}
 
-          <h2>2. Sub tiếng Việt</h2>
-          <div className="card">
+          {tab === "subs" && <div className="card">
             <div className="row" style={{ marginBottom: 12 }}>
               <button className="btn btn-ghost" onClick={onTranslate}>🤖 Dịch máy từ sub gốc</button>
               <span className="hint" style={{ alignSelf: "center" }}>Bản dịch máy để sửa tay — không thay người dịch. Cần email MyMemory trong Cài đặt nếu Google bị chặn.</span>
             </div>
             <SubEditor cues={cues} onChange={setCues} />
-          </div>
+          </div>}
 
           <button className="btn btn-brand" style={{ padding: "14px 28px", fontSize: 16 }} onClick={onSave}>
             💾 Lưu sub + frost

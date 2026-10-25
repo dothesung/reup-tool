@@ -1,1 +1,23 @@
-{"auto_upload":true,"banner_bottom":"PHIM HAY MỖI NGÀY","banner_color":"FFCC00","banner_top":"REVIEW PHIM HAY","brand_name":"Reup Tool","default_preset":"review_phim","default_src_lang":"zh-CN","engine":"kokoro","facebook_page_id":"","facebook_page_token":"","frost_alpha":0.2,"frost_auto":false,"jobs":4,"nexray_url":"","output_mode":"final","share_drive_link":false,"v916":"square","with_sub":false}
+{
+ "auto_upload": true,
+ "banner_bottom": "PHIM HAY MỖI NGÀY",
+ "banner_color": "FFCC00",
+ "banner_top": "REVIEW PHIM HAY",
+ "brand_name": "Reup Tool",
+ "capcut_voice": "",
+ "default_preset": "review_phim",
+ "default_src_lang": "zh-CN",
+ "engine": "kokoro",
+ "facebook_page_id": "",
+ "facebook_page_token": "",
+ "frost_alpha": 0.2,
+ "frost_auto": false,
+ "jobs": 4,
+ "max_parallel_jobs": 2,
+ "nexray_url": "",
+ "output_mode": "final",
+ "share_drive_link": false,
+ "translate_email": "",
+ "v916": "square",
+ "with_sub": false
+}

@@ -4,7 +4,7 @@ import { getSettings, saveSettings, getPresets } from "../api";
 const DEFAULTS: any = {
   brand_name: "Reup Tool", default_preset: "review_phim", default_src_lang: "zh-CN",
   auto_upload: true, share_drive_link: false, output_mode: "final",
-  engine: "kokoro", jobs: 4, with_sub: false, v916: "square",
+  engine: "kokoro", jobs: 4, capcut_voice: "", max_parallel_jobs: 2, with_sub: false, v916: "square",
   banner_top: "REVIEW PHIM HAY", banner_bottom: "PHIM HAY MỖI NGÀY",
   banner_color: "FFCC00", frost_alpha: 0.2, frost_auto: false,
   nexray_url: "", facebook_page_id: "", facebook_page_token: "", translate_email: "",
@@ -117,6 +117,7 @@ export default function Settings() {
             <option value="final">Bản final (1080x1920)</option>
             <option value="draft">Bản nháp (720x1280, nhanh)</option>
           </select>)}
+          {field("Số job chạy cùng lúc (1–5)", <input className="input" type="number" min={1} max={5} value={form.max_parallel_jobs} onChange={e => set("max_parallel_jobs", parseInt(e.target.value) || 2)} />, "Job vượt giới hạn sẽ xếp hàng chờ, không ngốn RAM.")}
           {check("Tự động up lên Google Drive khi xong", "auto_upload", "Tắt = chỉ render file local, không up Drive.")}
           {check("Chia sẻ link Drive công khai (anyone with link)", "share_drive_link")}
         </div>
@@ -129,6 +130,8 @@ export default function Settings() {
             <option value="kokoro">Kokoro — giọng Ngọc Huyền (mặc định)</option>
             <option value="capcut">CapCut TTS</option>
           </select>)}
+          {form.engine === "capcut" && field("ID giọng CapCut", <input className="input" list="capcut-voices" value={form.capcut_voice} onChange={e => set("capcut_voice", e.target.value)} placeholder="Để trống = giọng mặc định SDK" />, "Gợi ý: BV560_streaming (Alex Đại Đế), BV074_streaming (Cô Gái Hoạt Ngôn).")}
+          {form.engine === "capcut" && <datalist id="capcut-voices"><option value="BV560_streaming" /><option value="BV074_streaming" /><option value="BV421_vivn_streaming" /></datalist>}
           {field("Số luồng TTS song song (1–8)", <input className="input" type="number" min={1} max={8} value={form.jobs} onChange={e => set("jobs", parseInt(e.target.value) || 4)} />)}
           {check("Burn sub Việt lên video", "with_sub", "Mặc định: chỉ dub + che sub cũ, không burn sub.")}
         </div>

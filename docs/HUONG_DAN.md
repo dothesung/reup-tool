@@ -92,3 +92,17 @@ API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret t
   quota dịch lên 50.000 ký tự/ngày (Google hay bị chặn IP datacenter).
 - Bản dịch máy luôn thô — sửa tay trong bảng trước khi bấm Chạy tiếp.
   Cue nào dịch lỗi sẽ giữ nguyên chữ gốc và báo số cue lỗi.
+
+## Hoàn thiện v1.5
+
+- **Editor dạng tab:** Frost / Cover | Sub tiếng Việt (số cue) — hết trang dài.
+  Nút Lưu sub + frost luôn ở dưới cùng, không phụ thuộc tab.
+- **Đăng Fanpage:** job done có nút "📘 Đăng Fanpage" trên Dashboard — đăng
+  final.mp4 + caption.txt qua Graph API (cần Page ID + token trong Cài đặt).
+  Chưa nhập token → báo rõ, không đăng lén.
+- **Giọng CapCut:** Cài đặt → Lồng tiếng → chọn engine CapCut sẽ hiện ô ID giọng
+  (gợi ý BV560 Alex Đại Đế, BV074 Cô Gái Hoạt Ngôn; trống = mặc định SDK).
+- **Giới hạn job song song:** Cài đặt → Pipeline → số job chạy cùng lúc (1–5,
+  mặc định 2); job vượt sẽ hiện "queued" chờ slot, tránh ngốn RAM.
+- **Job sống qua restart:** JOB_STATE lưu xuống jobs_state.json (gitignored);
+  job đang chạy dở khi backend restart sẽ về trạng thái "interrupted".

@@ -51,7 +51,7 @@ export default function PresetManager() {
   return (
     <div className="page">
       <h1>Preset</h1>
-      <p className="page-subtitle">Cấu hình render mặc định cho từng loại video. Áp dụng khi tạo job mới.</p>
+      <p className="page-subtitle">Cấu hình render mặc định cho từng loại video. Cài đặt chung trong tab Cài đặt sẽ đè lên preset cho các mục trùng nhau.</p>
 
       <div className="card">
         <div className="row" style={{ marginBottom: 14 }}>

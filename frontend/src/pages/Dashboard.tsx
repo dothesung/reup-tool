@@ -79,6 +79,18 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
     refresh();
   };
 
+  const postFB = async (id: string) => {
+    setMsg("Đang đăng lên Fanpage... (video 15s mất ~1 phút)"); setMsgKind("msg-info");
+    const r = await fetch(`${API}/pipeline/jobs/${id}/post-facebook`, { method: "POST" });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      setMsg("Đăng FB lỗi: " + (d.detail || r.statusText)); setMsgKind("msg-err");
+      return;
+    }
+    setMsg(`Đã đăng Fanpage: ${d.url}`); setMsgKind("msg-ok");
+    refresh();
+  };
+
   const pill = (s: string) => {
     if (s === "done") return "pill pill-done";
     if (s === "failed") return "pill pill-failed";
@@ -149,6 +161,12 @@ export default function Dashboard({ onOpenJob }: { onOpenJob: (id: string) => vo
                   )}
                   {j.status === "waiting_sub" && (
                     <button className="btn btn-brand btn-sm" onClick={() => cont(j.id)}>Chạy tiếp →</button>
+                  )}
+                  {j.status === "done" && (
+                    <button className="btn btn-ghost btn-sm" style={{ marginLeft: 6 }} onClick={() => postFB(j.id)}>📘 Đăng Fanpage</button>
+                  )}
+                  {j.fb_post_id && (
+                    <a href={`https://www.facebook.com/${j.fb_post_id}`} target="_blank" rel="noreferrer" style={{ marginLeft: 6 }}>Bài FB ↗</a>
                   )}
                   {j.drive_link && (
                     <a href={j.drive_link} target="_blank" rel="noreferrer" style={{ marginLeft: 6 }}>Drive ↗</a>
