@@ -1,6 +1,4 @@
 #!/bin/bash
-# Chay Reup Tool
-source .venv/bin/activate 2>/dev/null || true
-echo "Backend: http://localhost:8000"
-echo "Frontend: http://localhost:3000 (tuan 2)"
-python3 backend/app/main.py
+# Chay Reup Tool backend
+cd "$(dirname "$0")/backend" || exit 1
+../.venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 2>/dev/null || python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000
