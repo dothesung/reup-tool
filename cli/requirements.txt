@@ -1,0 +1,10 @@
+# Phụ thuộc của thư mục pipeline cli/ (chạy bằng cùng python với backend).
+# Cài: python -m pip install -r cli/requirements.txt
+opencv-python-headless>=4.9
+numpy>=1.26
+# CapCut SDK (không có trên PyPI) — Setup page tự clone + cài:
+#   git clone https://github.com/K07VN/capcut-tts-api cli/upstream
+#   python -m pip install ./cli/upstream
+# Kokoro (tùy chọn, chỉ khi dùng engine kokoro): cần torch CPU + thư mục kokoro-vi
+#   (chỉ đường dẫn trong Cài đặt -> Lồng tiếng -> Thư mục kokoro-vi).
+# ffmpeg: cài bằng hệ thống (brew/apt) hoặc để Setup page tải bản static về bin/.
