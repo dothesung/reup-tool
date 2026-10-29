@@ -23,7 +23,7 @@ from pathlib import Path
 BASE = Path("/home/hatch/workspace/capcut-tts")
 JOBS = BASE / "jobs"
 REUP = BASE / "reup_sub.py"
-CAP_PY = "/home/hatch/workspace/.venvs/capcut/bin/python"
+CAP_PY = os.environ.get("CAPCUT_PY") or sys.executable  # portable: worker truyền CAPCUT_PY, chạy tay thì dùng python hiện tại
 GWS = "/opt/hatch/bin/hatch_gws_cli"
 MANIFEST = BASE / "drive_manifest.json"
 NEXRAY = os.environ.get("NEXRAY_URL", "https://api.nexray.eu.cc/downloader/aio?url=")
