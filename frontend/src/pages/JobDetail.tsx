@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FrostEditor from "../components/FrostEditor";
+import VideoPreview from "../components/VideoPreview";
 import SubEditor from "../components/SubEditor";
 import { getJobInfo, getSubs, saveSubs, getFrost, saveFrost, detectText, translateSubs } from "../api";
 
@@ -156,20 +156,28 @@ export default function JobDetail({ initialJobId = "" }: { initialJobId?: string
             <button className={tab === "subs" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("subs")}>Sub tiếng Việt ({cues.length} cue)</button>
             <button className={tab === "caption" ? "tabbtn active" : "tabbtn"} onClick={() => setTab("caption")}>✨ AI Caption</button>
           </div>
-          {tab === "frost" && <div className="card">
-            <button className="btn btn-ghost" style={{ marginBottom: 14 }} onClick={onDetect}>
-              🔍 Tự động phát hiện text cố định vs subtitle
-            </button>
-            {detect && <pre className="json">{JSON.stringify(detect, null, 2)}</pre>}
-            <FrostEditor
-              jobId={jobId}
-              videoW={info.width}
-              videoH={info.height}
-              duration={info.duration}
-              initialFrost={frost}
-              initialCover={cover}
-              onChange={(f, c) => { setFrost(f); setCover(c); }}
-            />
+          {tab === "frost" && <div className="editor-grid">
+            <div className="card">
+              <VideoPreview
+                jobId={jobId}
+                frost={frost} cover={cover}
+                onFrost={setFrost} onCover={setCover}
+                cues={cues} videoName={info.video || null}
+              />
+            </div>
+            <div>
+              <div className="card">
+                <button className="btn btn-ghost" style={{ marginBottom: 14 }} onClick={onDetect}>
+                  🔍 Tự động phát hiện text cố định vs subtitle
+                </button>
+                {detect && <pre className="json">{JSON.stringify(detect, null, 2)}</pre>}
+                <p className="hint">
+                  Frost/cover chỉnh trực tiếp trên video bên trái, số liệu đồng bộ vào đây.
+                  Frost hiện tại: <b>{frost || "—"}</b> · Cover: <b>{cover || "—"}</b>
+                </p>
+                <p className="hint">Video gốc {info.width}x{info.height}, dài {Number(info.duration).toFixed(1)}s.</p>
+              </div>
+            </div>
           </div>}
 
           {tab === "subs" && <div className="card">

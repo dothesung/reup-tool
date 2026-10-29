@@ -51,7 +51,7 @@ export default function App() {
   return (
     <div>
       <nav className="nav">
-        <div className="nav-brand">{brand} <span>v1.9</span></div>
+        <div className="nav-brand">{brand} <span>v2.0</span></div>
         <a className={page === "dashboard" ? "active" : ""} onClick={() => go("dashboard")}>Dashboard</a>
         <a className={page === "editor" ? "active" : ""} onClick={() => go("editor")}>Editor</a>
         <a className={page === "presets" ? "active" : ""} onClick={() => go("presets")}>Preset</a>

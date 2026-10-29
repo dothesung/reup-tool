@@ -7,7 +7,7 @@ import uuid
 
 from app.routers import editor, jobs, settings, license, admin, setup
 
-app = FastAPI(title="Reup Tool", version="1.9.0")
+app = FastAPI(title="Reup Tool", version="2.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -37,7 +37,7 @@ class JobUpdate(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "1.9.0"}
+    return {"status": "ok", "version": "2.0.0"}
 
 # --- Phục vụ frontend build sẵn (chế độ đóng gói / production) ---
 # Khi có frontend/dist (sau `npm run build`), backend tự serve UI ở http://localhost:8000

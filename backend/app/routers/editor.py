@@ -53,13 +53,32 @@ def get_frame(jid: str, t: float = 10.0, w: int = 720):
             ], check=True)
     return FileResponse(out, media_type="image/png")
 
+def _video_file(wd: str):
+    """File video để preview: ưu tiên src.mp4 (gốc), fallback final.mp4."""
+    for name in ("src.mp4", "final.mp4"):
+        p = os.path.join(wd, name)
+        if os.path.exists(p):
+            return p, name
+    return None, None
+
+
+@router.get("/jobs/{jid}/video")
+def get_video(jid: str):
+    """Stream video gốc để preview trực tiếp trong Editor."""
+    wd = job_dir(jid)
+    p, _ = _video_file(wd)
+    if not p:
+        raise HTTPException(404, "Workdir chưa có video (src.mp4/final.mp4)")
+    return FileResponse(p, media_type="video/mp4", filename=os.path.basename(p))
+
+
 @router.get("/jobs/{jid}/info")
 def job_info(jid: str):
     """Thông tin video: kích thước, thời lượng."""
     wd = job_dir(jid)
-    src = os.path.join(wd, "src.mp4")
-    if not os.path.exists(src):
-        raise HTTPException(404, "Workdir thiếu file video gốc src.mp4 (có thể đã bị dọn) — Editor cần job còn file gốc")
+    src, vname = _video_file(wd)
+    if not src:
+        raise HTTPException(404, "Workdir chưa có video (src.mp4/final.mp4) — Editor cần job còn file video")
     r = subprocess.run([
         "ffprobe", "-v", "error", "-select_streams", "v:0",
         "-show_entries", "stream=width,height,duration",
@@ -67,7 +86,8 @@ def job_info(jid: str):
     ], capture_output=True, text=True)
     info = json.loads(r.stdout)["streams"][0]
     return {"job_id": jid, "width": info["width"], "height": info["height"],
-            "duration": float(info["duration"]), "workdir": wd}
+            "duration": float(info["duration"]), "workdir": wd,
+            "video": vname}
 
 # ---------- Frost detect ----------
 

@@ -158,3 +158,16 @@ API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret t
     rồi chỉ đường dẫn trong Cài đặt -> Lồng tiếng. Chưa có vẫn chạy bằng giọng CapCut.
 - `run.sh` giờ chạy cả backend (:8000) + frontend dev (:5173) cùng lúc;
   nếu đã `npm run build` thì backend tự serve UI ở :8000, chỉ cần 1 tiến trình.
+
+## Editor xem trước video trực tiếp (v2.0)
+
+- Tab Frost/Cover giờ phát video thật (stream từ workdir: ưu tiên src.mp4,
+  fallback final.mp4 nếu src đã bị dọn) thay vì ảnh frame tĩnh.
+- Vùng frost/cover vẽ TRỰC TIẾP lên video bằng hiệu ứng mờ xem trước
+  (backdrop blur, đúng alpha như bản final): kéo trên video để vẽ vùng mới,
+  kéo thân vùng để di chuyển, kéo mép dưới để đổi chiều cao, hoặc nhập số Y/Cao.
+- Frost tự ẩn/hiện theo đúng cue sub Việt như bản final (bản final chỉ che
+  trong lúc có sub); bấm "Luôn hiện frost" để căn vùng.
+- Phụ đề Việt hiện tại cũng overlay trực tiếp lên video khi phát — vừa nghe
+  vừa soát sub.
+- Chỉnh xong bấm "Lưu sub + frost" như cũ rồi về Dashboard bấm Chạy tiếp.
