@@ -10,11 +10,21 @@ from typing import List, Optional
 
 router = APIRouter(prefix="/api/v1", tags=["editor"])
 
-# Job workdir map (tuần 2: dùng thư mục jobs/ local)
-JOBS_DIR = os.path.expanduser("~/workspace/capcut-tts/jobs")
+# Job workdir map — lấy từ services.paths (portable, không hardcode VM)
+from app.services import paths as _paths
 
 def job_dir(jid: str) -> str:
     # Tìm workdir theo job id (tiền tố)
+    # 1. Ưu tiên workdir đã lưu trong JOB_STATE (job id là hash, khác tên thư mục)
+    try:
+        from app.services import worker as _worker
+        wd = (_worker.JOB_STATE.get(jid) or {}).get("workdir")
+        if wd and os.path.isdir(wd):
+            return wd
+    except Exception:
+        pass
+    # 2. Fallback: khớp tên thư mục theo tiền tố (job mở bằng tên workdir)
+    JOBS_DIR = _paths.jobs_dir()
     for d in os.listdir(JOBS_DIR):
         if d.startswith(jid) or jid in d:
             return os.path.join(JOBS_DIR, d)
@@ -48,6 +58,8 @@ def job_info(jid: str):
     """Thông tin video: kích thước, thời lượng."""
     wd = job_dir(jid)
     src = os.path.join(wd, "src.mp4")
+    if not os.path.exists(src):
+        raise HTTPException(404, "Workdir thiếu file video gốc src.mp4 (có thể đã bị dọn) — Editor cần job còn file gốc")
     r = subprocess.run([
         "ffprobe", "-v", "error", "-select_streams", "v:0",
         "-show_entries", "stream=width,height,duration",

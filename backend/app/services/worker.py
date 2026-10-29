@@ -4,14 +4,15 @@ Chạy nền bằng thread, state lưu trong jobs dict (tuần 4 chuyển SQLite
 Tái dùng code từ cli/reup.py + services/burner.py.
 """
 import os
+import sys
 import subprocess
 import threading
 import time
 import json
 import glob
 
-JOBS_DIR = os.path.expanduser("~/workspace/capcut-tts/jobs")
-CAPCUT_DIR = os.path.expanduser("~/workspace/capcut-tts")
+# Đường dẫn pipeline lấy từ services.paths (portable, không hardcode VM)
+from app.services import paths as _paths
 STATE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "jobs_state.json"))
 
 # Trạng thái job: {id: {status, step, progress, log, drive_link, error}}
@@ -85,18 +86,30 @@ def run_job(job_id: str, url: str, preset: dict):
         log(job_id, f"Bắt đầu: {url}")
 
         # B1: tải + STT (dùng reup.py stage 1)
+        try:
+            cap_dir = _paths.resolve_capcut_dir()[0]
+            if not cap_dir:
+                raise RuntimeError("Không tìm thấy thư mục pipeline capcut-tts — vào trang Thiết lập để tải/cài phụ thuộc, hoặc Cài đặt -> Pipeline để chỉ đường dẫn.")
+            jobs_dir = _paths.jobs_dir()
+        except RuntimeError as e:
+            set_status(job_id, "failed", "Lỗi đường dẫn")
+            log(job_id, str(e))
+            return
         env = dict(os.environ)
         if preset.get("nexray_url"):
             env["NEXRAY_URL"] = preset["nexray_url"]
+        env["CAPCUT_PY"] = _paths.capcut_py()
+        env.update(_paths.kokoro_env())
+        env["PATH"] = _paths.repo_bin_dir() + os.pathsep + env.get("PATH", "")
         r = subprocess.run(
-            ["python3", "reup.py", url, "--src-lang", preset.get("src_lang", "zh-CN")],
-            cwd=CAPCUT_DIR, capture_output=True, text=True, timeout=900, env=env,
+            [sys.executable, "reup.py", url, "--src-lang", preset.get("src_lang", "zh-CN")],
+            cwd=cap_dir, capture_output=True, text=True, timeout=900, env=env,
         )
         if r.returncode != 0:
             raise RuntimeError(f"Stage 1 lỗi: {r.stderr[-500:]}")
 
         # Tìm workdir mới nhất
-        workdirs = sorted(glob.glob(os.path.join(JOBS_DIR, "102*")),
+        workdirs = sorted(glob.glob(os.path.join(jobs_dir, "102*")),
                           key=os.path.getmtime, reverse=True)
         wd = workdirs[0] if workdirs else None
         if not wd:
@@ -117,6 +130,14 @@ def continue_job(job_id: str, preset: dict):
         wd = JOB_STATE.get(job_id, {}).get("workdir")
         if not wd:
             raise RuntimeError("Chưa có workdir — chạy stage 1 trước")
+        try:
+            cap_dir = _paths.resolve_capcut_dir()[0]
+            if not cap_dir:
+                raise RuntimeError("Không tìm thấy thư mục pipeline capcut-tts — vào trang Thiết lập để tải/cài phụ thuộc, hoặc Cài đặt -> Pipeline để chỉ đường dẫn.")
+        except RuntimeError as e:
+            set_status(job_id, "failed", "Lỗi đường dẫn")
+            log(job_id, str(e))
+            return
         srt = os.path.join(wd, "sub_vi.srt")
         if not os.path.exists(srt):
             raise RuntimeError("Chưa có sub_vi.srt")
@@ -151,7 +172,7 @@ def continue_job(job_id: str, preset: dict):
         # B3: dub + burn (dùng reup.py stage 2)
         # Flag lấy từ preset (đã merge settings làm mặc định ở jobs router).
         orig_url = JOB_STATE.get(job_id, {}).get("url", "")
-        cmd = ["python3", "reup.py", orig_url, "--workdir", wd, "--srt", "sub_vi.srt"]
+        cmd = [sys.executable, "reup.py", orig_url, "--workdir", wd, "--srt", "sub_vi.srt"]
         if frost_cfg.get("frost"):
             cmd += ["--frost", frost_cfg["frost"]]
         elif preset.get("frost_auto"):
@@ -203,11 +224,14 @@ def continue_job(job_id: str, preset: dict):
             except Exception as e:
                 log(job_id, f"Không đọc được caption_override.json: {e}")
 
-        env = dict(os.environ)
+        env2 = dict(os.environ)
         if preset.get("nexray_url"):
-            env["NEXRAY_URL"] = preset["nexray_url"]
-        r = subprocess.run(cmd, cwd=CAPCUT_DIR, capture_output=True,
-                           text=True, timeout=3600, env=env)
+            env2["NEXRAY_URL"] = preset["nexray_url"]
+        env2["CAPCUT_PY"] = _paths.capcut_py()
+        env2.update(_paths.kokoro_env())
+        env2["PATH"] = _paths.repo_bin_dir() + os.pathsep + env2.get("PATH", "")
+        r = subprocess.run(cmd, cwd=cap_dir, capture_output=True,
+                           text=True, timeout=3600, env=env2)
         if r.returncode != 0:
             raise RuntimeError(f"Stage 2 lỗi: {r.stderr[-500:]}")
 

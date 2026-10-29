@@ -47,6 +47,11 @@ DEFAULTS = {
     "banner_color": "FFCC00",
     "frost_alpha": 0.2,         # độ mờ thanh che sub cũ
     "frost_auto": False,        # True -> tự phát hiện vùng sub (khi không set tay)
+    # Đường dẫn pipeline (portable)
+    "capcut_dir": "",
+    "capcut_py": "",
+    "kokoro_dir": "",
+    "kokoro_py": "",
     # Tích hợp
     "nexray_url": "",           # để trống = dùng mặc định của reup.py
     "translate_email": "",      # email cho MyMemory (tăng quota dịch miễn phí)
@@ -109,6 +114,10 @@ class SettingsSave(BaseModel):
     banner_color: Optional[str] = None
     frost_alpha: Optional[float] = None
     frost_auto: Optional[bool] = None
+    capcut_dir: Optional[str] = None
+    capcut_py: Optional[str] = None
+    kokoro_dir: Optional[str] = None
+    kokoro_py: Optional[str] = None
     nexray_url: Optional[str] = None
     translate_email: Optional[str] = None
     facebook_page_id: Optional[str] = None

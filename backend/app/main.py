@@ -5,9 +5,9 @@ from pydantic import BaseModel
 from typing import Optional
 import uuid
 
-from app.routers import editor, jobs, settings, license, admin
+from app.routers import editor, jobs, settings, license, admin, setup
 
-app = FastAPI(title="Reup Tool", version="1.8.0")
+app = FastAPI(title="Reup Tool", version="1.9.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,6 +19,7 @@ app.include_router(jobs.router)
 app.include_router(settings.router)
 app.include_router(license.router)
 app.include_router(admin.router)
+app.include_router(setup.router)
 
 # Store tạm (tuần 1 dùng dict, tuần sau chuyển SQLite)
 jobs = {}
@@ -36,7 +37,7 @@ class JobUpdate(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "version": "1.8.0"}
+    return {"status": "ok", "version": "1.9.0"}
 
 # --- Phục vụ frontend build sẵn (chế độ đóng gói / production) ---
 # Khi có frontend/dist (sau `npm run build`), backend tự serve UI ở http://localhost:8000
