@@ -4,15 +4,16 @@ import JobDetail from "./pages/JobDetail";
 import PresetManager from "./pages/PresetManager";
 import Settings from "./pages/Settings";
 import Admin from "./pages/Admin";
+import Setup from "./pages/Setup";
 import LicenseModal from "./components/LicenseModal";
 import { getSettings } from "./api";
 
-type Page = "dashboard" | "editor" | "presets" | "settings" | "admin";
+type Page = "dashboard" | "editor" | "presets" | "settings" | "admin" | "setup";
 
 function parseHash(): { page: Page; job: string } {
   const parts = window.location.hash.replace("#/", "").split("/");
   const p = parts[0];
-  const page: Page = p === "editor" || p === "presets" || p === "settings" || p === "admin" ? p : "dashboard";
+  const page: Page = p === "editor" || p === "presets" || p === "settings" || p === "admin" || p === "setup" ? p : "dashboard";
   return { page, job: parts[1] || "" };
 }
 
@@ -50,12 +51,13 @@ export default function App() {
   return (
     <div>
       <nav className="nav">
-        <div className="nav-brand">{brand} <span>v1.8</span></div>
+        <div className="nav-brand">{brand} <span>v1.9</span></div>
         <a className={page === "dashboard" ? "active" : ""} onClick={() => go("dashboard")}>Dashboard</a>
         <a className={page === "editor" ? "active" : ""} onClick={() => go("editor")}>Editor</a>
         <a className={page === "presets" ? "active" : ""} onClick={() => go("presets")}>Preset</a>
         <a className={page === "settings" ? "active" : ""} onClick={() => go("settings")}>⚙ Cài đặt</a>
         <a className={page === "admin" ? "active" : ""} onClick={() => go("admin")}>Admin</a>
+        <a className={page === "setup" ? "active" : ""} onClick={() => go("setup")}>🔧 Thiết lập</a>
       </nav>
       <div className="license-bar">
         <span>{licenseLabel()}</span>
@@ -71,6 +73,7 @@ export default function App() {
       {page === "presets" && <PresetManager />}
       {page === "settings" && <Settings />}
       {page === "admin" && <Admin />}
+      {page === "setup" && <Setup />}
       <footer className="footer">
         {brand} — Hỗ trợ &amp; mua key: Zalo/SĐT {contact}
       </footer>

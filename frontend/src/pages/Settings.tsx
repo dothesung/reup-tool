@@ -10,6 +10,7 @@ const DEFAULTS: any = {
   banner_top: "REVIEW PHIM HAY", banner_bottom: "PHIM HAY MỖI NGÀY",
   banner_color: "FFCC00", frost_alpha: 0.2, frost_auto: false,
   nexray_url: "", facebook_page_id: "", facebook_page_token: "", translate_email: "",
+  capcut_dir: "", capcut_py: "", kokoro_dir: "", kokoro_py: "",
   llm_enabled: false, llm_provider: "deepseek", llm_base_url: "", llm_api_key: "", llm_model: "",
 };
 
@@ -163,6 +164,8 @@ export default function Settings() {
             <option value="draft">Bản nháp (720x1280, nhanh)</option>
           </select>)}
           {field("Số job chạy cùng lúc (1–5)", <input className="input" type="number" min={1} max={5} value={form.max_parallel_jobs} onChange={e => set("max_parallel_jobs", parseInt(e.target.value) || 2)} />, "Job vượt giới hạn sẽ xếp hàng chờ, không ngốn RAM.")}
+          {field("Thư mục pipeline capcut-tts", <input className="input" value={form.capcut_dir} onChange={e => set("capcut_dir", e.target.value)} placeholder="Để trống = tự tìm (ưu tiên ~/workspace/capcut-tts rồi tới cli/ kèm repo)" />, "Chỉ điền khi tool báo không tìm thấy thư mục pipeline. Lỗi cũ: [Errno 2] No such file or directory là do đường dẫn này sai/thiếu.")}
+          {field("Python chạy pipeline (tùy chọn)", <input className="input" value={form.capcut_py} onChange={e => set("capcut_py", e.target.value)} placeholder="Để trống = python đang chạy backend" />)}
           {field("Mẫu tiêu đề caption", <input className="input" value={form.title_template} onChange={e => set("title_template", e.target.value)} placeholder="{title}" />, "{title} = tiêu đề gốc. VD: REVIEW PHIM | {title}")}
           {field("Hashtag thêm vào cuối caption", <input className="input" value={form.hashtags} onChange={e => set("hashtags", e.target.value)} placeholder="#reviewphim #phimhay" />, "Áp dụng cho caption.txt và mô tả khi đăng Fanpage.")}
           {check("Tự động up lên Google Drive khi xong", "auto_upload", "Tắt = chỉ render file local, không up Drive.")}
@@ -181,6 +184,8 @@ export default function Settings() {
           {form.engine === "capcut" && <datalist id="capcut-voices"><option value="BV560_streaming" /><option value="BV074_streaming" /><option value="BV421_vivn_streaming" /></datalist>}
           {field("Số luồng TTS song song (1–8)", <input className="input" type="number" min={1} max={8} value={form.jobs} onChange={e => set("jobs", parseInt(e.target.value) || 4)} />)}
           {check("Burn sub Việt lên video", "with_sub", "Mặc định: chỉ dub + che sub cũ, không burn sub.")}
+          {field("Thư mục kokoro-vi (tùy chọn)", <input className="input" value={form.kokoro_dir} onChange={e => set("kokoro_dir", e.target.value)} placeholder="VD: ~/kokoro-vi (chứa batch_synth.py)" />, "Chỉ cần khi dùng giọng Kokoro Ngọc Huyền. Để trống = dùng đường dẫn mặc định của máy dev (sẽ lỗi trên máy mới).")}
+          {field("Python chạy Kokoro (tùy chọn)", <input className="input" value={form.kokoro_py} onChange={e => set("kokoro_py", e.target.value)} placeholder="Để trống = python đang chạy backend" />)}
         </div>
       </div>}
 

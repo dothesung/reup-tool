@@ -140,3 +140,21 @@ API: `GET /api/v1/settings` (che secret), `PUT /api/v1/settings` (field secret t
 - Editor → tab AI Caption → "Viết bằng AI" → sửa lại → "Áp dụng cho job này":
   caption riêng của job (caption_override.json), không đổi mẫu chung.
 - Đóng gói Win/Mac: xem docs/PACKAGING.md (PyInstaller + GitHub Actions).
+
+## Chạy trên máy mới & trang Thiết lập (v1.9)
+
+- Lỗi cũ `[Errno 2] No such file or directory: '.../capcut-tts'` là do tool
+  hardcode đường dẫn của máy dev. Từ v1.9 tool tự tìm thư mục pipeline
+  (Cài đặt -> Pipeline -> "Thư mục pipeline capcut-tts", để trống = tự tìm;
+  nếu chỉ sai đường dẫn sẽ báo lỗi rõ thay vì Errno 2).
+- Thư mục `cli/` kèm repo giờ là pipeline đầy đủ (reup.py, reup_sub.py,
+  stt_words.py, autodetect_frost.py) — máy mới không cần chép gì thêm.
+- Mở trang **Thiết lập** (nav 🔧) đầu tiên: bảng kiểm tra Python / ffmpeg /
+  pipeline / CapCut SDK / git / Kokoro, thiếu gì bấm cài nấy:
+  - "Tải + cài SDK": git clone K07VN/capcut-tts-api + pip install
+  - "Tải ffmpeg": tải bản static theo OS về thư mục bin/ của tool
+  - "Cài thư viện Python": pip install backend + cli requirements
+  - Kokoro (giọng Ngọc Huyền) không tự tải vì nặng — tải tay thư mục kokoro-vi
+    rồi chỉ đường dẫn trong Cài đặt -> Lồng tiếng. Chưa có vẫn chạy bằng giọng CapCut.
+- `run.sh` giờ chạy cả backend (:8000) + frontend dev (:5173) cùng lúc;
+  nếu đã `npm run build` thì backend tự serve UI ở :8000, chỉ cần 1 tiến trình.
